@@ -221,63 +221,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileManager: {fileID: 1777368966}
---- !u!1001 &777808913
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669622, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7536163138340669770, guid: 7e2e8caa566da0546965589adde44096, type: 3}
-      propertyPath: m_Name
-      value: Tree
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7e2e8caa566da0546965589adde44096, type: 3}
 --- !u!1 &978403369
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 4442761854792123480, guid: ce7f21c748cd4174a87e08031850ae11, type: 3}
   TractorPrefab: {fileID: 5187807225899239704, guid: 2896290b5a08c7a4d86b2e4c3d2fe70c, type: 3}
+  CartPrefab: {fileID: 4820975119155359750, guid: 72f434a7f74db9340ad3214ec5228caf, type: 3}
   tileManager: {fileID: 1777368966}
 --- !u!4 &978403371
 Transform:
