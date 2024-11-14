@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isActionOnCooldown = false;
 
     private TractorMovement _tractorMovement;
-    public bool IsInTractor { get; private set; } = true;
+    public bool IsInTractor { get; private set; } = false; // If true the player starts off as the tractor lol.
 
     // Start is called before the first frame update
     void Start()

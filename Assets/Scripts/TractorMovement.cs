@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TractorMovement : MonoBehaviour, IInteractable
+public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
 {
     // Tractor Movement script referenced off playermovement script :D
     // Tether system to the player
@@ -106,7 +106,7 @@ public class TractorMovement : MonoBehaviour, IInteractable
         _isActionOnCooldown = false;
     }
 
-    public void Interact()
+    public void InteractF() //Enter Exit tractor
     {
         // TRACKTOR BRAINS!!!!!! (move the player inside)
         if (_player.IsInTractor)
@@ -117,5 +117,10 @@ public class TractorMovement : MonoBehaviour, IInteractable
         {
             _player.AttemptEnterOrExitTractor();
         }
+    }
+
+    public void InteractE()
+    {
+        //Debug.Log("E key hit interact");
     }
 }
