@@ -14,7 +14,7 @@ public class TileManager : MonoBehaviour
     [SerializeField] public int GridHeight = 10;
     [SerializeField] public float TileSize = 1f;
 
-    private Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>();
+    private Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
 
     // Start is called before the first frame update
     void Start()

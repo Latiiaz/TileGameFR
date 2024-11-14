@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ public class TreeSystem : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log("Tractor No");
+            Debug.Log("Needs to be Tractor not Player");
         }
     }
 

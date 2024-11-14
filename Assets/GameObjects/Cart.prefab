@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tractor: {fileID: 5187807225899239708, guid: 2896290b5a08c7a4d86b2e4c3d2fe70c, type: 3}
-  offsetBehindTractor: {x: 0, y: -1}
+  offsetBehindTractor: {x: 0, y: 1}
