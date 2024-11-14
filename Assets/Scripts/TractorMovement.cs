@@ -71,7 +71,7 @@ public class TractorMovement : MonoBehaviour, IInteractable
             }
             else
             {
-                Debug.LogWarning("Tractor: Tile is not walkable or available.");
+                Debug.LogWarning("(TRACTOR): Tile is not walkable or available.");
             }
         }
     }

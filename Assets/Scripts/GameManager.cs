@@ -17,13 +17,13 @@ public class GameManager : MonoBehaviour
 
     //All 3 should have their dedicated spawn point once the dictionary works
     private Vector2Int _playerStartPosition = new Vector2Int(5, 5);
-    private Vector2Int _tractorStartPosition = new Vector2Int(6, 7);
+    private Vector2Int _tractorStartPosition = new Vector2Int(6, 6);
     private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
 
     public TileManager tileManager;
 
     // Start is called before the first frame update
-    void Start()
+    void Start() // Spawns the map player tractor and cart
     {
         tileManager.GenerateGrid();
         SpawnPlayer();

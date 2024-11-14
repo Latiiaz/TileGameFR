@@ -5,6 +5,7 @@ using UnityEngine;
 public class CartMovement : MonoBehaviour
 {
     // Cart Movement
+    // Maybe store the movement of the tractor and the cart is always one step behind it and the first move the cart does is to always move up? followed by the actions of the tractor
 
     public Transform tractor; 
     public Vector2 offsetBehindTractor = new Vector2(0, -1);  // -1 spawns it rigth behind the tractor

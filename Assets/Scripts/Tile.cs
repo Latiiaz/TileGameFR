@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +21,7 @@ public class Tile : MonoBehaviour
     public TileType tileType = TileType.Normal;
     private Vector2Int _gridPosition;
     public bool IsWalkable = true;
+    public bool IsTraversable = true; // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
     //public bool PlayerCheck = false;
 
     private SpriteRenderer _spriteRenderer;
@@ -28,13 +30,24 @@ public class Tile : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        ColorRandomization();
+        //ColorRandomization();
+        ColorAssigning();
     }
 
     public void Initialize(Vector2Int position, TileType type)
     {
         _gridPosition = position;
         tileType = type;
+
+        if (tileType == TileType.River)
+        {
+            IsWalkable = false;
+            // IsTraversable = true; 
+        }
+        else
+        {
+            IsWalkable = true;
+        }
     }
 
     public void SetWalkable(bool walkable)
@@ -42,7 +55,7 @@ public class Tile : MonoBehaviour
         IsWalkable = walkable;
     }
 
-    private void ColorRandomization()
+    private void ColorRandomization() // Use for now before pixel art
     {
         Color randomizedColor;
 
@@ -55,6 +68,22 @@ public class Tile : MonoBehaviour
             randomizedColor = new Color(0.2f, 0.3f, 0.2f);
         }
         _spriteRenderer.color = randomizedColor;
+    }
+
+    void ColorAssigning()
+    {
+        Color assignedTileColor;
+
+        if (tileType == TileType.River)
+        {
+            assignedTileColor = Color.blue; 
+        }
+        else
+        {
+            assignedTileColor = new Color(0.2f, Random.Range(0.3f,0.4f), 0.2f); // Can use random.range to allow for more color options :o
+        }
+
+        _spriteRenderer.color = assignedTileColor;
     }
 
     public void DifferentTiles()
@@ -79,7 +108,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void PerformTileAction()
+    public void PerformTileAction() 
     {
         Debug.Log("Performing action on tile: " + this.name);
     }

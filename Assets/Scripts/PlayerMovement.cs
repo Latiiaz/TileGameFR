@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isActionOnCooldown = false;
 
     private TractorMovement _tractorMovement;
-    public bool IsInTractor { get; private set; } = false;
+    public bool IsInTractor { get; private set; } = true;
 
     // Start is called before the first frame update
     void Start()
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Player: Tile is not walkable or available.");
+                Debug.LogWarning("(PLAYER): Tile is not walkable or available.");
             }
         }
     }
