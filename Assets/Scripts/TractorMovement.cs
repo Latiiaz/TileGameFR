@@ -51,8 +51,10 @@ public class TractorMovement : MonoBehaviour, IInteractable
     void MoveOrTurn(Vector2Int direction)
     {
         if (_isMoving || _isActionOnCooldown)
+        {
             return;
-
+        }
+            
         if (_tractorDirection != direction)
         {
             _tractorDirection = direction;

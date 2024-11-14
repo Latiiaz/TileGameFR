@@ -23,8 +23,9 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))//StartShake)
+        if (Input.GetKey(KeyCode.Space) && StartShake == true)
         {
+            StartShake = true;
             //StartShake = false;
             Debug.Log("shakey");
             StartCoroutine(Shaking());

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Script to Handle Spawning of player and tilebox checks
+    // Need to add dont destroy on load like level manager
 
     public GameObject PlayerPrefab;
     public GameObject TractorPrefab;
