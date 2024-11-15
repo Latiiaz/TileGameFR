@@ -21,7 +21,6 @@ public class TileManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LogAllTilesInDictionary();
     }
 
     public void GenerateGrid()
@@ -47,9 +46,12 @@ public class TileManager : MonoBehaviour
                 }
                 tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
                 tileDictionary[position] = tile; // and then this keeps track of what tile is where 
+               
 
             }
         }
+
+        LogAllTilesInDictionary();
     }
 
     public bool IsTileAvailable(Vector2Int position) // Check if tile exists at a vector 2 position

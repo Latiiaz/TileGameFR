@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerMovement : MonoBehaviour
 {
     // Script to Handle Movement of player on tiles/grids
@@ -20,19 +19,25 @@ public class PlayerMovement : MonoBehaviour
     private TractorMovement _tractorMovement;
     public bool IsInTractor { get; private set; } = false; // If true the player starts off as the tractor lol.
 
+    //public GameManager _gameManager;
+    //public SpriteRenderer spriteRenderer;
+
+
     // Start is called before the first frame update
     void Start()
     {
         _tileManager = FindObjectOfType<TileManager>();
         _tractorMovement = FindObjectOfType<TractorMovement>();
-
+        // spriteRenderer = FindObjectOfType<SpriteRenderer>(); Hiding the player object not needed
+        //_playerPosition = _gameManager._playerStartPosition; 
+        //Debug.Log("(PLAYER): " + transform.position);
         transform.position = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_isActionOnCooldown && !IsInTractor)
+        if (!_isActionOnCooldown) // !IsInTractor can hide to pair with movement of tractor
         {
             HandleInput();
         }
@@ -66,8 +71,9 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Vector2Int newPosition = _playerPosition + direction;
+           
 
-            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition))
+            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition)) //This is what handles the dictionary for the player
             {
                 StartCoroutine(MoveToPosition(newPosition));
             }
@@ -78,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void AttemptEnterOrExitTractor()
+    public void AttemptEnterOrExitTractor() // Tractor Enter Exit
     {
         if (_tractorMovement != null && !IsInTractor)
         {
@@ -111,6 +117,8 @@ public class PlayerMovement : MonoBehaviour
     {
         IsInTractor = false;
         _isActionOnCooldown = true;
+
+
 
         transform.SetParent(null);
         Vector2Int currentTile = _playerPosition;

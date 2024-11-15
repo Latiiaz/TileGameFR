@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private GameObject _cart;
 
     //All 3 should have their dedicated spawn point once the dictionary works
-    private Vector2Int _playerStartPosition = new Vector2Int(5, 5);
+    public Vector2Int _playerStartPosition = new Vector2Int(5, 5);
     private Vector2Int _tractorStartPosition = new Vector2Int(6, 6);
     private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
 
@@ -28,15 +28,17 @@ public class GameManager : MonoBehaviour
         tileManager.GenerateGrid();
         SpawnPlayer();
         SpawnTractor();
-        SpawnCart();
+       // SpawnCart();
     }
 
     void SpawnPlayer()
     {
         if (tileManager.IsTileAvailable(_playerStartPosition))
         {
+
             Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log("(PLAYER): " +_player.transform.position);
         }
         else
         {

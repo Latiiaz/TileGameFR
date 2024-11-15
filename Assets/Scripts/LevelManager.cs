@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public float RestartTime = 1f;
     bool rKeyDown = false;
     float timeRKeyDown = 0f;
+    public float RestartCooldown = 0f; // Add cooldown
 
     public void Awake()
     {
