@@ -177,7 +177,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileManager: {fileID: 1777368966}
+  _playerPos: {fileID: 1777368967}
   StartShake: 1
   animationCurve:
     serializedVersion: 2
@@ -257,6 +258,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ShakeDuration: 0.3
   ShakeMultiplier: 1.5
+  LerpSpeed: 5
 --- !u!1 &978403369
 GameObject:
   m_ObjectHideFlags: 0
