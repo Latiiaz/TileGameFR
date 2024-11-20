@@ -221,7 +221,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileManager: {fileID: 1777368966}
-  _playerPos: {fileID: 1777368967}
   StartShake: 1
   animationCurve:
     serializedVersion: 2
@@ -292,6 +291,7 @@ MonoBehaviour:
   TractorPrefab: {fileID: 5187807225899239704, guid: 2896290b5a08c7a4d86b2e4c3d2fe70c, type: 3}
   CartPrefab: {fileID: 4820975119155359750, guid: 72f434a7f74db9340ad3214ec5228caf, type: 3}
   _playerStartPosition: {x: 5, y: 5}
+  ItemTestPrefab: {fileID: 7834234095770734990, guid: ed8e9e532d6f6df41a9781ee6b21da32, type: 3}
   tileManager: {fileID: 1777368966}
 --- !u!4 &978403371
 Transform:
@@ -306,7 +306,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777368965
 GameObject:
@@ -355,7 +355,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1816934808
 GameObject:

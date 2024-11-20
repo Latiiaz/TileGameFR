@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     // Player needs to communicate with dictionary to ensure they dont teleport back to starting point before getting into the tractor
 
     [SerializeField] private TileManager _tileManager;
-    private Vector2Int _playerPosition = new Vector2Int(0, 0);
+    private Vector2Int _playerPosition;
     private Vector2Int _playerDirection = Vector2Int.up;
 
     [SerializeField] private float _moveSpeed = 0.2f;
@@ -17,8 +17,10 @@ public class PlayerMovement : MonoBehaviour
     private bool _isActionOnCooldown = false;
 
     private TractorMovement _tractorMovement;
+    private ItemSystem _itemSystem;
     public bool IsInTractor { get; private set; } = false; // If true the player starts off as the tractor lol.
 
+    public bool IsCarryingItem { get; private set; } = false; // Carrying items
     //public GameManager _gameManager;
     //public SpriteRenderer spriteRenderer;
 
@@ -28,22 +30,46 @@ public class PlayerMovement : MonoBehaviour
     {
         _tileManager = FindObjectOfType<TileManager>();
         _tractorMovement = FindObjectOfType<TractorMovement>();
-        // spriteRenderer = FindObjectOfType<SpriteRenderer>(); Hiding the player object not needed
-        //_playerPosition = _gameManager._playerStartPosition; 
-        //Debug.Log("(PLAYER): " + transform.position);
-        transform.position = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
+        _itemSystem = FindObjectOfType<ItemSystem>();
+
+        //transform.position = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
+        SetPlayerSpawnPosition();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (IsInTractor)
+        {
+            return;
+        }
+        if (IsCarryingItem)
+        {
+            return;
+        }
+           
         if (!_isActionOnCooldown) // !IsInTractor can hide to pair with movement of tractor
         {
             HandleInput();
         }
     }
 
-    void HandleInput()
+    void SetPlayerSpawnPosition() // Sets the player spawn location
+    {
+        foreach (var tileKey in _tileManager.tileDictionary)
+        {
+            if (tileKey.Value.tileType == TileType.PlayerSpawn)
+            {
+                _playerPosition = tileKey.Key; 
+                Vector2 worldPosition = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
+                transform.position = worldPosition;
+                Debug.Log($"Player spawned at: {worldPosition}");
+            }
+        }
+    }
+
+
+    void HandleInput() // Handles the players inputs 
     {
         if (Input.GetKey(KeyCode.W))
             MoveOrTurn(Vector2Int.up);
@@ -55,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             MoveOrTurn(Vector2Int.right);
     }
 
-    void MoveOrTurn(Vector2Int direction)
+    void MoveOrTurn(Vector2Int direction) // Turns the player or moves them based off HandleInput
     {
         if (_isMoving || _isActionOnCooldown)
         {
@@ -118,14 +144,70 @@ public class PlayerMovement : MonoBehaviour
         IsInTractor = false;
         _isActionOnCooldown = true;
 
-
-
         transform.SetParent(null);
-        Vector2Int currentTile = _playerPosition;
-        transform.position = _tractorMovement.transform.position;
-        transform.rotation = _tractorMovement.transform.rotation;
+        Vector2Int targetPosition = _tractorMovement.GetTractorPosition();
+
+        if (_tileManager.IsTileAvailable(targetPosition))
+        {
+            _playerPosition = targetPosition;
+            transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
+        }
+        else
+        {
+            Debug.LogWarning("Exiting tractor to an unavailable tile.");
+        }
 
         Debug.Log("Player has exited the tractor.");
+        StartCoroutine(ActionCooldown());
+    }
+
+    public void AttemptCarryOrDropItem() // Item drop/ pick up
+    {
+        if (_itemSystem != null && !IsCarryingItem)
+        {
+            if (_itemSystem.transform.position == transform.position)
+            {
+                CarryItem();
+            }
+        }
+        else if (IsCarryingItem)
+        {
+            DropItem();
+        }
+    }
+
+    public void CarryItem()
+    {
+        IsCarryingItem = true;
+        _isMoving = false;
+        _isActionOnCooldown = true;
+
+        transform.SetParent(_itemSystem.transform);
+        transform.localPosition = Vector3.zero;
+        transform.rotation = _itemSystem.transform.rotation;
+
+        Debug.Log("Player has picked up item.");
+        StartCoroutine(ActionCooldown());
+    }
+    public void DropItem()
+    {
+        IsCarryingItem = false;
+        _isActionOnCooldown = true;
+
+        transform.SetParent(null);
+        Vector2Int targetPosition = _itemSystem.GetTractorPosition();
+
+        if (_tileManager.IsTileAvailable(targetPosition))
+        {
+            _playerPosition = targetPosition;
+            transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
+        }
+        else
+        {
+            Debug.LogWarning("Exiting item to an unavailable tile.");
+        }
+
+        Debug.Log("Player has dropped the item.");
         StartCoroutine(ActionCooldown());
     }
 

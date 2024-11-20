@@ -27,13 +27,9 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //GameObject _newPlayer = GameObject.FindWithTag("Player");
-        //_playerPos = _newPlayer.transform;
-
-        
     }
 
-    void Update()
+    void FixedUpdate()
     {
         GameObject _newPlayer = GameObject.FindWithTag("Player");
         _playerPos = _newPlayer.transform;
@@ -63,7 +59,7 @@ public class CameraManager : MonoBehaviour
         Vector3 PlayerPos = _playerPos.position;
         Vector3 LerpLocation = Vector3.Lerp(transform.position, PlayerPos, LerpSpeed * Time.deltaTime);
 
-        transform.position = LerpLocation;
+        transform.position = new Vector3(LerpLocation.x,LerpLocation.y, -15);
 
     }
 

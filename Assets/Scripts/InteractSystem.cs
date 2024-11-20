@@ -6,6 +6,7 @@ public class InteractSystem : MonoBehaviour
 {
     // Shoots a raycast infront of the player to see if a game object has the IInteractable script on it
     // Need to have UI prompt indicating it is indeed an interactable. Example: Remove Tree? [E] || Get In Tractor [F]
+    //Uses placer facing direction in the playermovement script
 
     //Update to add in F to leave tractor and E to interact with any object in/out of tractor
     // https://www.youtube.com/watch?v=B34iq4O5ZYI Raycast guide
@@ -16,8 +17,7 @@ public class InteractSystem : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        RaycastHit2D hitE = Physics2D.Raycast(transform.position, Vector2.up, _raycastRange); 
-
+        RaycastHit2D hitE = Physics2D.Raycast(transform.position, Vector2.up, _raycastRange);
         if (hitE.collider != null)
         {
             IInteractable interactable = hitE.collider.GetComponent<IInteractable>();
@@ -48,7 +48,6 @@ public class InteractSystem : MonoBehaviour
 
 
         RaycastHit2D hitF = Physics2D.Raycast(transform.position, Vector2.up, _raycastRange);
-
         if (hitF.collider != null)
         {
             ITractor interactable = hitF.collider.GetComponent<ITractor>();

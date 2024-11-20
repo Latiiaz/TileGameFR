@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject TractorPrefab;
     public GameObject CartPrefab;
 
+
+
     private GameObject _player;
     private GameObject _tractor;
     private GameObject _cart;
@@ -20,6 +22,11 @@ public class GameManager : MonoBehaviour
     private Vector2Int _tractorStartPosition = new Vector2Int(6, 6);
     private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
 
+    public GameObject ItemTestPrefab;
+    private GameObject _itemTest;
+    private Vector2Int _itemTestStartPosition = new Vector2Int(0, 0);
+
+
     public TileManager tileManager;
 
     // Start is called before the first frame update
@@ -28,14 +35,15 @@ public class GameManager : MonoBehaviour
         tileManager.GenerateGrid();
         SpawnPlayer();
         SpawnTractor();
-       // SpawnCart();
+        // SpawnCart();
+        SpawnItem();
     }
 
     void SpawnPlayer()
     {
         if (tileManager.IsTileAvailable(_playerStartPosition))
         {
-
+            Debug.Log("(PLAYER SPAWN LOCATION): " + _playerStartPosition);
             Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
             Debug.Log("(PLAYER): " +_player.transform.position);
@@ -51,6 +59,7 @@ public class GameManager : MonoBehaviour
         {
             Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _tractor = Instantiate(TractorPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log("(TRACTOR): " + _tractor.transform.position);
         }
         else
         {
@@ -67,6 +76,20 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Invalid spawn position for cart.");
+        }
+    }
+
+    void SpawnItem()
+    {
+        if (tileManager.IsTileAvailable(_itemTestStartPosition))
+        {
+            Vector2 spawnPosition = new Vector2(_itemTestStartPosition.x * tileManager.TileSize, _itemTestStartPosition.y * tileManager.TileSize);
+            _itemTest = Instantiate(ItemTestPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log("(TEST ITEM): " + _itemTest.transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid spawn position for test item.");
         }
     }
 }

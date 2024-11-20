@@ -14,9 +14,9 @@ public class TileManager : MonoBehaviour
     [SerializeField] public int GridHeight = 10;
     [SerializeField] public float TileSize = 1f;
 
-    [SerializeField] public float PercentageRiverTiles = 0f;
+    [SerializeField] public float PercentageRiverTiles;
 
-    private Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
+    public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,11 @@ public class TileManager : MonoBehaviour
 
     public void GenerateGrid()
     {
+
+        bool playerSpawnPlaced = false;
+        bool tractorSpawnPlaced = false;
+        bool itemtestSpawnPlaced = false;
+
         for (int x = 0; x < GridWidth; x++)
         {
             for (int y = 0; y < GridHeight; y++)
@@ -36,22 +41,43 @@ public class TileManager : MonoBehaviour
                 Tile tile = tileObject.GetComponent<Tile>();
 
                 TileType type;
-                if (Random.value < (PercentageRiverTiles/100))
+                if (!playerSpawnPlaced && Random.value < 0.01f)
                 {
-                    type = TileType.River;
+                    type = TileType.PlayerSpawn;
+                    Debug.Log(position);
+                    playerSpawnPlaced = true;
                 }
-                else
+                else if (!tractorSpawnPlaced && Random.value < 0.01f) // For the tiles that only 1 of
                 {
-                    type = TileType.Normal;
+                    type = TileType.TractorSpawn;
+                    Debug.Log(position);
+                    tractorSpawnPlaced = true;
                 }
-                tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
-                tileDictionary[position] = tile; // and then this keeps track of what tile is where 
-               
+                else if (!itemtestSpawnPlaced && Random.value < 0.01f) // Spawn Objectivve Test Item
+                {
+                    type = TileType.ObjectiveSpawn;
+                    Debug.Log(position);
+                    itemtestSpawnPlaced = true;
+                }
+                else // The more randomized ones and the normal tiles
+                {
 
+                    if (Random.value < (PercentageRiverTiles / 100))
+                    {
+                        type = TileType.River;
+                    }
+                    else
+                    {
+                        type = TileType.Normal;
+                    }
+                }
+
+                tile.Initialize(position, type, true, true); // Uses Initialize function in Tile.cs to spawn in the tiles
+                tileDictionary[position] = tile;  // and then this keeps track of what tile is where 
             }
         }
 
-        LogAllTilesInDictionary();
+       LogAllTilesInDictionary();         
     }
 
     public bool IsTileAvailable(Vector2Int position) // Check if tile exists at a vector 2 position
@@ -66,14 +92,14 @@ public class TileManager : MonoBehaviour
         }
         return false;
     }
-    public void ToggleTileWalkable(Vector2Int position)
-    {
-        if (tileDictionary.ContainsKey(position))
-        {
-            Tile tile = tileDictionary[position];
-            tile.SetWalkable(!tile.IsWalkable); // Changes the tile.cs script on the tile to toggle between walkable and not walkable
-        }
-    }
+    //public void ToggleTileWalkable(Vector2Int position)
+    //{
+    //    if (tileDictionary.ContainsKey(position))
+    //    {
+    //        Tile tile = tileDictionary[position];
+    //        tile.SetWalkable(!tile.IsWalkable); // Changes the tile.cs script on the tile to toggle between walkable and not walkable
+    //    }
+    //}
 
     public Tile GetTileAt(Vector2Int position) // Not used yet but will be used to determine spawnpoint tile(s) later
     {
@@ -91,7 +117,7 @@ public class TileManager : MonoBehaviour
             Vector2Int position = tileKey.Key;
             Tile tile = tileKey.Value;
 
-            Debug.Log($"Tile Position? : {position}, Tile Type? : {tile.tileType}, Walkable? : {tile.IsWalkable}");
+            //Debug.Log($"Tile Position? : {position}, Tile Type? : {tile.tileType}, Walkable? : {tile.IsWalkable}, Traversable? : {tile.IsTraversable}");
         }
     }
 }

@@ -6,10 +6,20 @@ using UnityEngine.UIElements;
 
 public enum TileType // Might need different types of tiles and need to pair with tilemanager to ensure it doesnt break spawning again
 {
+    //Base Tiles
     Normal,
-    SpawnPoint,
     River,
-    Tree
+    Unstable,
+
+    //Obstacles TIles
+    Tree,
+
+    //SpawnPoint Tiles
+    PlayerSpawn,
+    TractorSpawn,
+    BoulderSpawn,
+    BushSpawn,
+    ObjectiveSpawn
 }
 
 
@@ -20,94 +30,156 @@ public class Tile : MonoBehaviour
 
     public TileType tileType = TileType.Normal;
     private Vector2Int _gridPosition;
-    public bool IsWalkable = true;
-    public bool IsTraversable = true; // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
+    public bool IsWalkable => TilesWalkabilityBehavior();
+    public bool IsTraversable => TilesTraversabilityBehavior(); // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
     //public bool PlayerCheck = false;
 
-    private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer _spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
+    // AWAKE AWAKE AWAKE THIS THING TOOK 2 HOURS TO FIGURE OUT AS TO WHY I COULD NOT GET SPRITE RENDERER AND I JUST NEEDED IT TO BE ON AWAKE I AM GOING TO CRY AND DIE OH MY GODDDDDDDDDDDDDD
+    void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        //ColorRandomization();
-        ColorAssigning();
+
+        if (_spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found on tile prefab!");
+            return;
+        }
     }
 
-    public void Initialize(Vector2Int position, TileType type)
+    public void Initialize(Vector2Int position, TileType type, bool walkable, bool traversable)
     {
         _gridPosition = position;
         tileType = type;
-
-        if (tileType == TileType.River)
-        {
-            IsWalkable = false;
-            // IsTraversable = true; 
-        }
-        else
-        {
-            IsWalkable = true;
-        }
-    }
-
-    public void SetWalkable(bool walkable)
-    {
-        IsWalkable = walkable;
-    }
-
-    private void ColorRandomization() // Use for now before pixel art
-    {
-        Color randomizedColor;
-
-        if (Random.value > 0.5f)
-        {
-            randomizedColor = new Color(0.2f, 0.4f, 0.2f);
-        }
-        else
-        {
-            randomizedColor = new Color(0.2f, 0.3f, 0.2f);
-        }
-        _spriteRenderer.color = randomizedColor;
+        ColorAssigning();
+       
     }
 
     void ColorAssigning()
     {
         Color assignedTileColor;
-
-        if (tileType == TileType.River)
-        {
-            assignedTileColor = Color.blue; 
-        }
-        else
-        {
-            assignedTileColor = new Color(0.2f, Random.Range(0.3f,0.4f), 0.2f); // Can use random.range to allow for more color options :o
-        }
-
-        _spriteRenderer.color = assignedTileColor;
-    }
-
-    public void DifferentTiles()
-    {
         switch (tileType)
         {
-            case TileType.SpawnPoint:
-                Debug.Log("Is le spawn");
-                break;
-
             case TileType.River:
-                Debug.Log("Woosh water");
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
+                break;
+            case TileType.Unstable:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
             case TileType.Tree:
-                Debug.Log("Twee");
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
-            case TileType.Normal:
-                Debug.Log("normel");
+            case TileType.PlayerSpawn:
+                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f));
                 break;
+            case TileType.TractorSpawn:
+                assignedTileColor = new Color(1f, 0f, 0f);
+                break;
+            case TileType.BoulderSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+            case TileType.BushSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+            case TileType.ObjectiveSpawn:
+                assignedTileColor = new Color(0, 0, 0);
+                break;
+
+            default:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f); // This is Green
+                break;
+
+        }
+        
+        _spriteRenderer.color = assignedTileColor;
+    }
+
+    public bool TilesWalkabilityBehavior()
+    {
+        switch (tileType)
+        {
+            case TileType.River:
+                //Debug.Log("River Tiles Spawn Here");
+                return false;
+            case TileType.Unstable:
+                //Debug.Log("Unstable Grounds Here");
+                return false;
+
+            case TileType.Tree:
+                //Debug.Log("NonMovable Tree Spawns Here");
+                return false;
+
+            case TileType.PlayerSpawn:
+                //Debug.Log("Player Spawns Here");
+                return true;
+            case TileType.TractorSpawn:
+                //Debug.Log("Tractor Spawns Here");
+                return true;
+
+            case TileType.BoulderSpawn:
+                //Debug.Log("Boulder Spawns here");
+                return true;
+
+            case TileType.BushSpawn:
+                //Debug.Log("Cuttable Bushes Spawns Here");
+                return true;
+
+            case TileType.ObjectiveSpawn:
+                //Debug.Log("Objective Spawns here");
+                return true;
+
+
+            default:
+                //Debug.Log("Normal Tile Spawns Here");
+                return true;
+
         }
     }
 
+    public bool TilesTraversabilityBehavior()
+    {
+        switch (tileType)
+        {
+            case TileType.River:
+                //Debug.Log("River Tiles Spawn Here");
+                return false;
+            case TileType.Unstable:
+                //Debug.Log("Unstable Grounds Here");
+                return false;
+
+            case TileType.Tree:
+                //Debug.Log("NonMovable Tree Spawns Here");
+                return false;
+
+            case TileType.PlayerSpawn:
+                //Debug.Log("Player Spawns Here");
+                return true;
+            case TileType.TractorSpawn:
+                //Debug.Log("Tractor Spawns Here");
+                return true;
+
+            case TileType.BoulderSpawn:
+                //Debug.Log("Boulder Spawns here");
+                return true;
+
+            case TileType.BushSpawn:
+                //Debug.Log("Cuttable Bushes Spawns Here");
+                return true;
+
+            case TileType.ObjectiveSpawn:
+                //Debug.Log("Objective Spawns here");
+                return true;
+
+
+            default:
+                //Debug.Log("Normal Tile Spawns Here");
+                return true;
+
+        }
+    }
     public void PerformTileAction() 
     {
         Debug.Log("Performing action on tile: " + this.name);

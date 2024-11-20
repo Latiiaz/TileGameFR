@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
+public class ItemSystem : MonoBehaviour, IInteractable
 {
     // Tractor Movement script referenced off playermovement script :D
     // Tether system to the player
@@ -32,7 +32,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     // Update is called once per frame
     void Update()
     {
-        if (_player.IsInTractor)
+        if (_player.IsCarryingItem)
         {
             HandleInput();
         }
@@ -43,7 +43,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
-            if (tileKey.Value.tileType == TileType.TractorSpawn)
+            if (tileKey.Value.tileType == TileType.ObjectiveSpawn)
             {
                 _tractorPosition = tileKey.Key;
                 Vector2 worldPosition = new Vector2(_tractorPosition.x * _tileManager.TileSize, _tractorPosition.y * _tileManager.TileSize);
@@ -71,7 +71,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         {
             return;
         }
-            
+
         if (_tractorDirection != direction)
         {
             _tractorDirection = direction;
@@ -123,24 +123,18 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         _isActionOnCooldown = false;
     }
 
-    public void InteractF() //Enter Exit tractor
+    public void InteractE() //Enter Exit tractor
     {
         // TRACKTOR BRAINS!!!!!! (move the player inside)
-        if (_player.IsInTractor)
+        if (_player.IsCarryingItem)
         {
-            _player.AttemptEnterOrExitTractor();
+            _player.AttemptCarryOrDropItem();
         }
         else
         {
-            _player.AttemptEnterOrExitTractor();
+            _player.AttemptCarryOrDropItem();
         }
     }
-
-    public void InteractE()
-    {
-        //Debug.Log("E key hit interact");
-    }
-
     public Vector2Int GetTractorPosition()
     {
         return _tractorPosition;
