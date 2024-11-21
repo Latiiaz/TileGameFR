@@ -12,22 +12,43 @@ public class CartMovement : MonoBehaviour
     public Vector3 offsetBehindTractor = new Vector3(0, -1,0);  // -1 spawns it rigth behind the tractor
     private Vector3 lastTractorPosition;
 
+  
+
     // Start is called before the first frame update
     void Start()
     {
-        lastTractorPosition = tractor.position;
+        // Find the tractor GameObject by tag
+        GameObject tractorObject = GameObject.FindWithTag("Tractor");
+        if (tractorObject != null)
+        {
+            tractor = tractorObject.transform;
+            lastTractorPosition = tractor.position;
+        }
+        else
+        {
+            Debug.LogError("CartMovement: No GameObject with the tag 'Tractor' was found!");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Ensure the tractor exists before proceeding
+        if (tractor == null)
+        {
+            Debug.LogWarning("CartMovement: Tractor reference is missing.");
+            return;
+        }
+
+        // Update the cart's position and rotation if the tractor has moved
         if (tractor.position != lastTractorPosition)
         {
             Vector3 targetCartPosition = tractor.position + offsetBehindTractor;
-
             transform.position = targetCartPosition;
 
             lastTractorPosition = tractor.position;
+
+            // Match the tractor's rotation
             transform.rotation = tractor.rotation;
         }
     }

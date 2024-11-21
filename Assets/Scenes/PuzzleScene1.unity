@@ -268,6 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 978403371}
   - component: {fileID: 978403370}
+  - component: {fileID: 978403372}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -292,6 +293,7 @@ MonoBehaviour:
   CartPrefab: {fileID: 4820975119155359750, guid: 72f434a7f74db9340ad3214ec5228caf, type: 3}
   _playerStartPosition: {x: 5, y: 5}
   ItemTestPrefab: {fileID: 7834234095770734990, guid: ed8e9e532d6f6df41a9781ee6b21da32, type: 3}
+  levelManager: {fileID: 0}
   tileManager: {fileID: 1777368966}
 --- !u!4 &978403371
 Transform:
@@ -308,6 +310,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978403372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978403369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2be162987640394b8461634308cb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 1816934809}
+  _objectiveCount: 0
+  _neededObjectives: 1
 --- !u!1 &1777368965
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     private GameObject _itemTest;
     private Vector2Int _itemTestStartPosition = new Vector2Int(0, 0);
 
-
+    public LevelManager levelManager;
     public TileManager tileManager;
 
     // Start is called before the first frame update
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         tileManager.GenerateGrid();
         SpawnPlayer();
         SpawnTractor();
-        // SpawnCart();
+        SpawnCart();
         SpawnItem();
     }
 
@@ -92,4 +92,8 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Invalid spawn position for test item.");
         }
     }
+
+    
+
+
 }

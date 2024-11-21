@@ -35,10 +35,12 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadSceneByName(string sceneName)
     {
+        Debug.Log($"Load {sceneName}");
         SceneManager.LoadScene(sceneName);
     }
     public void LoadVictoryScene()
     {
+
         SceneManager.LoadScene("VictoryScene");
     }
 

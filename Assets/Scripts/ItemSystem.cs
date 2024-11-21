@@ -19,12 +19,14 @@ public class ItemSystem : MonoBehaviour, IInteractable
     private bool _isActionOnCooldown = false;
 
     private PlayerMovement _player;
+    private ObjectiveSystem objectiveSystem;
 
     // Start is called before the first frame update
     void Start()
     {
         _tileManager = FindObjectOfType<TileManager>();
         _player = FindObjectOfType<PlayerMovement>();
+        objectiveSystem = FindObjectOfType<ObjectiveSystem>();
 
         SetTractorSpawnPosition();
     }
@@ -138,5 +140,15 @@ public class ItemSystem : MonoBehaviour, IInteractable
     public Vector2Int GetTractorPosition()
     {
         return _tractorPosition;
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Cart"))
+        {
+            Destroy(this.gameObject);
+            objectiveSystem._objectiveCount++;
+            Debug.Log("Item Deposited, Victory Sequence");
+        }
     }
 }
