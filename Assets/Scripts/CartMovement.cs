@@ -47,8 +47,6 @@ public class CartMovement : MonoBehaviour
             transform.position = targetCartPosition;
 
             lastTractorPosition = tractor.position;
-
-            // Match the tractor's rotation
             transform.rotation = tractor.rotation;
         }
     }

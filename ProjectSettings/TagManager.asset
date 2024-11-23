@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tractor
   - Cart
+  - Objective
   layers:
   - Default
   - TransparentFX

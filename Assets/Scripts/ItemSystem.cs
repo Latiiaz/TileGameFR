@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemSystem : MonoBehaviour, IInteractable
 {
-    // Tractor Movement script referenced off playermovement script :D
+    //Same as tractor script to handle "carrying" 
     // Tether system to the player
     // Inability to move onto certain tiles such as the river
 
@@ -146,6 +146,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
     {
         if (collision.gameObject.CompareTag("Cart"))
         {
+            _player.AttemptCarryOrDropItem();
             Destroy(this.gameObject);
             objectiveSystem._objectiveCount++;
             Debug.Log("Item Deposited, Victory Sequence");
