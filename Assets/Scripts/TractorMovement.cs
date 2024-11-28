@@ -83,7 +83,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         {
             Vector2Int newPosition = _tractorPosition + direction;
 
-            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition))
+            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileTraversable(newPosition))
             {
                 StartCoroutine(MoveToPosition(newPosition));
             }

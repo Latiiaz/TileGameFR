@@ -55,11 +55,15 @@ public class TileManager : MonoBehaviour
                 else // The more randomized ones and the normal tiles
                 {
 
-                    if (Random.value < (PercentageRiverTiles / 100))
+                    if (position.x == 6 || position.x == 7) // Spawns 2 length river tile on the 6th and 7th X coordinate
                     {
                         type = TileType.River;
                     }
-                    else
+                    else if (position.x == 11 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
+                    {
+                        type = TileType.Mud;
+                    }
+                    else 
                     {
                         type = TileType.Normal;
                     }
@@ -77,7 +81,7 @@ public class TileManager : MonoBehaviour
     {
         return tileDictionary.ContainsKey(position);
     }
-    public bool IsTileWalkable(Vector2Int position) // Check if tile is walkable at a vector 2 position
+    public bool IsTileWalkable(Vector2Int position) // Walkable = Player
     {
         if (tileDictionary.ContainsKey(position))
         {
@@ -85,15 +89,24 @@ public class TileManager : MonoBehaviour
         }
         return false;
     }
-    //public void ToggleTileWalkable(Vector2Int position)
-    //{
-    //    if (tileDictionary.ContainsKey(position))
-    //    {
-    //        Tile tile = tileDictionary[position];
-    //        tile.SetWalkable(!tile.IsWalkable); // Changes the tile.cs script on the tile to toggle between walkable and not walkable
-    //    }
-    //}
 
+    public bool IsTileTraversable(Vector2Int position) // Traversable = Tractor
+    {
+        if (tileDictionary.ContainsKey(position))
+        {
+            return tileDictionary[position].IsTraversable;
+        }
+        return false;
+    }
+        //public void ToggleTileWalkable(Vector2Int position)
+        //{
+        //    if (tileDictionary.ContainsKey(position))
+        //    {
+        //        Tile tile = tileDictionary[position];
+        //        tile.SetWalkable(!tile.IsWalkable); // Changes the tile.cs script on the tile to toggle between walkable and not walkable
+        //    }
+        //}
+    
     public Tile GetTileAt(Vector2Int position) // Not used yet but will be used to determine spawnpoint tile(s) later
     {
         if (tileDictionary.ContainsKey(position))

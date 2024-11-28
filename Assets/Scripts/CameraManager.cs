@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour
     // Script to handle Camera zoom and stuff
     // Camera Shake when the tractor moves maybe? (Juicing)
 
-    [SerializeField] private TileManager _tileManager;
+    [SerializeField] private TileManager _tileManager; 
 
     public bool StartShake = false;
     public AnimationCurve animationCurve;

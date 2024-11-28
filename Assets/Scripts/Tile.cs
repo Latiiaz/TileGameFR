@@ -9,7 +9,7 @@ public enum TileType // Might need different types of tiles and need to pair wit
     //Base Tiles
     Normal,
     River,
-    Unstable,
+    Mud,
 
     //Obstacles TIles
     Tree,
@@ -30,8 +30,8 @@ public class Tile : MonoBehaviour
 
     public TileType tileType = TileType.Normal;
     private Vector2Int _gridPosition;
-    public bool IsWalkable => TilesWalkabilityBehavior();
-    public bool IsTraversable { get; set; } = true; // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
+    public bool IsWalkable => TilesWalkabilityBehavior(); // get walkable from method
+    public bool IsTraversable => TilesTraversabilityBehavior(); // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
     //public bool PlayerCheck = false;
 
     public SpriteRenderer _spriteRenderer;
@@ -52,7 +52,7 @@ public class Tile : MonoBehaviour
     {
         _gridPosition = position;
         tileType = type;
-        IsTraversable = traversable;
+        //IsTraversable = traversable;
         ColorAssigning();
        
     }
@@ -65,8 +65,8 @@ public class Tile : MonoBehaviour
             case TileType.River:
                 assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
                 break;
-            case TileType.Unstable:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+            case TileType.Mud:
+                assignedTileColor = new Color32(110,38,14,255);
                 break;
 
             case TileType.Tree:
@@ -102,16 +102,18 @@ public class Tile : MonoBehaviour
     {
         switch (tileType)
         {
-            case TileType.River:
+            case TileType.River:      // Only River is Walkable to cross, tractor cannot cross
                 //Debug.Log("River Tiles Spawn Here");
                 return false;
-            case TileType.Unstable:
+            case TileType.Mud:   // Rename to Mud, Tractor can go across, player cannot
                 //Debug.Log("Unstable Grounds Here");
-                return false;
+                return true;
+
 
             case TileType.Tree:
                 //Debug.Log("NonMovable Tree Spawns Here");
-                return false;
+                return true;
+
 
             case TileType.PlayerSpawn:
                 //Debug.Log("Player Spawns Here");
@@ -144,16 +146,18 @@ public class Tile : MonoBehaviour
     {
         switch (tileType)
         {
-            case TileType.River:
+            case TileType.River:      // Only River is Walkable to cross, tractor cannot cross
                 //Debug.Log("River Tiles Spawn Here");
-                return false;
-            case TileType.Unstable:
+                return true;
+            case TileType.Mud:   // Rename to Mud, Tractor can go across, player cannot
                 //Debug.Log("Unstable Grounds Here");
                 return false;
 
+
             case TileType.Tree:
                 //Debug.Log("NonMovable Tree Spawns Here");
-                return false;
+                return true;
+
 
             case TileType.PlayerSpawn:
                 //Debug.Log("Player Spawns Here");
@@ -186,15 +190,15 @@ public class Tile : MonoBehaviour
         Debug.Log("Performing action on tile: " + this.name);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        IsTraversable = false;
-        Debug.Log(transform.position + "Object On Tile: " + this.name);
-    }
+    //void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    IsTraversable = false;
+    //    Debug.Log(transform.position + "Object On Tile: " + this.name);
+    //}
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        IsTraversable = true;
-    }
+    //void OnTriggerExit2D(Collider2D other)
+    //{
+    //    IsTraversable = true;
+    //}
 
 }
