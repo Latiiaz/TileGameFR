@@ -15,7 +15,7 @@ public enum TileType // Might need different types of tiles and need to pair wit
     Tree,
 
     //SpawnPoint Tiles
-    PlayerSpawn,
+    PlayerSpawn, //Can remove, the player will spawn on the same spawnpoint as the tractor now
     TractorSpawn,
     BoulderSpawn,
     BushSpawn,
@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour
     public TileType tileType = TileType.Normal;
     private Vector2Int _gridPosition;
     public bool IsWalkable => TilesWalkabilityBehavior();
-    public bool IsTraversable => TilesTraversabilityBehavior(); // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
+    public bool IsTraversable { get; set; } = true; // Tractor movement will use Traversable instead of Walkable to allow tractors to be blocked by river blocks but the player can go past them.
     //public bool PlayerCheck = false;
 
     public SpriteRenderer _spriteRenderer;
@@ -52,6 +52,7 @@ public class Tile : MonoBehaviour
     {
         _gridPosition = position;
         tileType = type;
+        IsTraversable = traversable;
         ColorAssigning();
        
     }
@@ -183,6 +184,17 @@ public class Tile : MonoBehaviour
     public void PerformTileAction() 
     {
         Debug.Log("Performing action on tile: " + this.name);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        IsTraversable = false;
+        Debug.Log(transform.position + "Object On Tile: " + this.name);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        IsTraversable = true;
     }
 
 }

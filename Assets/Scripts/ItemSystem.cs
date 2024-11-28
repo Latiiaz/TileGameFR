@@ -41,7 +41,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
     }
 
 
-    void SetTractorSpawnPosition()
+    void SetTractorSpawnPosition() // Item spawn position
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
@@ -142,7 +142,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
         return _tractorPosition;
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision) // interacting with the cart
     {
         if (collision.gameObject.CompareTag("Cart"))
         {

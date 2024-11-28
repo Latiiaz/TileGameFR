@@ -73,15 +73,6 @@ public class LevelManager : MonoBehaviour
                     ReloadCurrentScene();
                 }
             }
-            if (rKeyDown)
-            {
-                timeRKeyDown += Time.deltaTime;
-
-                if (timeRKeyDown >= RestartTime)
-                {
-                    ReloadCurrentScene();
-                }
-            }
             else // restart counter if doesnt reach req  time
             {
                 rKeyDown = false;

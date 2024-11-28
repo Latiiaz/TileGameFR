@@ -10,20 +10,17 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject TractorPrefab;
     public GameObject CartPrefab;
-
-
+    public GameObject ItemTestPrefab;
 
     private GameObject _player;
     private GameObject _tractor;
     private GameObject _cart;
-
-    //All 3 should have their dedicated spawn point once the dictionary works
-    public Vector2Int _playerStartPosition = new Vector2Int(5, 5);
-    private Vector2Int _tractorStartPosition = new Vector2Int(6, 6);
-    private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
-
-    public GameObject ItemTestPrefab;
     private GameObject _itemTest;
+
+    //They spawn on dedicated tiles for them now but player should spawn INSIDE of the tractor and the cart should always be behind the tractor
+    private Vector2Int _playerStartPosition = new Vector2Int(0, 0);
+    private Vector2Int _tractorStartPosition = new Vector2Int(0, 0);
+    private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
     private Vector2Int _itemTestStartPosition = new Vector2Int(0, 0);
 
     public LevelManager levelManager;
@@ -32,21 +29,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start() // Spawns the map player tractor and cart
     {
-        tileManager.GenerateGrid();
-        SpawnPlayer();
-        SpawnTractor();
-        SpawnCart();
-        SpawnItem();
+        tileManager.GenerateGrid(); // Spawns grids so all tiles have spawned
+        
+        SpawnTractor(); // Spawn tractor since the player needs to find the tractor in order to spawn on it
+        SpawnPlayer(); // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
+        SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
+        SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
     }
 
     void SpawnPlayer()
     {
-        if (tileManager.IsTileAvailable(_playerStartPosition))
+        if (tileManager.IsTileAvailable(_tractorStartPosition))
         {
-            Debug.Log("(PLAYER SPAWN LOCATION): " + _playerStartPosition);
-            Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
+            Debug.Log("(PLAYER SPAWN LOCATION): " + _tractorStartPosition);
+            Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
-            Debug.Log("(PLAYER): " +_player.transform.position);
+            //Debug.Log("(PLAYER): " +_player.transform.position);
         }
         else
         {
@@ -59,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _tractor = Instantiate(TractorPrefab, spawnPosition, Quaternion.identity);
-            Debug.Log("(TRACTOR): " + _tractor.transform.position);
+            //Debug.Log("(TRACTOR): " + _tractor.transform.position);
         }
         else
         {
@@ -85,7 +83,7 @@ public class GameManager : MonoBehaviour
         {
             Vector2 spawnPosition = new Vector2(_itemTestStartPosition.x * tileManager.TileSize, _itemTestStartPosition.y * tileManager.TileSize);
             _itemTest = Instantiate(ItemTestPrefab, spawnPosition, Quaternion.identity);
-            Debug.Log("(TEST ITEM): " + _itemTest.transform.position);
+            //Debug.Log("(TEST ITEM): " + _itemTest.transform.position);
         }
         else
         {

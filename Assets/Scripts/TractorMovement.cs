@@ -76,6 +76,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         {
             _tractorDirection = direction;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
+            //_isActionOnCooldown = true;
             StartCoroutine(ActionCooldown());
         }
         else
@@ -128,6 +129,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         // TRACKTOR BRAINS!!!!!! (move the player inside)
         if (_player.IsInTractor)
         {
+            
             _player.AttemptEnterOrExitTractor();
         }
         else

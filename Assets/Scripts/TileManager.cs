@@ -25,8 +25,6 @@ public class TileManager : MonoBehaviour
 
     public void GenerateGrid()
     {
-
-        bool playerSpawnPlaced = false;
         bool tractorSpawnPlaced = false;
         bool itemtestSpawnPlaced = false;
 
@@ -41,13 +39,8 @@ public class TileManager : MonoBehaviour
                 Tile tile = tileObject.GetComponent<Tile>();
 
                 TileType type;
-                if (!playerSpawnPlaced && Random.value < 0.01f)
-                {
-                    type = TileType.PlayerSpawn;
-                    Debug.Log(position);
-                    playerSpawnPlaced = true;
-                }
-                else if (!tractorSpawnPlaced && Random.value < 0.01f) // For the tiles that only 1 of
+                
+                if (!tractorSpawnPlaced && Random.value < 0.01f) // For the tiles that only 1 of
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);

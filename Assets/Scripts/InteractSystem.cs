@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InteractSystem : MonoBehaviour
 {
@@ -11,66 +13,67 @@ public class InteractSystem : MonoBehaviour
     //Update to add in F to leave tractor and E to interact with any object in/out of tractor
     // https://www.youtube.com/watch?v=B34iq4O5ZYI Raycast guide
 
-    [SerializeField] private float _raycastRange = 2f;
-    private IInteractable _currentIInteractable;
-    private ITractor _currentITractor;
-    // Start is called before the first frame update
+    [SerializeField] private float _raycastRange = 1f;
+    [SerializeField] private LayerMask _layerMask;
+    private PlayerMovement _player;
+
+    private UIManager _uiManager;
+
+    private void Start()
+    {
+        _player = FindObjectOfType<PlayerMovement>();
+        _uiManager = FindObjectOfType<UIManager>();
+
+    }
     void Update()
     {
-        RaycastHit2D hitE = Physics2D.Raycast(transform.position, Vector2.up, _raycastRange);
-        if (hitE.collider != null)
-        {
-            IInteractable interactable = hitE.collider.GetComponent<IInteractable>();
+        Vector2 rayDirection = transform.up;
+        Color rayColor = Color.green;
 
-            if (interactable != null)
+        bool isInteracting = false;
+
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, _raycastRange, _layerMask);
+
+        if (hit.collider != null)
+
+        {
+            //Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+            // Check for Tractor
+            ITractor itractor = hit.collider.GetComponent<ITractor>();
+            if (itractor != null)
             {
-                _currentIInteractable = interactable;
-                //Debug.Log("Interact?"); NOOO STOP SPAMMING RAHHHHHHHHHHH
+                rayColor = Color.red;
+                _uiManager.ShowFInteract(true);
+                isInteracting = true;
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    Debug.Log("Wee weoo");
+                    itractor.InteractF();
+                }
             }
             else
             {
-                _currentIInteractable = null;
+                // Check for Interactables
+                IInteractable iinteractable = hit.collider.GetComponent<IInteractable>();
+                if (iinteractable != null)
+                {
+                    rayColor = Color.blue;
+                    _uiManager.ShowEInteract(true);
+                    isInteracting = true;
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        Debug.Log("dwhajda");
+                        iinteractable.InteractE();
+                    }
+                }
             }
         }
-        else
+        if (!isInteracting)
         {
-            _currentIInteractable = null;
+            _uiManager.ShowEInteract(false);
+            _uiManager.ShowFInteract(false);
         }
-
-      
-        if (_currentIInteractable != null && Input.GetKeyDown(KeyCode.E))
-        {
-            _currentIInteractable.InteractE(); 
-
-
-        }
-
-
-
-        RaycastHit2D hitF = Physics2D.Raycast(transform.position, Vector2.up, _raycastRange);
-        if (hitF.collider != null)
-        {
-            ITractor interactable = hitF.collider.GetComponent<ITractor>();
-
-            if (interactable != null)
-            {
-                _currentITractor = interactable;
-                //Debug.Log("Interact?"); NOOO STOP SPAMMING RAHHHHHHHHHHH
-            }
-            else
-            {
-                _currentITractor = null;
-            }
-        }
-        else
-        {
-            _currentITractor = null;
-        }
-
-
-        if (_currentITractor != null && Input.GetKeyDown(KeyCode.F))
-        {
-            _currentITractor.InteractF();
-        }
+        Debug.DrawRay(transform.position, rayDirection * _raycastRange, rayColor);
     }
 }

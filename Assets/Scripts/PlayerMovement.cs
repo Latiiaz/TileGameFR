@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     // Script to Handle Movement of player on tiles/grids
     // Player needs to communicate with dictionary to ensure they dont teleport back to starting point before getting into the tractor
 
-    [SerializeField] private TileManager _tileManager;
+    private TileManager _tileManager;
     private Vector2Int _playerPosition;
     private Vector2Int _playerDirection = Vector2Int.up;
 
@@ -18,9 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     private TractorMovement _tractorMovement;
     private ItemSystem _itemSystem;
-    public bool IsInTractor { get; private set; } = false; // If true the player starts off as the tractor lol.
+    public bool IsInTractor { get; set; } = false; // If true the player starts off as the tractor lol.
 
-    public bool IsCarryingItem { get; private set; } = false; // Carrying items
+    public bool IsCarryingItem { get;set; } = false; // Carrying items
+
+    private TetherSystem _tetherSystem;
     //public GameManager _gameManager;
     //public SpriteRenderer spriteRenderer;
 
@@ -32,8 +34,13 @@ public class PlayerMovement : MonoBehaviour
         _tractorMovement = FindObjectOfType<TractorMovement>();
         _itemSystem = FindObjectOfType<ItemSystem>();
 
+        _tetherSystem = GetComponent<TetherSystem>();
+
         //transform.position = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
         SetPlayerSpawnPosition();
+       
+        _tractorMovement.InteractF();
+
     }
 
     // Update is called once per frame
@@ -48,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
            
-        if (!_isActionOnCooldown) // !IsInTractor can hide to pair with movement of tractor
+        if (!_isActionOnCooldown && _tetherSystem != null) // !IsInTractor can hide to pair with movement of tractor // Tethersystem can move removed to test
         {
             HandleInput();
         }
@@ -58,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
-            if (tileKey.Value.tileType == TileType.PlayerSpawn)
+            if (tileKey.Value.tileType == TileType.TractorSpawn)
             {
                 _playerPosition = tileKey.Key; 
                 Vector2 worldPosition = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
@@ -88,25 +95,33 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (_playerDirection != direction)
-        {
-            _playerDirection = direction;
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
-            StartCoroutine(ActionCooldown());
-        }
-        else
-        {
-            Vector2Int newPosition = _playerPosition + direction;
-           
+        Vector2 playerMovement = new Vector2(direction.x, direction.y);
 
-            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition)) //This is what handles the dictionary for the player
+        if (_tetherSystem.CanMoveTowardTractor(playerMovement)) // Tether only allows movement if the steps is going to be less than max steps to prevent moving out of the amx steps range
+        {
+            if (_playerDirection != direction)
             {
-                StartCoroutine(MoveToPosition(newPosition));
+                _playerDirection = direction;
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
+                StartCoroutine(ActionCooldown());
             }
             else
             {
-                Debug.LogWarning("(PLAYER): Tile is not walkable or available.");
+                Vector2Int newPosition = _playerPosition + direction;
+
+                if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition)) // This is what handles the dictionary for the player & tile walkasbility
+                {
+                    StartCoroutine(MoveToPosition(newPosition));
+                }
+                else
+                {
+                    Debug.LogWarning("(PLAYER): Tile is not walkable or available.");
+                }
             }
+        }
+        else
+        {
+            Debug.Log("Player is too far away from the tractor to move");
         }
     }
 
