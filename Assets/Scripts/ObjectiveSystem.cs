@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectiveSystem : MonoBehaviour
+public class ObjectiveSystem : MonoBehaviour 
+    // Score System
 {
     public LevelManager levelManager;
 

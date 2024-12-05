@@ -16,16 +16,26 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _maxDistanceTracker;
     TetherSystem _tetherSystem;
 
+
+    [SerializeField] Slider oxygenBar;
+    [SerializeField] OxygenTimerSystem _oxygenTimerSystem;
+
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(FindTetherSystemOnPlayer());
+
+        oxygenBar.maxValue = _oxygenTimerSystem.oxygenTime;
+        oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         _maxDistanceTracker.text = _tetherSystem.GetMaxSteps().ToString("000");
+        oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
     }
 
     public void ShowEInteract(bool activateE)

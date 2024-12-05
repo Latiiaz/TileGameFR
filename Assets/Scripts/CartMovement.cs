@@ -13,9 +13,6 @@ public class CartMovement : MonoBehaviour, IInteractable
     public Vector3 offsetBehindTractor = new Vector3(0, 0,0);  // -1 spawns it rigth behind the tractor
     private Vector3 lastTractorPosition;
 
-  
-
-    // Start is called before the first frame update
     void Awake() // Changed to awake so the code runs when the cart spawns
     {
         // Find the tractor GameObject by tag

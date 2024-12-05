@@ -20,6 +20,8 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
 
     private PlayerMovement _player;
 
+    private int _maxMoves; // Gain more steps based off cooldown
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,10 +34,7 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     // Update is called once per frame
     void Update()
     {
-        if (_player.IsInTractor)
-        {
-            HandleInput();
-        }
+        HandleInput();
     }
 
 
@@ -56,13 +55,13 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
 
     void HandleInput()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
             MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.LeftArrow))
             MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.DownArrow))
             MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.RightArrow))
             MoveOrTurn(Vector2Int.right);
     }
     void MoveOrTurn(Vector2Int direction)

@@ -15,6 +15,10 @@ public class TileManager : MonoBehaviour
     [SerializeField] public float TileSize = 1f;
 
     [SerializeField] public float PercentageRiverTiles;
+    [SerializeField] public float PercentageItemTiles;
+
+    [SerializeField] public float NumberOfItems;
+
 
     public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
 
@@ -46,7 +50,7 @@ public class TileManager : MonoBehaviour
                     Debug.Log(position);
                     tractorSpawnPlaced = true;
                 }
-                else if (!itemtestSpawnPlaced && Random.value < 0.01f) // Spawn Objectivve Test Item
+                else if (!itemtestSpawnPlaced && Random.value < PercentageItemTiles) // Spawn Objectivve Test Item
                 {
                     type = TileType.ObjectiveSpawn;
                     Debug.Log(position);

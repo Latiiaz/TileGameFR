@@ -7,63 +7,44 @@ public class CameraManager : MonoBehaviour
 {
     // Script to handle Camera zoom and stuff
     // Camera Shake when the tractor moves maybe? (Juicing)
+    [Header("Tile Manager")]
+    [SerializeField] private TileManager _tileManager;
 
-    [SerializeField] private TileManager _tileManager; 
-
-    public bool StartShake = false;
+    [Header("Camera Shake")]
+    public bool IsShaking = false;
     public AnimationCurve animationCurve;
     public float ShakeDuration = 10f;
     public float ShakeMultiplier = 10f;
 
+    [Header("Camera Lerping")]
     [SerializeField] public float LerpSpeed = 5f;
-
-    private float _minX;
-    private float _maxX;
-    private float _minY;
-    private float _maxY;
-
     private Transform _playerPos;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    private Transform _tractorPos;
 
     void FixedUpdate()
     {
         GameObject _newPlayer = GameObject.FindWithTag("Player");
         _playerPos = _newPlayer.transform;
-        PlayerLerp();
-        //CameraCentering();
-        if (Input.GetKeyDown(KeyCode.Space) && StartShake == true)
+
+        GameObject _newTractor = GameObject.FindWithTag("Tractor");
+        _tractorPos = _newTractor.transform;
+
+        PlayerTractorLerp();
+        if (Input.GetKeyDown(KeyCode.Space) && IsShaking == false)
         {
-            StartShake = true;
-            //StartShake = false;
-            Debug.Log("shakey");
+            IsShaking = true;
+            //Debug.Log("shakey");
             StartCoroutine(Shaking());
         }
     }
-
-    void CameraCentering()
+    void PlayerTractorLerp()
     {
-        Vector3 playerPosition = _playerPos.position;
-        transform.position = new Vector3(Mathf.Clamp(playerPosition.x, _minX, _maxX), Mathf.Clamp(playerPosition.y, _minY, _maxY), -10f);
-
-        Debug.Log(transform.position);
-
-        //transform.position = new Vector3(_tileManager.GridWidth /2, _tileManager.GridHeight /2,-15);
-    }
-
-    void PlayerLerp()
-    {
-        Vector3 PlayerPos = _playerPos.position;
-        Vector3 LerpLocation = Vector3.Lerp(transform.position, PlayerPos, LerpSpeed * Time.deltaTime);
+        Vector3 midPointTractorPlayer = (_playerPos.position + _tractorPos.position) / 2;
+        Vector3 LerpLocation = Vector3.Lerp(transform.position, midPointTractorPlayer, LerpSpeed * Time.deltaTime);
 
         transform.position = new Vector3(LerpLocation.x,LerpLocation.y, -15);
 
     }
-
-    // Referenced from previous project
     public IEnumerator Shaking()
     {
         Vector3 startPosition = transform.position;
@@ -78,5 +59,6 @@ public class CameraManager : MonoBehaviour
             yield return null;
         }
         transform.position = startPosition;
+        IsShaking = false;
     }
 }
