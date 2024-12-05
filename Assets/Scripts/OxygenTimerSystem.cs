@@ -21,7 +21,7 @@ public class OxygenTimerSystem : MonoBehaviour
             currentTime -= Time.deltaTime; 
             currentTime = Mathf.Max(currentTime, 0); 
 
-            DisplayTime();
+            //DisplayTime();
         }
         else
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TetherSystem : MonoBehaviour
 {
     [SerializeField] Transform _tractorpos;
-    [SerializeField] public int maxSteps = 6; // Circle indication on tractor tether is scale = 2 *max steps
+    [SerializeField] public int maxSteps = 4; // Circle indication on tractor tether is scale = 2 *max steps
     [SerializeField] private int currentSteps;
     [SerializeField] private Vector2 lastPlayerPosition;  
     [SerializeField] private Transform playerTransform;

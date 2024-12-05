@@ -139,7 +139,16 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
 
     public void InteractE()
     {
-        //Debug.Log("E key hit interact");
+        if (_player.IsInTractor)
+        {
+
+            Debug.Log("E key hit while player is in the tractor");
+        }
+        else
+        {
+            Debug.Log("E key hit and the player is not inside the tracotr");
+        }
+       
     }
 
     public Vector2Int GetTractorPosition()

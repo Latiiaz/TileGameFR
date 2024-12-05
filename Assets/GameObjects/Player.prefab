@@ -216,7 +216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5718d264f4b6943bbe56cdbd441b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tractor: {fileID: 5187807225899239704, guid: 2896290b5a08c7a4d86b2e4c3d2fe70c, type: 3}
+  _tractorpos: {fileID: 0}
+  maxSteps: 4
+  currentSteps: 0
+  lastPlayerPosition: {x: 0, y: 0}
+  playerTransform: {fileID: 0}
 --- !u!61 &8125942486896034432
 BoxCollider2D:
   m_ObjectHideFlags: 0
