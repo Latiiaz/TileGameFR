@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,20 +12,27 @@ public class GameManager : MonoBehaviour
     public GameObject TractorPrefab;
     public GameObject CartPrefab;
     public GameObject ItemTestPrefab;
+    public GameObject PylonPrefab;
 
     private GameObject _player;
     private GameObject _tractor;
     private GameObject _cart;
     private GameObject _itemTest;
+    private GameObject _pylon;
 
     //They spawn on dedicated tiles for them now but player should spawn INSIDE of the tractor and the cart should always be behind the tractor
     private Vector2Int _playerStartPosition = new Vector2Int(0, 0);
     private Vector2Int _tractorStartPosition = new Vector2Int(0, 0);
-    private Vector2Int _cartStartPosition = new Vector2Int(0, 0); // Except this this should be one tile behind the tractor at all times probably should be done in cartmvoement script
+    private Vector2Int _cartStartPosition = new Vector2Int(0, 0);
     private Vector2Int _itemTestStartPosition = new Vector2Int(0, 0);
+    private Vector2Int _pylonStartPosition = new Vector2Int(0, 0);
 
     public LevelManager levelManager;
     public TileManager tileManager;
+
+    [Header("Main Character")]
+    public bool _currentTurnIsPlayer = true;
+    private bool _enemyTurn = false;
 
     // Start is called before the first frame update
     void Start() // Spawns the map player tractor and cart
@@ -32,10 +40,59 @@ public class GameManager : MonoBehaviour
         tileManager.GenerateGrid(); // Spawns grids so all tiles have spawned
         
         SpawnTractor(); // Spawn tractor since the player needs to find the tractor in order to spawn on it
-        SpawnPlayer(); // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
-        SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
+        // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
+        //SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
         SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
+        SpawnPylon();
+        SpawnPlayer();
     }
+    private void Awake()
+    {
+        if (_player == null)
+        {
+            _player = GameObject.FindWithTag("Player");
+        }
+        if (_tractor == null)
+        {
+            _tractor = GameObject.FindWithTag("Tractor");
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+
+            SwitchTurn();
+        }
+    }
+
+    public void SwitchTurn()
+    {
+        _currentTurnIsPlayer = !_currentTurnIsPlayer;
+        TurnChecker();
+    }
+
+    public void TurnChecker()
+    {
+
+        if (_currentTurnIsPlayer)
+        {
+            _enemyTurn = false;
+            //Debug.Log("It's now the Player's turn.");
+        }
+        else
+        {
+            _enemyTurn = true;
+            //Debug.Log("It's now the Enemy's turn.");
+        }
+    }
+
+    public bool TurnStatus()
+    {
+        return _currentTurnIsPlayer;
+    }
+
 
     void SpawnPlayer()
     {
@@ -90,8 +147,25 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Invalid spawn position for test item.");
         }
     }
+    void SpawnPylon()
+    {
+        if (tileManager.IsTileAvailable(_pylonStartPosition))
+        {
+            Vector2 spawnPosition = new Vector2(_pylonStartPosition.x * tileManager.TileSize, _pylonStartPosition.y * tileManager.TileSize);
+            _pylon = Instantiate(PylonPrefab, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid spawn position for cart.");
+        }
+    }
 
-    
+
+
+    void CurrentTarget() // Indicates which object is the main target.
+    {
+
+    }
 
 
 }

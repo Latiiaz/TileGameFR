@@ -48,7 +48,7 @@ public class InteractSystem : MonoBehaviour
                 isInteracting = true;
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    Debug.Log("Wee weoo");
+                    //Debug.Log("Wee weoo");
                     itractor.InteractF();
                 }
             }
@@ -63,7 +63,7 @@ public class InteractSystem : MonoBehaviour
                     isInteracting = true;
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        Debug.Log("dwhajda");
+                        //Debug.Log("dwhajda");
                         iinteractable.InteractE();
                     }
                 }

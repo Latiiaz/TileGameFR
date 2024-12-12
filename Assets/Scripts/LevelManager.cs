@@ -44,6 +44,11 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("VictoryScene");
     }
 
+    public void LoadDefeatScene()
+    {
+
+        SceneManager.LoadScene("DefeatScene");
+    }
     public void Quitgame() // remove Appliaction.Quit when the game is built otherwise just stick with Debug Log
     {
         Debug.Log("Quit game");

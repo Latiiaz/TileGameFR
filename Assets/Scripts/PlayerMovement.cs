@@ -22,7 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsCarryingItem { get;set; } = false; // Carrying items
 
-    private TetherSystem _tetherSystem;
+    [SerializeField] private TetherSystem _tetherSystem;
+    [SerializeField] GameManager _gameManager;
+
     //public GameManager _gameManager;
     //public SpriteRenderer spriteRenderer;
 
@@ -33,13 +35,14 @@ public class PlayerMovement : MonoBehaviour
         _tileManager = FindObjectOfType<TileManager>();
         _tractorMovement = FindObjectOfType<TractorMovement>();
         _itemSystem = FindObjectOfType<ItemSystem>();
+        _gameManager = FindObjectOfType<GameManager>();
 
         _tetherSystem = GetComponent<TetherSystem>();
 
         //transform.position = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);
         SetPlayerSpawnPosition();
        
-        _tractorMovement.InteractF();
+        //_tractorMovement.InteractF();
 
     }
 
@@ -54,8 +57,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-           
-        if (!_isActionOnCooldown && _tetherSystem != null) // !IsInTractor can hide to pair with movement of tractor // Tethersystem can move removed to test
+        if (_gameManager.TurnStatus())
         {
             HandleInput();
         }
@@ -96,9 +98,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector2 playerMovement = new Vector2(direction.x, direction.y);
-
-        if (_tetherSystem.CanMoveTowardTractor(playerMovement)) // Tether only allows movement if the steps is going to be less than max steps to prevent moving out of the amx steps range
-        {
             if (_playerDirection != direction)
             {
                 _playerDirection = direction;
@@ -118,63 +117,58 @@ public class PlayerMovement : MonoBehaviour
                     Debug.LogWarning("(PLAYER): Tile is not walkable or available.");
                 }
             }
-        }
-        else
-        {
-            Debug.Log("Player is too far away from the tractor to move");
-        }
     }
 
-    public void AttemptEnterOrExitTractor() // Tractor Enter Exit
-    {
-        if (_tractorMovement != null && !IsInTractor)
-        {
-            if (_tractorMovement.transform.position == transform.position)
-            {
-                EnterTractor();
-            }
-        }
-        else if (IsInTractor)
-        {
-            ExitTractor();
-        }
-    }
+    //public void AttemptEnterOrExitTractor() // Tractor Enter Exit
+    //{
+    //    if (_tractorMovement != null && !IsInTractor)
+    //    {
+    //        if (_tractorMovement.transform.position == transform.position)
+    //        {
+    //            EnterTractor();
+    //        }
+    //    }
+    //    else if (IsInTractor)
+    //    {
+    //        ExitTractor();
+    //    }
+    //}
 
-    public void EnterTractor()
-    {
-        IsInTractor = true;
-        _isMoving = false;
-        _isActionOnCooldown = true;
+    //public void EnterTractor()
+    //{
+    //    IsInTractor = true;
+    //    _isMoving = false;
+    //    _isActionOnCooldown = true;
 
-        transform.SetParent(_tractorMovement.transform);
-        transform.localPosition = Vector3.zero;
-        transform.rotation = _tractorMovement.transform.rotation;
+    //    transform.SetParent(_tractorMovement.transform);
+    //    transform.localPosition = Vector3.zero;
+    //    transform.rotation = _tractorMovement.transform.rotation;
 
-        Debug.Log("Player has entered the tractor.");
-        StartCoroutine(ActionCooldown());
-    }
+    //    Debug.Log("Player has entered the tractor.");
+    //    StartCoroutine(ActionCooldown());
+    //}
 
-    public void ExitTractor()
-    {
-        IsInTractor = false;
-        _isActionOnCooldown = true;
+    //public void ExitTractor()
+    //{
+    //    IsInTractor = false;
+    //    _isActionOnCooldown = true;
 
-        transform.SetParent(null);
-        Vector2Int targetPosition = _tractorMovement.GetTractorPosition();
+    //    transform.SetParent(null);
+    //    Vector2Int targetPosition = _tractorMovement.GetTractorPosition();
 
-        if (_tileManager.IsTileAvailable(targetPosition))
-        {
-            _playerPosition = targetPosition;
-            transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
-        }
-        else
-        {
-            Debug.LogWarning("Exiting tractor to an unavailable tile.");
-        }
+    //    if (_tileManager.IsTileAvailable(targetPosition))
+    //    {
+    //        _playerPosition = targetPosition;
+    //        transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Exiting tractor to an unavailable tile.");
+    //    }
 
-        Debug.Log("Player has exited the tractor.");
-        StartCoroutine(ActionCooldown());
-    }
+    //    Debug.Log("Player has exited the tractor.");
+    //    StartCoroutine(ActionCooldown());
+    //}
 
     public void AttemptCarryOrDropItem() // Item drop/ pick up
     {

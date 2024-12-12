@@ -59,18 +59,38 @@ public class TileManager : MonoBehaviour
                 else // The more randomized ones and the normal tiles
                 {
 
-                    if (position.x == 6 || position.x == 7) // Spawns 2 length river tile on the 6th and 7th X coordinate
+                    if (position.x == 6 || position.x == 5) // Spawns 2 length river tile on the 6th and 7th X coordinate
                     {
-                        type = TileType.River;
+                        if (position.y == 13 || position.y == 14)
+                        {
+                            type = TileType.Normal;
+                        }
+                        else
+                        {
+                            type = TileType.River;
+                        }
+                       
                     }
-                    else if (position.x == 11 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
+                    else if (position.x == 13 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
                     {
-                        type = TileType.Mud;
+                        if (position.y == 0 || position.y == 1)
+                        {
+                            type = TileType.Normal;
+                        }
+                        else
+                        {
+                            type = TileType.Mud;
+                        }
                     }
-                    else 
+                    else if (position.x == 10 && position.y == 10)
+                    {
+                        type = TileType.Pylon;
+                    }
+                    else
                     {
                         type = TileType.Normal;
                     }
+                    
                 }
 
                 tile.Initialize(position, type, true, true); // Uses Initialize function in Tile.cs to spawn in the tiles

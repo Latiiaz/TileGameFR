@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class CameraManager : MonoBehaviour
 {
@@ -21,6 +23,13 @@ public class CameraManager : MonoBehaviour
     private Transform _playerPos;
     private Transform _tractorPos;
 
+
+    [SerializeField] Image _greenFilter;
+    [SerializeField] Image _transparentMiddle;
+
+    [SerializeField] GameManager _gameManager;
+
+
     void FixedUpdate()
     {
         GameObject _newPlayer = GameObject.FindWithTag("Player");
@@ -28,21 +37,39 @@ public class CameraManager : MonoBehaviour
 
         GameObject _newTractor = GameObject.FindWithTag("Tractor");
         _tractorPos = _newTractor.transform;
-
-        PlayerTractorLerp();
-        if (Input.GetKeyDown(KeyCode.Space) && IsShaking == false)
+        if (_gameManager.TurnStatus()) // Player Is the main target
+        {
+            CenteredOnPlayer();
+        }
+        else // Robot is the main target
+        {
+            CenteredOnRobot();
+        }
+        if (Input.GetKeyDown(KeyCode.G) && IsShaking == false)
         {
             IsShaking = true;
-            //Debug.Log("shakey");
             StartCoroutine(Shaking());
         }
     }
-    void PlayerTractorLerp()
+    void CenteredOnPlayer()
     {
-        Vector3 midPointTractorPlayer = (_playerPos.position + _tractorPos.position) / 2;
-        Vector3 LerpLocation = Vector3.Lerp(transform.position, midPointTractorPlayer, LerpSpeed * Time.deltaTime);
-
+        Vector3 Player = (_playerPos.position);
+        Vector3 LerpLocation = Vector3.Lerp(transform.position, Player, LerpSpeed * Time.deltaTime);
         transform.position = new Vector3(LerpLocation.x,LerpLocation.y, -15);
+
+        //Additional Stuff goes here
+        _greenFilter.gameObject.SetActive(false);
+        _transparentMiddle.gameObject.SetActive(true);
+
+    }
+    void CenteredOnRobot()
+    {
+        Vector3 Robot = (_tractorPos.position);
+        Vector3 LerpLocation = Vector3.Lerp(transform.position, Robot, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(LerpLocation.x, LerpLocation.y, -15);
+
+        _greenFilter.gameObject.SetActive(true);
+        _transparentMiddle.gameObject.SetActive(false);
 
     }
     public IEnumerator Shaking()

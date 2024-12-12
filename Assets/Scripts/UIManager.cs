@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         StartCoroutine(FindTetherSystemOnPlayer());
 
@@ -34,6 +35,9 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject _newPlayer = GameObject.FindWithTag("Player");
+        _oxygenTimerSystem = _newPlayer.GetComponent<OxygenTimerSystem>();
+
         _maxDistanceTracker.text = _tetherSystem.GetMaxSteps().ToString("000");
         oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
     }
@@ -63,10 +67,10 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
+        GameObject tractor = GameObject.FindWithTag("Tractor");
+        if (tractor != null)
         {
-            _tetherSystem = player.GetComponent<TetherSystem>();
+            _tetherSystem = tractor.GetComponent<TetherSystem>();
         }
 
     }

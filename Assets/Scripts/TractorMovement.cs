@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
+public class TractorMovement : MonoBehaviour, IInteractable
 {
     // Tractor Movement script referenced off playermovement script :D
     // Tether system to the player
@@ -18,6 +18,9 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     private bool _isMoving = false;
     private bool _isActionOnCooldown = false;
 
+    [SerializeField] GameManager _gameManager;
+
+
     private PlayerMovement _player;
 
     private int _maxMoves; // Gain more steps based off cooldown
@@ -27,6 +30,8 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     {
         _tileManager = FindObjectOfType<TileManager>();
         _player = FindObjectOfType<PlayerMovement>();
+        _gameManager = FindObjectOfType<GameManager>();
+
 
         SetTractorSpawnPosition();
     }
@@ -34,7 +39,15 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
+        if (_gameManager.TurnStatus())
+        {
+
+        }
+        else
+        {
+            HandleInput();
+        }
+
     }
 
 
@@ -55,13 +68,13 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
 
     void HandleInput()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.W))
             MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A))
             MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S))
             MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D))
             MoveOrTurn(Vector2Int.right);
     }
     void MoveOrTurn(Vector2Int direction)
@@ -123,19 +136,19 @@ public class TractorMovement : MonoBehaviour, IInteractable  , ITractor
         _isActionOnCooldown = false;
     }
 
-    public void InteractF() //Enter Exit tractor
-    {
-        // TRACKTOR BRAINS!!!!!! (move the player inside)
-        if (_player.IsInTractor)
-        {
+    //public void InteractF() //Enter Exit tractor
+    //{
+    //    // TRACKTOR BRAINS!!!!!! (move the player inside)
+    //    if (_player.IsInTractor)
+    //    {
             
-            _player.AttemptEnterOrExitTractor();
-        }
-        else
-        {
-            _player.AttemptEnterOrExitTractor();
-        }
-    }
+    //        _player.AttemptEnterOrExitTractor();
+    //    }
+    //    else
+    //    {
+    //        _player.AttemptEnterOrExitTractor();
+    //    }
+    //}
 
     public void InteractE()
     {
