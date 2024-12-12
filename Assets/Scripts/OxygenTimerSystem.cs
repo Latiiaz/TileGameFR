@@ -6,7 +6,6 @@ public class OxygenTimerSystem : MonoBehaviour
 {
     [SerializeField] public float oxygenTime = 60f; // Oxygen timer in seconds before player faints
     private float currentTime;
-    public float oxygenlessMultiplier;
 
     [SerializeField] public LevelManager levelManager;
     private List<TetherSystem> tetherSystems;
@@ -24,27 +23,15 @@ public class OxygenTimerSystem : MonoBehaviour
     {
         if (currentTime > 0)
         {
-            float depletionRate;
-
-<<<<<<< Updated upstream
-=======
-            if (IsPlayerInsideTether())
-            {
-                depletionRate = Time.deltaTime;
-            }
-            else
-            {
-                depletionRate = Time.deltaTime * oxygenlessMultiplier;
-            }
+            float depletionRate = IsPlayerInsideTether() ? Time.deltaTime : Time.deltaTime * 5;
             currentTime -= depletionRate;
             currentTime = Mathf.Max(currentTime, 0);
 
->>>>>>> Stashed changes
             //DisplayTime();
         }
         else
         {
-            levelManager.LoadDefeatScene();
+            levelManager.LoadVictoryScene();
             Debug.Log("Oxygen bar is out, player faints.");
         }
     }
