@@ -31,7 +31,7 @@ public class OxygenTimerSystem : MonoBehaviour
         }
         else
         {
-            levelManager.LoadVictoryScene();
+            levelManager.LoadDefeatScene();
             Debug.Log("Oxygen bar is out, player faints.");
         }
     }
