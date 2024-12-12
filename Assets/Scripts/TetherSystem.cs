@@ -4,102 +4,131 @@ using UnityEngine;
 
 public class TetherSystem : MonoBehaviour
 {
+<<<<<<< Updated upstream
     [SerializeField] Transform _tractorpos;
     [SerializeField] public int maxSteps = 4; // Circle indication on tractor tether is scale = 2 *max steps
     [SerializeField] private int currentSteps;
     [SerializeField] private Vector2 lastPlayerPosition;  
     [SerializeField] private Transform playerTransform;
+=======
+    [SerializeField] private Transform playerTransform; // Reference to the player's transform
+    [SerializeField] public int maxSteps = 6;          // Maximum distance (in steps) the player can move from the tractor
+    private bool isOutsideTetherRange = false;         // Tracks whether the player is outside the range
+>>>>>>> Stashed changes
 
-    public bool CanMove
+    public bool IsCurrentlyActive = false; // Determines if the tether system is active
+
+    public List<Vector2Int> GetTilesWithinRange()
     {
-        get { return currentSteps < maxSteps; }
+        if (!IsCurrentlyActive)
+        {
+            return new List<Vector2Int>();
+        }
+
+        Vector2Int tractorPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+        List<Vector2Int> tilesInRange = new List<Vector2Int>();
+
+        for (int x = -maxSteps; x <= maxSteps; x++)
+        {
+            for (int y = -maxSteps; y <= maxSteps; y++)
+            {
+                Vector2Int offset = new Vector2Int(x, y);
+                Vector2Int tilePosition = tractorPosition + offset;
+
+                // Check if the tile is within the circular tether range
+                if (Vector2Int.Distance(tractorPosition, tilePosition) <= maxSteps)
+                {
+                    tilesInRange.Add(tilePosition);
+                }
+            }
+        }
+
+        Debug.Log($"Number of tiles within range: {tilesInRange.Count}");
+        return tilesInRange;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        GameObject _newTractor = GameObject.FindWithTag("Tractor");
-        _tractorpos = _newTractor.transform;
-
-        playerTransform = GetComponent<Transform>();
-
-        if (_tractorpos == null)
+        GameObject _playerObject = GameObject.FindWithTag("Player");
+        if (_playerObject != null)
         {
-            Debug.LogWarning("Tractor reference is missing in TetherSystem!");
+            playerTransform = _playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Player object not found in TetherSystem!");
+        }
+
+        if (IsCurrentlyActive)
+        {
+            TestTilesInRange();
+        }
+    }
+
+    void Update()
+    {
+        if (!IsCurrentlyActive)
+        {
             return;
         }
+
+
+
 
         if (playerTransform == null)
         {
-            Debug.LogWarning("Player's transform not found!");
             return;
         }
-        lastPlayerPosition = playerTransform.position;
-        currentSteps = 0;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Vector2 tractorPosition = _tractorpos.transform.position;
         Vector2 playerPosition = playerTransform.position;
+        Vector2 currentPosition = transform.position;
 
-       
-        if (playerPosition != lastPlayerPosition)
+        // Check the distance between the player and the tractor
+        float distanceToCurrentGO = Vector2.Distance(playerPosition, currentPosition);
+
+        if (distanceToCurrentGO > maxSteps)
         {
-            UpdateSteps(playerPosition, tractorPosition);
-            lastPlayerPosition = playerPosition; 
-        }
-
-      
-        if (currentSteps >= maxSteps)
-        {
-            //Debug.Log("Player has reached the maximum tether range!");
-            // Link to playermovement script
-        }
-
-    }
-
-    private void UpdateSteps(Vector2 playerPosition, Vector2 tractorPosition)
-    {
-        int distanceBefore = Mathf.RoundToInt(Vector2.Distance(lastPlayerPosition, tractorPosition));
-        int distanceAfter = Mathf.RoundToInt(Vector2.Distance(playerPosition, tractorPosition));
-
-        if (distanceAfter > distanceBefore) // Player moving away from the pivot point (tractor)
-        {
-            currentSteps++;
-        }
-        else if (distanceAfter < distanceBefore) // Player moving towards the pivot point
-        {
-            currentSteps--;
-        }
-
-
-        currentSteps = Mathf.Clamp(currentSteps, 0, maxSteps);
-
-       // Debug.Log($"Current Steps: {currentSteps}, Max Steps: {maxSteps}");
-    }
-    public bool CanMoveTowardTractor(Vector2 playerMovement)
-    {
-        float distanceToTractor = Vector2.Distance(playerTransform.position, _tractorpos.position);
-
-        if (distanceToTractor >= maxSteps)
-        {
-            Vector2 movementDirection = playerMovement.normalized;
-            Vector2 directionToTractor = (_tractorpos.position - playerTransform.position).normalized;
-          
-            if (Vector2.Dot(movementDirection, directionToTractor) < 0)
+            if (!isOutsideTetherRange)
             {
-                return false;
+                Debug.Log(name + ": You have moved outside the tether range!");
+                isOutsideTetherRange = true;
             }
         }
-        return true;
+        else
+        {
+            if (isOutsideTetherRange)
+            {
+                Debug.Log(name + ": You are back within the tether range.");
+                isOutsideTetherRange = false;
+            }
+        }
+    }
+
+    void TestTilesInRange()
+    {
+        if (!IsCurrentlyActive)
+        {
+            return;
+        }
+
+        TetherSystem tetherSystem = GetComponent<TetherSystem>();
+        List<Vector2Int> tilesInRange = tetherSystem.GetTilesWithinRange();
+
+        foreach (Vector2Int tile in tilesInRange)
+        {
+            Debug.Log($"Tile in range: {tile}");
+        }
     }
 
     public void CollectRopeItem()
     {
+        if (!IsCurrentlyActive)
+        {
+            return;
+        }
+
         maxSteps += 2;
+        Debug.Log($"Tether range increased! Max Steps: {maxSteps}");
     }
 
     public int GetMaxSteps()

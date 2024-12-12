@@ -19,7 +19,8 @@ public enum TileType // Might need different types of tiles and need to pair wit
     TractorSpawn,
     BoulderSpawn,
     BushSpawn,
-    ObjectiveSpawn
+    ObjectiveSpawn,
+    Pylon
 }
 
 
@@ -47,6 +48,7 @@ public class Tile : MonoBehaviour
             return;
         }
     }
+<<<<<<< Updated upstream
     void OnTriggerEnter2D(Collider2D other)
     {
         if (CompareTag("TetherCircle"))
@@ -58,6 +60,19 @@ public class Tile : MonoBehaviour
            
         }
     }
+=======
+    //void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (CompareTag("TetherCircle"))
+    //    {
+    //        Debug.Log("Tile at position: " + _gridPosition + ". is Purified");
+    //    }
+    //    else
+    //    {
+           
+    //    }
+    //}
+>>>>>>> Stashed changes
     public void Initialize(Vector2Int position, TileType type, bool walkable, bool traversable)
     {
         _gridPosition = position;
@@ -96,6 +111,9 @@ public class Tile : MonoBehaviour
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
             case TileType.ObjectiveSpawn:
+                assignedTileColor = new Color(0, 0, 0);
+                break;
+            case TileType.Pylon:
                 assignedTileColor = new Color(0, 0, 0);
                 break;
 
@@ -143,7 +161,9 @@ public class Tile : MonoBehaviour
             case TileType.ObjectiveSpawn:
                 //Debug.Log("Objective Spawns here");
                 return true;
-
+            case TileType.Pylon:
+                //Debug.Log("Objective Spawns here");
+                return false;
 
             default:
                 //Debug.Log("Normal Tile Spawns Here");
@@ -187,7 +207,9 @@ public class Tile : MonoBehaviour
             case TileType.ObjectiveSpawn:
                 //Debug.Log("Objective Spawns here");
                 return true;
-
+            case TileType.Pylon:
+                //Debug.Log("Objective Spawns here");
+                return false;
 
             default:
                 //Debug.Log("Normal Tile Spawns Here");
@@ -195,20 +217,17 @@ public class Tile : MonoBehaviour
 
         }
     }
-    public void PerformTileAction() 
+
+
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Performing action on tile: " + this.name);
+        if (this._gridPosition.x == 9 && this._gridPosition.y == 5 && other.CompareTag("Player")) // Theres a pretty good chance that the colliders are too big, reduce size of box colliders to 0.95 when seperating image and game objects
+        {
+            Debug.Log("Player is on 9,5");
+        }
+
     }
 
-    //void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    IsTraversable = false;
-    //    Debug.Log(transform.position + "Object On Tile: " + this.name);
-    //}
 
-    //void OnTriggerExit2D(Collider2D other)
-    //{
-    //    IsTraversable = true;
-    //}
 
 }

@@ -4,30 +4,68 @@ using UnityEngine;
 
 public class OxygenTimerSystem : MonoBehaviour
 {
-    [SerializeField] public float oxygenTime = 60f; // Oxygen timer in seconds before player faints // if player is outside of the tether range, they lose oxygen much faster
+    [SerializeField] public float oxygenTime = 60f; // Oxygen timer in seconds before player faints
     private float currentTime;
+    public float oxygenlessMultiplier;
 
     [SerializeField] public LevelManager levelManager;
+    private List<TetherSystem> tetherSystems;
 
     void Start()
     {
         currentTime = oxygenTime;
+        levelManager = FindAnyObjectByType<LevelManager>();
+
+        // Find all active TetherSystem components in the scene
+        tetherSystems = new List<TetherSystem>(FindObjectsOfType<TetherSystem>());
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (currentTime > 0)
         {
-            currentTime -= Time.deltaTime; 
-            currentTime = Mathf.Max(currentTime, 0); 
+            float depletionRate;
 
+<<<<<<< Updated upstream
+=======
+            if (IsPlayerInsideTether())
+            {
+                depletionRate = Time.deltaTime;
+            }
+            else
+            {
+                depletionRate = Time.deltaTime * oxygenlessMultiplier;
+            }
+            currentTime -= depletionRate;
+            currentTime = Mathf.Max(currentTime, 0);
+
+>>>>>>> Stashed changes
             //DisplayTime();
         }
         else
         {
-            levelManager.LoadVictoryScene();
-            Debug.Log("Oyxgen Bar is out, player faints");
+            levelManager.LoadDefeatScene();
+            Debug.Log("Oxygen bar is out, player faints.");
         }
+    }
+
+    private bool IsPlayerInsideTether()
+    {
+        foreach (var tether in tetherSystems)
+        {
+            if (tether.IsCurrentlyActive)
+            {
+                Vector2 playerPosition = transform.position; // Assume this script is attached to the player
+                Vector2 tetherPosition = tether.transform.position;
+                float distance = Vector2.Distance(playerPosition, tetherPosition);
+
+                if (distance <= tether.maxSteps)
+                {
+                    return true; // Player is inside at least one active tether range
+                }
+            }
+        }
+        return false; // Player is outside all active tethers
     }
 
     private void DisplayTime()
