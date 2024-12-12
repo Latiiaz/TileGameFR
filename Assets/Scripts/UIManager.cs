@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         StartCoroutine(FindTetherSystemOnPlayer());
 
         oxygenBar.maxValue = _oxygenTimerSystem.oxygenTime;
-        oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
+        oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining(); //done in Update. Unless want to make it so that the player does not lose oxygen
 
     }
 
@@ -37,8 +37,14 @@ public class UIManager : MonoBehaviour
     {
         GameObject _newPlayer = GameObject.FindWithTag("Player");
         _oxygenTimerSystem = _newPlayer.GetComponent<OxygenTimerSystem>();
-
-        _maxDistanceTracker.text = _tetherSystem.GetMaxSteps().ToString("000");
+        if (_maxDistanceTracker.text != null)
+        {
+            _maxDistanceTracker.text = _tetherSystem.GetMaxSteps().ToString("000");
+        }
+        else
+        {
+            return;
+        }
         oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
     }
 

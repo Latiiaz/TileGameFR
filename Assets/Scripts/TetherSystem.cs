@@ -108,7 +108,7 @@ public class TetherSystem : MonoBehaviour
 
         foreach (Vector2Int tile in tilesInRange)
         {
-            Debug.Log($"Tile in range: {tile}");
+            //Debug.Log($"Tile in range: {tile}");
         }
     }
 

@@ -24,7 +24,14 @@ public class PylonSystem : MonoBehaviour, IInteractable
     void Update()
     {
         _tileManager = FindObjectOfType<TileManager>();
-        SetPylonSpawnPosition();
+        if (_pylonPosition == null)
+        {
+            SetPylonSpawnPosition();
+        }
+        else
+        {
+            return;
+        }
 
     }
     public void InteractE() //Enter Exit tractor

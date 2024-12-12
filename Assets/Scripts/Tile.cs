@@ -199,8 +199,14 @@ public class Tile : MonoBehaviour
         if (this._gridPosition.x == 9 && this._gridPosition.y == 5 && other.CompareTag("Player")) // Theres a pretty good chance that the colliders are too big, reduce size of box colliders to 0.95 when seperating image and game objects
         {
             Debug.Log("Player is on 9,5");
-        }
 
+            if (this._gridPosition.x == 18 && this._gridPosition.y == 10 && other.CompareTag("Tractor")) // Theres a pretty good chance that the colliders are too big, reduce size of box colliders to 0.95 when seperating image and game objects
+            {
+                Debug.Log("Tractor is on 18,10");
+
+                Debug.Log("Victory");
+            }
+        }
     }
 
 
