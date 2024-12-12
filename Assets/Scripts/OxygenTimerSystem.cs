@@ -23,9 +23,20 @@ public class OxygenTimerSystem : MonoBehaviour
     {
         if (currentTime > 0)
         {
-            float depletionRate = IsPlayerInsideTether() ? Time.deltaTime : Time.deltaTime * 5;
-            currentTime -= depletionRate;
-            currentTime = Mathf.Max(currentTime, 0);
+            float depletionRate;
+            if (IsPlayerInsideTether())
+            {
+                depletionRate = Time.deltaTime;
+                currentTime += depletionRate;
+                currentTime = Mathf.Max(currentTime, 0);
+            }
+            else
+            {
+                depletionRate = Time.deltaTime * 5;
+                currentTime -= depletionRate;
+                currentTime = Mathf.Max(currentTime, 0);
+            }
+            
 
             //DisplayTime();
         }
