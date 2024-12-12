@@ -48,31 +48,6 @@ public class Tile : MonoBehaviour
             return;
         }
     }
-<<<<<<< Updated upstream
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (CompareTag("TetherCircle"))
-        {
-            Debug.Log("Tile at position: " + _gridPosition + ". is Purified");
-        }
-        else
-        {
-           
-        }
-    }
-=======
-    //void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (CompareTag("TetherCircle"))
-    //    {
-    //        Debug.Log("Tile at position: " + _gridPosition + ". is Purified");
-    //    }
-    //    else
-    //    {
-           
-    //    }
-    //}
->>>>>>> Stashed changes
     public void Initialize(Vector2Int position, TileType type, bool walkable, bool traversable)
     {
         _gridPosition = position;

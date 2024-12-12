@@ -1239,6 +1239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelManager: {fileID: 1816934809}
   _objectiveCount: 0
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 <<<<<<< HEAD
@@ -1246,6 +1247,9 @@ MonoBehaviour:
 =======
 >>>>>>> Stashed changes
   _neededObjectives: 1
+=======
+  _neededObjectives: 3
+>>>>>>> parent of bdbb372 (Energy Sheild Theme Testing)
 --- !u!114 &978403373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2067,11 +2071,15 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
 =======
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 >>>>>>> bdbb37288b7ea44ac1b51d576c58a64a2561b906
 >>>>>>> Stashed changes
   m_LocalPosition: {x: 0, y: 0, z: 0}
+=======
+  m_LocalPosition: {x: 2.8324654, y: 5.656889, z: -0.05460776}
+>>>>>>> parent of bdbb372 (Energy Sheild Theme Testing)
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

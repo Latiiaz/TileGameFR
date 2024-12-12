@@ -8,8 +8,6 @@ TagManager:
   - Cart
   - Objective
   - TractorCartLocation
-  - TetherCircle
-  - Tile
   layers:
   - Default
   - TransparentFX

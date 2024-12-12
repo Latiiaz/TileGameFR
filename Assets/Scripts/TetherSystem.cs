@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class TetherSystem : MonoBehaviour
 {
-<<<<<<< Updated upstream
-    [SerializeField] Transform _tractorpos;
-    [SerializeField] public int maxSteps = 4; // Circle indication on tractor tether is scale = 2 *max steps
-    [SerializeField] private int currentSteps;
-    [SerializeField] private Vector2 lastPlayerPosition;  
-    [SerializeField] private Transform playerTransform;
-=======
     [SerializeField] private Transform playerTransform; // Reference to the player's transform
     [SerializeField] public int maxSteps = 6;          // Maximum distance (in steps) the player can move from the tractor
     private bool isOutsideTetherRange = false;         // Tracks whether the player is outside the range
->>>>>>> Stashed changes
 
     public bool IsCurrentlyActive = false; // Determines if the tether system is active
 
