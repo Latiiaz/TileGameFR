@@ -5,7 +5,7 @@ using UnityEngine;
 public class OxygenTimerSystem : MonoBehaviour
 {
     [SerializeField] public float oxygenTime = 60f; // Oxygen timer in seconds before player faints
-    private float currentTime;
+    [SerializeField] private float currentTime;
 
     [SerializeField] public LevelManager levelManager;
     private List<TetherSystem> tetherSystems;
@@ -35,6 +35,7 @@ public class OxygenTimerSystem : MonoBehaviour
                 depletionRate = Time.deltaTime * 5;
                 currentTime -= depletionRate;
                 currentTime = Mathf.Max(currentTime, 0);
+                //Debug.Log("Time running out");
             }
             
 

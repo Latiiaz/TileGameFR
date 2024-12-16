@@ -93,7 +93,7 @@ public class TileManager : MonoBehaviour
                     
                 }
 
-                tile.Initialize(position, type, true, true); // Uses Initialize function in Tile.cs to spawn in the tiles
+                tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
                 tileDictionary[position] = tile;  // and then this keeps track of what tile is where 
             }
         }

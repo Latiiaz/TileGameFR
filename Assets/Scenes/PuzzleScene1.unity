@@ -505,7 +505,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1897,8 +1897,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilePrefab: {fileID: 8588167548711413609, guid: 84ce4bf6d3145774fba50166112adb5e, type: 3}
-  GridWidth: 20
-  GridHeight: 15
+  GridWidth: 15
+  GridHeight: 50
   TileSize: 1
   PercentageRiverTiles: 5
   PercentageItemTiles: 0.05

@@ -127,6 +127,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
 
     public void InteractE() //Enter Exit tractor
     {
+        Debug.Log("clickey");
         // TRACKTOR BRAINS!!!!!! (move the player inside)
         if (_player.IsCarryingItem)
         {
