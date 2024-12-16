@@ -155,8 +155,8 @@ public class TractorMovement : MonoBehaviour, IInteractable
         //Debug.Log("E key hit interact");
     }
 
-    public Vector2Int GetTractorPosition()
-    {
-        return _tractorPosition;
-    }
+    //public Vector2Int GetTractorPosition()
+    //{
+    //    return _tractorPosition;
+    //}
 }

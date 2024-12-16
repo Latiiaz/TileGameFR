@@ -36,7 +36,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
     {
         if (_player.IsCarryingItem)
         {
-            HandleInput();
+            
         }
     }
 
@@ -56,68 +56,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
     }
 
 
-    void HandleInput()
-    {
-        if (Input.GetKey(KeyCode.W))
-            MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.A))
-            MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.S))
-            MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.D))
-            MoveOrTurn(Vector2Int.right);
-    }
-    void MoveOrTurn(Vector2Int direction)
-    {
-        if (_isMoving || _isActionOnCooldown)
-        {
-            return;
-        }
-
-        if (_tractorDirection != direction)
-        {
-            _tractorDirection = direction;
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
-            StartCoroutine(ActionCooldown());
-        }
-        else
-        {
-            Vector2Int newPosition = _tractorPosition + direction;
-
-            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition))
-            {
-                StartCoroutine(MoveToPosition(newPosition));
-            }
-            else
-            {
-                Debug.LogWarning("(TRACTOR): Tile is not walkable or available.");
-            }
-        }
-    }
-
-    IEnumerator MoveToPosition(Vector2Int newPosition)
-    {
-        _isMoving = true;
-        _isActionOnCooldown = true;
-
-        Vector2 start = transform.position;
-        Vector2 end = new Vector2(newPosition.x * _tileManager.TileSize, newPosition.y * _tileManager.TileSize);
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < _moveSpeed)
-        {
-            transform.position = Vector2.Lerp(start, end, elapsedTime / _moveSpeed);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = end;
-        _tractorPosition = newPosition;
-
-        _isMoving = false;
-        StartCoroutine(ActionCooldown());
-    }
+   
 
     IEnumerator ActionCooldown()
     {
@@ -145,7 +84,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
 
     void OnCollisionStay2D(Collision2D collision) // interacting with the cart
     {
-        if (collision.gameObject.CompareTag("Cart"))
+        if (_player.IsCarryingItem && collision.gameObject.CompareTag("Cart"))
         {
             _player.AttemptCarryOrDropItem();
             Destroy(this.gameObject);
