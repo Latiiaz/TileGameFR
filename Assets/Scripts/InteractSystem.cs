@@ -27,7 +27,7 @@ public class InteractSystem : MonoBehaviour
     }
     void Update()
     {
-        Vector2 rayDirection = transform.up;
+        Vector2 rayDirection = transform.up; // Raycasting
         Color rayColor = Color.green;
 
         bool isInteracting = false;
@@ -38,36 +38,21 @@ public class InteractSystem : MonoBehaviour
         if (hit.collider != null)
 
         {
-            //Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
-            // Check for Tractor
-            ITractor itractor = hit.collider.GetComponent<ITractor>();
-            if (itractor != null)
+
+            // Check for Interactables
+            IInteractable iinteractable = hit.collider.GetComponent<IInteractable>();
+            if (iinteractable != null)
             {
-                rayColor = Color.red;
-                _uiManager.ShowFInteract(true);
+                rayColor = Color.blue;
+                _uiManager.ShowEInteract(true);
                 isInteracting = true;
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    //Debug.Log("Wee weoo");
-                    itractor.InteractF();
+                    //Debug.Log("dwhajda");
+                    iinteractable.InteractE();
                 }
             }
-            else
-            {
-                // Check for Interactables
-                IInteractable iinteractable = hit.collider.GetComponent<IInteractable>();
-                if (iinteractable != null)
-                {
-                    rayColor = Color.blue;
-                    _uiManager.ShowEInteract(true);
-                    isInteracting = true;
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        //Debug.Log("dwhajda");
-                        iinteractable.InteractE();
-                    }
-                }
-            }
+
         }
         if (!isInteracting)
         {

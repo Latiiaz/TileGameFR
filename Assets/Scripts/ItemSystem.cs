@@ -28,7 +28,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
         _player = FindObjectOfType<PlayerMovement>();
         objectiveSystem = FindObjectOfType<ObjectiveSystem>();
 
-        SetTractorSpawnPosition();
+        SetItemSpawnPosition();
     }
 
     // Update is called once per frame
@@ -41,7 +41,7 @@ public class ItemSystem : MonoBehaviour, IInteractable
     }
 
 
-    void SetTractorSpawnPosition() // Item spawn position
+    void SetItemSpawnPosition() // Item spawn position
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
@@ -70,14 +70,15 @@ public class ItemSystem : MonoBehaviour, IInteractable
         // TRACKTOR BRAINS!!!!!! (move the player inside)
         if (_player.IsCarryingItem)
         {
-            _player.AttemptCarryOrDropItem();
+            _player.AttemptCarryOrDropItem(); // Swap to InventorySystem later on 
         }
         else
         {
             _player.AttemptCarryOrDropItem();
         }
+        Destroy(gameObject);
     }
-    public Vector2Int GetTractorPosition()
+    public Vector2Int GetTractorPosition() // Can remove eventually when implemented inventory system
     {
         return _tractorPosition;
     }

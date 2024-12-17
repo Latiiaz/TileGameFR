@@ -28,9 +28,12 @@ public class Tile : MonoBehaviour
     private Vector2Int _gridPosition;
 
     public bool IsWalkable { get; private set; } = true; 
-    public bool IsTraversable { get; private set; } = true; 
+    public bool IsTraversable { get; private set; } = true;
+
+    public bool IsShielded { get; private set; } = false;
 
     private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Sprite[] _tileSprites;
 
     void Awake()
     {
@@ -43,56 +46,36 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void SetIsShielded(bool shielded) // Currently the code runs often and the sprites keep changing
+    {
+        IsShielded = shielded;
+
+        if (shielded)
+        {
+            ColorAssigningShielded();
+        }
+        else
+        {
+            ColorAssigning();
+        }
+    }
+
+    public Vector2Int GetGridPosition()
+    {
+        return _gridPosition;
+    }
+
+
     public void Initialize(Vector2Int position, TileType type)
     {
         _gridPosition = position;
         tileType = type;
-        ColorAssigning();
+        ColorAssigning(); // Will be replaced by 
+        //                   SpriteAssign();
         ResetTileMovability();
     }
 
-    void ColorAssigning()
-    {
-        Color assignedTileColor;
-        switch (tileType)
-        {
-            case TileType.River:
-                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
-                break;
-            case TileType.Mud:
-                assignedTileColor = new Color32(110, 38, 14, 255);
-                break;
-
-            case TileType.Tree:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-                break;
-
-            case TileType.PlayerSpawn:
-                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f));
-                break;
-            case TileType.TractorSpawn:
-                assignedTileColor = new Color(1f, 0f, 0f);
-                break;
-            case TileType.BoulderSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-                break;
-            case TileType.BushSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-                break;
-            case TileType.ObjectiveSpawn:
-                assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f);
-                break;
-            case TileType.Pylon:
-                assignedTileColor = new Color(0, 0, 0);
-                break;
-
-            default:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-                break;
-        }
-
-        _spriteRenderer.color = assignedTileColor;
-    }
+    
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -116,14 +99,14 @@ public class Tile : MonoBehaviour
             case TileType.PlayerSpawn:
                 if (other.CompareTag("Player"))
                 {
-                    Debug.Log("Player has entered the PlayerSpawn tile.");
+                    //Debug.Log("Player has entered the PlayerSpawn tile.");
                 }
                 break;
 
             case TileType.TractorSpawn:
                 if (other.CompareTag("Tractor"))
                 {
-                    Debug.Log("Tractor has entered the TractorSpawn tile.");
+                    //Debug.Log("Tractor has entered the TractorSpawn tile.");
                 }
                 break;
 
@@ -132,7 +115,7 @@ public class Tile : MonoBehaviour
                 break;
 
             default:
-                Debug.Log($"Unhandled tile type: {tileType}");
+                //Debug.Log($"Unhandled tile type: {tileType}");
                 break;
         }
     }
@@ -214,7 +197,7 @@ public class Tile : MonoBehaviour
         {
             Debug.Log("Player entered a normal tile.");
         }
-    }
+    } // Normal tile logic
 
     void HandleRiverTileInteraction(Collider2D other)
     {
@@ -226,7 +209,7 @@ public class Tile : MonoBehaviour
         {
             Debug.Log("Tractor cannot cross the river tile!");
         }
-    }
+    } // River/Spike tile logic
 
     void HandleMudTileInteraction(Collider2D other)
     {
@@ -238,5 +221,140 @@ public class Tile : MonoBehaviour
         {
             Debug.Log("Tractor is unaffected by mud.");
         }
+    } // Mud tile logic
+
+    void ColorAssigning()
+    {
+        Color assignedTileColor;
+        switch (tileType)
+        {
+            case TileType.River:
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.5f);
+                break;
+            case TileType.Mud:
+                assignedTileColor = new Color32(110, 38, 14, 125);
+                break;
+
+            case TileType.Tree:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                break;
+
+            case TileType.PlayerSpawn:
+                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f), 0.5f);
+                break;
+            case TileType.TractorSpawn:
+                assignedTileColor = new Color(1f, 0f, 0f, 0.5f);
+                break;
+            case TileType.BoulderSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                break;
+            case TileType.BushSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                break;
+            case TileType.ObjectiveSpawn:
+                assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                break;
+            case TileType.Pylon:
+                assignedTileColor = new Color(0, 0, 0, 0.5f);
+                break;
+
+            default:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                break;
+        }
+
+        _spriteRenderer.color = assignedTileColor;
     }
+    void ColorAssigningShielded()
+    {
+        Color assignedTileColor;
+        switch (tileType)
+        {
+            case TileType.River:
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
+                break;
+            case TileType.Mud:
+                assignedTileColor = new Color32(110, 38, 14, 255);
+                break;
+
+            case TileType.Tree:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+
+            case TileType.PlayerSpawn:
+                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f));
+                break;
+            case TileType.TractorSpawn:
+                assignedTileColor = new Color(1f, 0f, 0f);
+                break;
+            case TileType.BoulderSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+            case TileType.BushSpawn:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+            case TileType.ObjectiveSpawn:
+                assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+            case TileType.Pylon:
+                assignedTileColor = new Color(0, 0, 0);
+                break;
+
+            default:
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                break;
+        }
+
+        _spriteRenderer.color = assignedTileColor;
+    }
+    void SpriteAssign()
+    {
+        Sprite assignedSprite;
+        switch (tileType)
+        {
+            case TileType.Normal:
+                assignedSprite = _tileSprites[0];
+                break;
+            case TileType.River:
+                assignedSprite = _tileSprites[1];
+                break;
+            case TileType.Mud:
+                assignedSprite = _tileSprites[2];
+                break;
+
+            case TileType.Tree:
+                assignedSprite = _tileSprites[3];
+                break;
+
+            case TileType.PlayerSpawn:
+                assignedSprite = _tileSprites[4];
+                break;
+            case TileType.TractorSpawn:
+                assignedSprite = _tileSprites[5];
+                break;
+            case TileType.BoulderSpawn:
+                assignedSprite = _tileSprites[6];
+                break;
+            case TileType.BushSpawn:
+                assignedSprite = _tileSprites[7];
+                break;
+            case TileType.ObjectiveSpawn:
+                assignedSprite = _tileSprites[8];
+                break;
+            case TileType.Pylon:
+                assignedSprite = _tileSprites[9];
+                break;
+
+            default:
+                assignedSprite = _tileSprites[10];
+                break;
+        }
+
+        _spriteRenderer.sprite = assignedSprite;
+    }
+
+
+
+
+
 }

@@ -39,14 +39,15 @@ public class TractorMovement : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        if (_gameManager.TurnStatus())
-        {
+        HandleInput();
+        //if (_gameManager.TurnStatus())
+        //{
 
-        }
-        else
-        {
-            HandleInput();
-        }
+        //}
+        //else
+        //{
+        //    HandleInput();
+        //}
 
     }
 
@@ -68,13 +69,13 @@ public class TractorMovement : MonoBehaviour, IInteractable
 
     void HandleInput()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
             MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.LeftArrow))
             MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.DownArrow))
             MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.RightArrow))
             MoveOrTurn(Vector2Int.right);
     }
     void MoveOrTurn(Vector2Int direction)

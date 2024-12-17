@@ -39,7 +39,7 @@ public class CameraManager : MonoBehaviour
         _tractorPos = _newTractor.transform;
         if (_gameManager.TurnStatus()) // Player Is the main target
         {
-            CenteredOnPlayer();
+            CenteredOnMidpointBoth();
         }
         else // Robot is the main target
         {
@@ -72,6 +72,20 @@ public class CameraManager : MonoBehaviour
         _transparentMiddle.gameObject.SetActive(false);
 
     }
+    void CenteredOnMidpointBoth()
+    {
+        Vector3 Robot = (_tractorPos.position);
+        Vector3 Player = (_playerPos.position);
+
+        Vector3 LerpLocation = Vector3.Lerp(transform.position, (Robot + Player + Player) /3, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(_tileManager.GridWidth/2, LerpLocation.y, -15);
+
+        _greenFilter.gameObject.SetActive(false);
+        _transparentMiddle.gameObject.SetActive(true);
+
+    }
+
+
     public IEnumerator Shaking()
     {
         Vector3 startPosition = transform.position;

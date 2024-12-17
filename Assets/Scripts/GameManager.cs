@@ -60,11 +60,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
+        //if (Input.GetKeyDown(KeyCode.F)) No need for turn changing
+        //{
 
-            SwitchTurn();
-        }
+        //    SwitchTurn();
+        //} 
     }
 
     public void SwitchTurn()

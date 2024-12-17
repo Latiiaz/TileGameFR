@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleInput();
         if (IsInTractor)
         {
             return;
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_gameManager.TurnStatus())
         {
-            HandleInput();
+            
         }
     }
 

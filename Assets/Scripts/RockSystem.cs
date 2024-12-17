@@ -2,19 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSystem : MonoBehaviour
+public class RockSystem : MonoBehaviour, IInteractable
 {
-    // Rock Push and Pull Not connected to dictionary yet
-
-    // Start is called before the first frame update
-    void Start()
+    public void InteractE() // Need to find a way to "destroy" the trees cuz E exits the tractor now >:(
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("E key works");
+        Destroy(gameObject);
     }
 }

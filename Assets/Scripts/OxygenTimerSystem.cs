@@ -19,7 +19,7 @@ public class OxygenTimerSystem : MonoBehaviour
         tetherSystems = new List<TetherSystem>(FindObjectsOfType<TetherSystem>());
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (currentTime > 0)
         {
@@ -27,13 +27,13 @@ public class OxygenTimerSystem : MonoBehaviour
             if (IsPlayerInsideTether())
             {
                 depletionRate = Time.deltaTime;
-                currentTime += depletionRate;
+                currentTime += depletionRate*5;
                 currentTime = Mathf.Max(currentTime, 0);
             }
             else
             {
-                depletionRate = Time.deltaTime * 5;
-                currentTime -= depletionRate;
+                depletionRate = Time.deltaTime;
+                currentTime -= depletionRate*3;
                 currentTime = Mathf.Max(currentTime, 0);
                 //Debug.Log("Time running out");
             }

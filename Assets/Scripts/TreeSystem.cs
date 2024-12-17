@@ -9,20 +9,5 @@ public class TreeSystem : MonoBehaviour, IInteractable
     {
         Debug.Log("E key works");
         Destroy(gameObject);
-
-        if (IsTractor()) // Is tractor check doesnt work
-        {
-            Debug.Log("Tractor Yes");
-            Destroy(gameObject); 
-        }
-        else
-        {
-            Debug.Log("Needs to be Tractor not Player");
-        }
-    }
-
-    public bool IsTractor()
-    {
-        return gameObject.CompareTag("Tractor");
     }
 }

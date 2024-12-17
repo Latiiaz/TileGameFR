@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TetherSystem : MonoBehaviour
@@ -7,8 +8,11 @@ public class TetherSystem : MonoBehaviour
     [SerializeField] private Transform playerTransform; // Reference to the player's transform
     [SerializeField] public int maxSteps = 6;          // Maximum distance (in steps) the player can move from the tractor
     private bool isOutsideTetherRange = false;         // Tracks whether the player is outside the range
+    private Vector2Int previousPosition;
+    private int previousMaxSteps;
 
     public bool IsCurrentlyActive = false; // Determines if the tether system is active
+    private List<Tile> currentlyShieldedTiles = new List<Tile>();
 
     public List<Vector2Int> GetTilesWithinRange()
     {
@@ -34,9 +38,30 @@ public class TetherSystem : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log($"Number of tiles within range: {tilesInRange.Count}");
+        UpdateShieldedTiles(tilesInRange);
+        //Debug.Log($"Number of tiles within range: {tilesInRange.Count}");
         return tilesInRange;
+    }
+
+    private void UpdateShieldedTiles(List<Vector2Int> tilesInRange)
+    {
+        // Get all active tiles from your tile manager or scene
+        Tile[] allTiles = FindObjectsOfType<Tile>();
+
+        foreach (Tile tile in currentlyShieldedTiles)
+        {
+            tile.SetIsShielded(false);
+        }
+
+        
+        currentlyShieldedTiles = allTiles
+            .Where(tile => tilesInRange.Contains(tile.GetGridPosition()))
+            .ToList();
+
+        foreach (Tile tile in currentlyShieldedTiles)
+        {
+            tile.SetIsShielded(true);
+        }
     }
 
     void Start()
@@ -59,11 +84,18 @@ public class TetherSystem : MonoBehaviour
 
     void Update()
     {
+        
+
         if (!IsCurrentlyActive)
         {
             return;
         }
 
+        Vector2Int currentPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+
+        // Check if position or maxSteps has changed
+
+            GetTilesWithinRange(); // Recalculate tiles within range
 
 
 
@@ -73,9 +105,9 @@ public class TetherSystem : MonoBehaviour
         }
 
         Vector2 playerPosition = playerTransform.position;
-        Vector2 currentPosition = transform.position;
+        //Vector2 currentPosition = transform.position;
 
-        // Check the distance between the player and the tractor
+        // Check the distance between the player and game object
         float distanceToCurrentGO = Vector2.Distance(playerPosition, currentPosition);
 
         if (distanceToCurrentGO > maxSteps)
@@ -104,7 +136,7 @@ public class TetherSystem : MonoBehaviour
         }
 
         TetherSystem tetherSystem = GetComponent<TetherSystem>();
-        List<Vector2Int> tilesInRange = tetherSystem.GetTilesWithinRange();
+        List<Vector2Int> tilesInRange = GetTilesWithinRange();
 
         foreach (Vector2Int tile in tilesInRange)
         {
