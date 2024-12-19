@@ -9,36 +9,23 @@ public class ItemSystem : MonoBehaviour, IInteractable
     // Inability to move onto certain tiles such as the river
 
     [SerializeField] private TileManager _tileManager;
-    private Vector2Int _tractorPosition = new Vector2Int(0, 0);
-    private Vector2Int _tractorDirection = Vector2Int.up;
-
-    [SerializeField] private float _moveSpeed = 0.2f;
-    [SerializeField] private float _actionCooldown = 0.2f;
-
-    private bool _isMoving = false;
-    private bool _isActionOnCooldown = false;
+    private Vector2Int _itemPosition = new Vector2Int(0, 0);
 
     private PlayerMovement _player;
-    private ObjectiveSystem objectiveSystem;
+    private ObjectiveSystem _objectiveSystem;
+
+    public bool IsHidden { get; private set; } = false;
 
     // Start is called before the first frame update
     void Start()
     {
         _tileManager = FindObjectOfType<TileManager>();
         _player = FindObjectOfType<PlayerMovement>();
-        objectiveSystem = FindObjectOfType<ObjectiveSystem>();
-
+        _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
+        
         SetItemSpawnPosition();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_player.IsCarryingItem)
-        {
-            
-        }
-    }
 
 
     void SetItemSpawnPosition() // Item spawn position
@@ -47,50 +34,58 @@ public class ItemSystem : MonoBehaviour, IInteractable
         {
             if (tileKey.Value.tileType == TileType.ObjectiveSpawn)
             {
-                _tractorPosition = tileKey.Key;
-                Vector2 worldPosition = new Vector2(_tractorPosition.x * _tileManager.TileSize, _tractorPosition.y * _tileManager.TileSize);
+                _itemPosition = tileKey.Key;
+                Vector2 worldPosition = new Vector2(_itemPosition.x * _tileManager.TileSize, _itemPosition.y * _tileManager.TileSize);
                 transform.position = worldPosition;
                 Debug.Log($"Tractor spawned at: {worldPosition}");
             }
         }
     }
 
-
-   
-
-    IEnumerator ActionCooldown()
+    public void InteractE()
     {
-        yield return new WaitForSeconds(_actionCooldown);
-        _isActionOnCooldown = false;
-    }
+        // Ensure the player has an InventorySystem component
+        InventorySystem inventory = _player.GetComponent<InventorySystem>();
 
-    public void InteractE() //Enter Exit tractor
-    {
-        Debug.Log("clickey");
-        // TRACKTOR BRAINS!!!!!! (move the player inside)
-        if (_player.IsCarryingItem)
+        if (inventory != null)
         {
-            _player.AttemptCarryOrDropItem(); // Swap to InventorySystem later on 
+            if (!inventory.IsHoldingItem())
+            {
+                inventory.PickUpItem(this);
+            }
+            else
+            {
+                Debug.Log("Player is already holding an item.");
+            }
         }
-        else
-        {
-            _player.AttemptCarryOrDropItem();
-        }
-        Destroy(gameObject);
     }
-    public Vector2Int GetTractorPosition() // Can remove eventually when implemented inventory system
+    public void Hide()
     {
-        return _tractorPosition;
+        IsHidden = true;
+        gameObject.SetActive(false); 
+        Debug.Log($"{gameObject.name} is now hidden.");
     }
 
-    void OnCollisionStay2D(Collision2D collision) // interacting with the cart
+    public void Reveal(Vector3 position)
     {
-        if (_player.IsCarryingItem && collision.gameObject.CompareTag("Cart"))
+        IsHidden = false;
+        gameObject.SetActive(true);
+        transform.position = position + new Vector3(_player._playerDirection.x, _player._playerDirection.y, 0);
+        Debug.Log($"{gameObject.name} is now visible at {position}.");
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        GameObject _cart = GameObject.FindWithTag("Cart");
+        if (other != _cart)
         {
-            _player.AttemptCarryOrDropItem();
-            Destroy(this.gameObject);
-            objectiveSystem._objectiveCount++;
-            Debug.Log("Item Deposited, Victory Sequence");
+           
+        }
+        else 
+        {
+            Debug.Log("dwanjid");
+            _objectiveSystem._objectiveCount++;
+            Destroy(gameObject);
         }
     }
 }

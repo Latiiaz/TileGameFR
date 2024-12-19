@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class OxygenTimerSystem : MonoBehaviour
 {
-    [SerializeField] public float oxygenTime = 60f; // Oxygen timer in seconds before player faints
-    [SerializeField] private float currentTime;
+    [Header("Oxygen Settings")]
+    [SerializeField] public float maxOxygen = 60f; 
+    [SerializeField] private float currentOxygen;  
+    [SerializeField] private float displayedOxygen; 
 
-    [SerializeField] public LevelManager levelManager;
+    [SerializeField] private LevelManager levelManager;
     private List<TetherSystem> tetherSystems;
 
     void Start()
     {
-        currentTime = oxygenTime;
+        currentOxygen = maxOxygen;
+        displayedOxygen = currentOxygen;
         levelManager = FindAnyObjectByType<LevelManager>();
 
         // Find all active TetherSystem components in the scene
@@ -21,31 +24,33 @@ public class OxygenTimerSystem : MonoBehaviour
 
     void Update()
     {
-        if (currentTime > 0)
+        if (currentOxygen > 0)
         {
             float depletionRate;
+
             if (IsPlayerInsideTether())
             {
                 depletionRate = Time.deltaTime;
-                currentTime += depletionRate*5;
-                currentTime = Mathf.Max(currentTime, 0);
+                currentOxygen += depletionRate * 5; // Replenish oxygen when inside tether
             }
             else
             {
                 depletionRate = Time.deltaTime;
-                currentTime -= depletionRate*3;
-                currentTime = Mathf.Max(currentTime, 0);
-                //Debug.Log("Time running out");
+                currentOxygen -= depletionRate * 3; // Deplete oxygen faster when outside tether
             }
-            
 
-            //DisplayTime();
+            currentOxygen = Mathf.Clamp(currentOxygen, 0, maxOxygen);
         }
         else
         {
             levelManager.LoadDefeatScene();
-            Debug.Log("Oxygen bar is out, player faints.");
+            Debug.Log("Oxygen depleted, player faints.");
         }
+
+        displayedOxygen = currentOxygen;
+
+        // Optionally display oxygen in the console
+        DisplayOxygen();
     }
 
     private bool IsPlayerInsideTether()
@@ -54,32 +59,32 @@ public class OxygenTimerSystem : MonoBehaviour
         {
             if (tether.IsCurrentlyActive)
             {
-                Vector2 playerPosition = transform.position; // Assume this script is attached to the player
+                Vector2 playerPosition = transform.position;
                 Vector2 tetherPosition = tether.transform.position;
                 float distance = Vector2.Distance(playerPosition, tetherPosition);
 
                 if (distance <= tether.maxSteps)
                 {
-                    return true; // Player is inside at least one active tether range
+                    return true; 
                 }
             }
         }
-        return false; // Player is outside all active tethers
+        return false;
     }
 
-    private void DisplayTime()
+    private void DisplayOxygen()
     {
-        Debug.Log($"Time Remaining: {currentTime:00}");
+        //Debug.Log($"Current Oxygen: {currentOxygen:0.00}");
     }
 
     public void SetCountdownTime(float newTime)
     {
-        oxygenTime = newTime;
-        currentTime = oxygenTime;
+        maxOxygen = newTime;
+        currentOxygen = maxOxygen;
     }
 
     public float GetTimeRemaining()
     {
-        return currentTime;
+        return currentOxygen;
     }
 }

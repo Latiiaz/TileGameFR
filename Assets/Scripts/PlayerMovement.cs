@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     private TileManager _tileManager;
     private Vector2Int _playerPosition;
-    private Vector2Int _playerDirection = Vector2Int.up;
+    public Vector2Int _playerDirection { get; private set; } = Vector2Int.up;
 
     [SerializeField] private float _moveSpeed = 0.2f;
     [SerializeField] private float _actionCooldown = 0.2f;
@@ -49,19 +49,27 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
-        if (IsInTractor)
+        if (_isMoving || _isActionOnCooldown)
         {
-            return;
+
         }
-        if (IsCarryingItem)
+        else
         {
-            return;
+            HandleInput();
         }
-        if (_gameManager.TurnStatus())
-        {
+        
+        //if (IsInTractor)
+        //{
+        //    return;
+        //}
+        //if (IsCarryingItem)
+        //{
+        //    return;
+        //}
+        //if (_gameManager.TurnStatus())
+        //{
             
-        }
+        //}
     }
 
     void SetPlayerSpawnPosition() // Sets the player spawn location
@@ -91,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
             MoveOrTurn(Vector2Int.right);
     }
 
-    void MoveOrTurn(Vector2Int direction) // Turns the player or moves them based off HandleInput
+    public void MoveOrTurn(Vector2Int direction) // Turns the player or moves them based off HandleInput
     {
         if (_isMoving || _isActionOnCooldown)
         {
@@ -171,55 +179,55 @@ public class PlayerMovement : MonoBehaviour
     //    StartCoroutine(ActionCooldown());
     //}
 
-    public void AttemptCarryOrDropItem() // Item drop/ pick up
-    {
-        if (_itemSystem != null && !IsCarryingItem)
-        {
-            if (_itemSystem.transform.position == transform.position)
-            {
-                CarryItem();
-            }
-        }
-        else if (IsCarryingItem)
-        {
-            DropItem();
-        }
-    }
+    //public void AttemptCarryOrDropItem() // Item drop/ pick up
+    //{
+    //    if (_itemSystem != null && !IsCarryingItem)
+    //    {
+    //        if (_itemSystem.transform.position == transform.position)
+    //        {
+    //            CarryItem();
+    //        }
+    //    }
+    //    else if (IsCarryingItem)
+    //    {
+    //        DropItem();
+    //    }
+    //}
 
-    public void CarryItem()
-    {
-        IsCarryingItem = true;
-        _isMoving = false;
-        _isActionOnCooldown = true;
+    //public void CarryItem()
+    //{
+    //    IsCarryingItem = true;
+    //    _isMoving = false;
+    //    _isActionOnCooldown = true;
 
-        transform.SetParent(_itemSystem.transform);
-        transform.localPosition = Vector3.zero;
-        transform.rotation = _itemSystem.transform.rotation;
+    //    transform.SetParent(_itemSystem.transform);
+    //    transform.localPosition = Vector3.zero;
+    //    transform.rotation = _itemSystem.transform.rotation;
 
-        Debug.Log("Player has picked up item.");
-        StartCoroutine(ActionCooldown());
-    }
-    public void DropItem()
-    {
-        IsCarryingItem = false;
-        _isActionOnCooldown = true;
+    //    Debug.Log("Player has picked up item.");
+    //    StartCoroutine(ActionCooldown());
+    //}
+    //public void DropItem()
+    //{
+    //    IsCarryingItem = false;
+    //    _isActionOnCooldown = true;
 
-        transform.SetParent(null);
-        Vector2Int targetPosition = _itemSystem.GetTractorPosition();
+    //    transform.SetParent(null);
+    //    Vector2Int targetPosition = _itemSystem.GetTractorPosition();
 
-        if (_tileManager.IsTileAvailable(targetPosition))
-        {
-            _playerPosition = targetPosition;
-            transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
-        }
-        else
-        {
-            Debug.LogWarning("Exiting item to an unavailable tile.");
-        }
+    //    if (_tileManager.IsTileAvailable(targetPosition))
+    //    {
+    //        _playerPosition = targetPosition;
+    //        transform.position = new Vector2(targetPosition.x * _tileManager.TileSize, targetPosition.y * _tileManager.TileSize);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Exiting item to an unavailable tile.");
+    //    }
 
-        Debug.Log("Player has dropped the item.");
-        StartCoroutine(ActionCooldown());
-    }
+    //    Debug.Log("Player has dropped the item.");
+    //    StartCoroutine(ActionCooldown());
+    //}
 
     void CheckCurrentTile() //Wee woo
     {

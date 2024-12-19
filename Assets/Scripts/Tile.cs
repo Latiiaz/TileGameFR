@@ -125,8 +125,6 @@ public class Tile : MonoBehaviour
         ResetTileMovability();
     }
 
-   
-
     private void SetTileMovability(bool walkable, bool traversable) 
     {
         IsWalkable = walkable;
@@ -190,7 +188,6 @@ public class Tile : MonoBehaviour
         }
     }
 
-
     void HandleNormalTileInteraction(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -229,37 +226,37 @@ public class Tile : MonoBehaviour
         switch (tileType)
         {
             case TileType.River:
-                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.5f);
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.2f);
                 break;
             case TileType.Mud:
-                assignedTileColor = new Color32(110, 38, 14, 125);
+                assignedTileColor = new Color32(110, 38, 14, 25);
                 break;
 
             case TileType.Tree:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
 
             case TileType.PlayerSpawn:
-                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f), 0.5f);
+                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f), 0.3f);
                 break;
             case TileType.TractorSpawn:
-                assignedTileColor = new Color(1f, 0f, 0f, 0.5f);
+                assignedTileColor = new Color(1f, 0f, 0f, 0.3f);
                 break;
             case TileType.BoulderSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
             case TileType.BushSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
             case TileType.ObjectiveSpawn:
-                assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
             case TileType.Pylon:
-                assignedTileColor = new Color(0, 0, 0, 0.5f);
+                assignedTileColor = new Color(0, 0, 0, 0.3f);
                 break;
 
             default:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.5f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.2f);
                 break;
         }
 

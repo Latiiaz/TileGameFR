@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: -1229614216885073985}
   - component: {fileID: -493318339602611597}
   - component: {fileID: 4443379424527606014}
+  - component: {fileID: 8188124645374187978}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -261,9 +262,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ee38ef03756d145a3b97152bcf516e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oxygenTime: 60
-  currentTime: 0
+  maxOxygen: 60
+  currentOxygen: 0
+  displayedOxygen: 0
   levelManager: {fileID: 0}
+--- !u!114 &8188124645374187978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4442761854792123480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2553825199e6a45a56c2154361431e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7138209258171108377
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,7 @@ public class CartMovement : MonoBehaviour, IInteractable
     }
     public void InteractE() //Enter Exit tractor
     {
-        Debug.Log("EEEEEEEEEEE");
+        //Debug.Log("");
     }
 
 }

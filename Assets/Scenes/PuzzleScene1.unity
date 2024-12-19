@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelManager: {fileID: 1816934809}
   _objectiveCount: 0
-  _neededObjectives: 1
+  _neededObjectives: 2
 --- !u!1 &1034511097
 GameObject:
   m_ObjectHideFlags: 0
