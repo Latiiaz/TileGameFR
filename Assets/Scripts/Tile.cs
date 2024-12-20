@@ -46,6 +46,10 @@ public class Tile : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        ResetTileMovability();
+    }
     public void SetIsShielded(bool shielded) // Currently the code runs often and the sprites keep changing
     {
         IsShielded = shielded;

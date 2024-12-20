@@ -27,6 +27,11 @@ public class TileManager : MonoBehaviour
     {
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void GenerateGrid()
     {
         bool tractorSpawnPlaced = false;
