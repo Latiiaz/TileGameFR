@@ -10,9 +10,19 @@ public class PylonSystem : MonoBehaviour, IInteractable
     private TileManager _tileManager;
     private Vector2Int _pylonPosition;
 
+    [SerializeField] private AudioClip PylonTurningOn;
+    private AudioSource audioSource;
+
+
     void Start()
     {
-       
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
     }
 
     void Awake()
@@ -35,10 +45,14 @@ public class PylonSystem : MonoBehaviour, IInteractable
     }
     public void InteractE() //Enter Exit tractor
     {
-        _tetherSystem.IsCurrentlyActive = true; 
+        _tetherSystem.IsCurrentlyActive = true;
         Debug.Log("Interacted With Pylon");
+        if (PylonTurningOn != null && audioSource != null)
+        {
+            audioSource.clip = PylonTurningOn;
+            audioSource.Play();
+        }
     }
-
     void SetPylonSpawnPosition()
     {
         foreach (var tileKey in _tileManager.tileDictionary)

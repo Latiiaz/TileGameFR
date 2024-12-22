@@ -15,18 +15,18 @@ public class LevelManager : MonoBehaviour
     float timeRKeyDown = 0f;
     public float RestartCooldown = 0f; // Add cooldown
 
-    public void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    //public void Awake()
+    //{
+    //    if (_instance == null)
+    //    {
+    //        _instance = this;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 
     private void Update()
     {
@@ -46,13 +46,12 @@ public class LevelManager : MonoBehaviour
 
     public void LoadDefeatScene()
     {
-
         SceneManager.LoadScene("DefeatScene");
     }
     public void Quitgame() // remove Appliaction.Quit when the game is built otherwise just stick with Debug Log
     {
         Debug.Log("Quit game");
-        //Application.Quit();
+        Application.Quit();
     }
     
     public void ReloadCurrentScene() 

@@ -5,32 +5,35 @@ using UnityEngine;
 public class FinishLineSystem : MonoBehaviour
 {
     public GameObject[] PressurePlates;
-    [SerializeField] private bool isDoorOpen = false;
+    [SerializeField] private bool isVictoryTriggered = false; // Ensure victory sequence only runs once
 
     public LevelManager levelManager;
     private float _victoryDelay = 3f;
 
-    
+    [SerializeField] private AudioClip VictorySound;
+    private AudioSource audioSource;
 
-   
-
-    void Start()
+    private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
+        audioSource.playOnAwake = false;
     }
+
     void Update()
     {
-
-        CheckPressurePlates();
-
-           
-        
+        if (!isVictoryTriggered)
+        {
+            CheckPressurePlates();
+        }
     }
-
 
     public void CheckPressurePlates()
     {
-
         bool allPlatesActive = true;
 
         for (int i = 0; i < PressurePlates.Length; i++)
@@ -48,7 +51,6 @@ public class FinishLineSystem : MonoBehaviour
                         allPlatesActive = false;
                     }
                 }
-
             }
             else
             {
@@ -56,41 +58,23 @@ public class FinishLineSystem : MonoBehaviour
             }
         }
 
-        if (allPlatesActive && !isDoorOpen)
+        if (allPlatesActive && !isVictoryTriggered)
         {
-            DoorOpen();
-        }
-        else if (!allPlatesActive && isDoorOpen)
-        {
-            DoorClose();
+            isVictoryTriggered = true; // Ensure this block runs only once
+            VictorySequence();
         }
     }
 
-    private void DoorOpen()
-    {
-        Debug.Log("All pressure plates are active. The door is now open!");
-        isDoorOpen = true;
-        VictorySequence();
-    }
-
-
-    private void DoorClose()
-    {
-        Debug.Log("Not all pressure plates are active. The door is now closed!");
-        isDoorOpen = false;
-
-       
-    }
     void VictorySequence()
     {
         StartCoroutine(WaitForSecondsCoroutine(_victoryDelay));
-
     }
+
     private IEnumerator WaitForSecondsCoroutine(float seconds)
     {
+        audioSource.clip = VictorySound;
+        audioSource.Play();
         yield return new WaitForSeconds(seconds);
         levelManager.LoadVictoryScene();
-
     }
-
 }

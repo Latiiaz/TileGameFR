@@ -6,6 +6,18 @@ public class PressurePlateSystem : MonoBehaviour
 {
     [SerializeField] public bool output;
 
+    [SerializeField] private AudioClip PressurePlateSound;
+    private AudioSource audioSource;
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+    }
     public bool GetOutputStatus()
     {
         return output;
@@ -14,6 +26,8 @@ public class PressurePlateSystem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         ToggleOutput();
+        audioSource.clip = PressurePlateSound;
+        audioSource.Play();
     }
     private void OnTriggerExit2D(Collider2D other)
     {

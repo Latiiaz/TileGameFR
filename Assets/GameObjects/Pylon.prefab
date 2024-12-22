@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tetherSystem: {fileID: 7657346811223617920}
+  PylonTurningOn: {fileID: 8300000, guid: c965d34821bc5144ebbef838465b041e, type: 3}
 --- !u!114 &7657346811223617920
 MonoBehaviour:
   m_ObjectHideFlags: 0
