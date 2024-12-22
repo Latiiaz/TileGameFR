@@ -8,6 +8,10 @@ TagManager:
   - Cart
   - Objective
   - TractorCartLocation
+  - PressurePlate
+  - Door
+  - Wall
+  - Pylon
   layers:
   - Default
   - TransparentFX

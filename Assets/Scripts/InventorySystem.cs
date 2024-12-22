@@ -43,7 +43,7 @@ public class InventorySystem : MonoBehaviour
         GameObject _cart = GameObject.FindWithTag("Cart");
         if (heldItem != null)
         {
-            if (_cart != null) // Supposed to be the script for depositing the item in the cart
+            if (_cart == null) // Supposed to be the script for depositing the item in the cart
             {
                 Debug.Log($"Dropped item: {heldItem.name}");
                 ItemSystem itemSystem = heldItem.GetComponent<ItemSystem>();

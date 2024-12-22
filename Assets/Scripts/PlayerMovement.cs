@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
-            if (tileKey.Value.tileType == TileType.TractorSpawn)
+            if (tileKey.Value.tileType == TileType.PlayerSpawn)
             {
                 _playerPosition = tileKey.Key; 
                 Vector2 worldPosition = new Vector2(_playerPosition.x * _tileManager.TileSize, _playerPosition.y * _tileManager.TileSize);

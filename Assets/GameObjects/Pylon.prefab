@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 7657346811223617920}
   m_Layer: 7
   m_Name: Pylon
-  m_TagString: Cart
+  m_TagString: Pylon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1473664966532985212}
   m_Layer: 7
   m_Name: Pylon Sprite
-  m_TagString: Cart
+  m_TagString: Pylon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,7 +284,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.3773585, g: 0.37190953, b: 0.36845854, a: 1}
+  m_Color: {r: 0.1981132, g: 0.05795805, b: 0.030838378, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

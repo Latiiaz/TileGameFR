@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-
 public class InteractSystem : MonoBehaviour
 {
     // Shoots a raycast infront of the player to see if a game object has the IInteractable script on it

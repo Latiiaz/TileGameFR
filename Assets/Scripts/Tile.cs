@@ -48,7 +48,7 @@ public class Tile : MonoBehaviour
 
     private void Update()
     {
-        ResetTileMovability();
+        //ResetTileMovability();
     }
     public void SetIsShielded(bool shielded) // Currently the code runs often and the sprites keep changing
     {
@@ -88,6 +88,8 @@ public class Tile : MonoBehaviour
         // Handle tile-specific logic based on tile type
         switch (tileType)
         {
+           
+
             case TileType.Normal:
                 HandleNormalTileInteraction(other);
                 break;
@@ -138,6 +140,7 @@ public class Tile : MonoBehaviour
     {
         switch (tileType)
         {
+
             case TileType.Normal:
                 IsWalkable = true;
                 IsTraversable = true;
@@ -150,7 +153,7 @@ public class Tile : MonoBehaviour
 
             case TileType.Mud:
                 IsWalkable = true;
-                IsTraversable = true; // Stun robot when inside
+                IsTraversable = false; // Stun robot when inside
                 break;
 
             case TileType.Tree:

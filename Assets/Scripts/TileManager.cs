@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TileManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class TileManager : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     public void GenerateGrid()
@@ -48,64 +49,82 @@ public class TileManager : MonoBehaviour
                 Tile tile = tileObject.GetComponent<Tile>();
 
                 TileType type;
-                
-                if (!tractorSpawnPlaced && Random.value < 0.01f) // For the tiles that only 1 of
+
+                //if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
+                //{
+                //    type = TileType.TractorSpawn;
+                //    Debug.Log(position);
+                //    //tractorSpawnPlaced = true;
+                //}
+                //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
+                //{
+                //    type = TileType.PlayerSpawn;
+                //    Debug.Log(position);
+                //    //itemtestSpawnPlaced = true;
+                //}
+                //else // The more randomized ones and the normal tiles // These are for weird tiels 
+                //{
+
+                 if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);
-                    tractorSpawnPlaced = true;
+                    //tractorSpawnPlaced = true;
                 }
-                else if (!itemtestSpawnPlaced && Random.value < PercentageItemTiles) // Spawn Objectivve Test Item
+                else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
                 {
-                    type = TileType.ObjectiveSpawn;
+                    type = TileType.PlayerSpawn;
                     Debug.Log(position);
-                    itemtestSpawnPlaced = true;
+                    //itemtestSpawnPlaced = true;
                 }
-                else // The more randomized ones and the normal tiles
+                else if (position.x == 5 || position.x == 6 || position.x == 7 || position.x == 8 || position.x == 9 || position.x == 10 || position.x == 4) // Spawns 2 length river tile on the 6th and 7th X coordinate
                 {
-
-                    if (position.x == 6 || position.x == 5) // Spawns 2 length river tile on the 6th and 7th X coordinate
-                    {
-                        if (position.y == 13 || position.y == 14)
-                        {
-                            type = TileType.Normal;
-                        }
-                        else
-                        {
-                            type = TileType.River;
-                        }
-                       
-                    }
-                    else if (position.x == 13 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
-                    {
-                        if (position.y == 0 || position.y == 1)
-                        {
-                            type = TileType.Normal;
-                        }
-                        else
-                        {
-                            type = TileType.Mud;
-                        }
-                    }
-                    else if (position.x == 10 && position.y == 10)
-                    {
-                        type = TileType.Pylon;
-                    }
-                    else
+                    if (position.y <= 5)
                     {
                         type = TileType.Normal;
                     }
-                    
+                    else
+                    {
+                        type = TileType.River;
+                    }
+
                 }
+                //else if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
+                //{
+                //    type = TileType.TractorSpawn;
+                //    Debug.Log(position);
+                //    //tractorSpawnPlaced = true;
+                //}
+                //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
+                //{
+                //    type = TileType.PlayerSpawn;
+                //    Debug.Log(position);
+                //    //itemtestSpawnPlaced = true;
+                //}
+                //else if (position.x == 13 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
+                //{
+                //    if (position.y == 0 || position.y == 1)
+                //    {
+                //        type = TileType.Normal;
+                //    }
+                //    else
+                //    {
+                //        type = TileType.Mud;
+                //    }
+                //}
+                else
+                    {
+                        type = TileType.Normal;
+                    }
 
-                tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
-                tileDictionary[position] = tile;  // and then this keeps track of what tile is where 
+                    tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
+                    tileDictionary[position] = tile;  // and then this keeps track of what tile is where 
+                
             }
+
+            LogAllTilesInDictionary();
         }
-
-       LogAllTilesInDictionary();         
-    }
-
+    } 
     public bool IsTileAvailable(Vector2Int position) // Check if tile exists at a vector 2 position
     {
         return tileDictionary.ContainsKey(position);

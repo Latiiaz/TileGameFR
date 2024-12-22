@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -41,9 +41,9 @@ public class GameManager : MonoBehaviour
         
         SpawnTractor(); // Spawn tractor since the player needs to find the tractor in order to spawn on it
         // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
-        SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
+        //SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
         SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
-        SpawnPylon();
+        //SpawnPylon();
         SpawnPlayer();
     }
     private void Awake()
@@ -96,10 +96,9 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
-        if (tileManager.IsTileAvailable(_tractorStartPosition))
+        if (tileManager.IsTileAvailable(_playerStartPosition))
         {
-            Debug.Log("(PLAYER SPAWN LOCATION): " + _tractorStartPosition);
-            Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
+            Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
             //Debug.Log("(PLAYER): " +_player.transform.position);
         }
