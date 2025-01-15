@@ -4094,7 +4094,7 @@ MonoBehaviour:
   PressurePlates:
   - {fileID: 253727351}
   - {fileID: 739812858}
-  isDoorOpen: 0
+  isVictoryTriggered: 0
   levelManager: {fileID: 1816934809}
   VictorySound: {fileID: 8300000, guid: 1dfa843a2b40a894eaca3bd460683963, type: 3}
 --- !u!212 &1581001762

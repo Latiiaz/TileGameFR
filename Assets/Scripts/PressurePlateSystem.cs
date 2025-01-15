@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PressurePlateSystem : MonoBehaviour
 {
+    // Output strength on pressure plates to ensure that certain tiles can reach certain "checks"
     [SerializeField] public bool output;
 
     [SerializeField] private AudioClip PressurePlateSound;
     private AudioSource audioSource;
+
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();

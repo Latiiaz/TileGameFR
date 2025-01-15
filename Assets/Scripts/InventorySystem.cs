@@ -18,7 +18,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E) && IsHoldingItem())
+        if (Input.GetKeyUp(KeyCode.E) && IsHoldingItem()) // Pick up items but it drops the 
         {
             DropItem();
         }
