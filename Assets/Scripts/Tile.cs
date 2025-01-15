@@ -56,7 +56,7 @@ public class Tile : MonoBehaviour
 
         if (shielded)
         {
-            ColorAssigningShielded();
+            ColorAssigningShielded(); // add checks to only change once
         }
         else
         {
@@ -79,7 +79,7 @@ public class Tile : MonoBehaviour
         ResetTileMovability();
     }
 
-    
+     
 
     void OnTriggerStay2D(Collider2D other)
     {
