@@ -69,13 +69,19 @@ public class TractorMovement : MonoBehaviour, IInteractable
 
     void HandleInput()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (!Input.GetKey(KeyCode.LeftShift)) // Tractor only moves when LeftShift is held
+        {
+            return;
+        }
+
+        // Tractor movement logic
+        if (Input.GetKey(KeyCode.W))
             MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A))
             MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S))
             MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D))
             MoveOrTurn(Vector2Int.right);
     }
     void MoveOrTurn(Vector2Int direction)

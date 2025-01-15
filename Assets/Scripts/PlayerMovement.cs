@@ -87,8 +87,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void HandleInput() // Handles the players inputs 
+    void HandleInput()
     {
+        if (Input.GetKey(KeyCode.LeftShift)) // When LeftShift is held, do not process player input
+        {
+            return;
+        }
+
+        // Player movement logic
         if (Input.GetKey(KeyCode.W))
             MoveOrTurn(Vector2Int.up);
         else if (Input.GetKey(KeyCode.A))
