@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSystem : MonoBehaviour, IInteractable
+public class RockSystem : MonoBehaviour, IInteractable, ITractor
 {
     [SerializeField] private AudioClip rockBreakSound;
     private AudioSource audioSource;
@@ -27,6 +27,18 @@ public class RockSystem : MonoBehaviour, IInteractable
             audioSource.clip = rockBreakSound;
             audioSource.Play();
             StartCoroutine(DestroyAfterSound()); 
+        }
+    }
+
+    public void InteractF()
+    {
+        Debug.Log("Awing baweh");
+
+        if (rockBreakSound != null && audioSource != null)
+        {
+            audioSource.clip = rockBreakSound;
+            audioSource.Play();
+            StartCoroutine(DestroyAfterSound());
         }
     }
 

@@ -2,61 +2,82 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+
 public class InteractSystem : MonoBehaviour
 {
-    // Shoots a raycast infront of the player to see if a game object has the IInteractable script on it
-    // Need to have UI prompt indicating it is indeed an interactable. Example: Remove Tree? [E] || Get In Tractor [F]
-    //Uses placer facing direction in the playermovement script
-
-    //Update to add in F to leave tractor and E to interact with any object in/out of tractor
-    // https://www.youtube.com/watch?v=B34iq4O5ZYI Raycast guide
+    // Shoots a raycast in front of the player or tractor to detect interactable objects
 
     [SerializeField] private float _raycastRange = 1f;
     [SerializeField] private LayerMask _layerMask;
-    private PlayerMovement _player;
 
+    private PlayerMovement _player;
+    private TractorMovement _tractor; 
     private UIManager _uiManager;
 
     private void Start()
     {
         _player = FindObjectOfType<PlayerMovement>();
+        _tractor = FindObjectOfType<TractorMovement>();
         _uiManager = FindObjectOfType<UIManager>();
-
     }
-    void Update()
+
+    private void Update()
     {
-        Vector2 rayDirection = transform.up; // Raycasting
-        Color rayColor = Color.green;
+        HandlePlayerInteraction();
+        HandleTractorInteraction();
+    }
 
-        bool isInteracting = false;
+    private void HandlePlayerInteraction()
+    {
+        // Get the player's facing direction
+        Vector2 playerFacingDirection = _player.GetFacingDirection();
+        Vector2 playerPosition = _player.transform.position;
 
+        // Perform raycast from the player's position
+        RaycastHit2D playerHit = Physics2D.Raycast(playerPosition, playerFacingDirection, _raycastRange, _layerMask);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, _raycastRange, _layerMask);
-
-        if (hit.collider != null)
-
+        // Process the raycast result
+        if (playerHit.collider != null)
         {
-
-            // Check for Interactables
-            IInteractable iinteractable = hit.collider.GetComponent<IInteractable>();
+            IInteractable iinteractable = playerHit.collider.GetComponent<IInteractable>();
             if (iinteractable != null)
             {
-                rayColor = Color.blue;
                 _uiManager.ShowEInteract(true);
-                isInteracting = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    //Debug.Log("dwhajda");
                     iinteractable.InteractE();
                 }
+                return; 
             }
+        }
 
-        }
-        if (!isInteracting)
+        _uiManager.ShowEInteract(false);
+    }
+
+    private void HandleTractorInteraction()
+    {
+        // Get the tractor's facing direction
+        Vector2 tractorFacingDirection = _tractor.GetFacingDirection();
+        Vector2 tractorPosition = _tractor.transform.position;
+
+        // Perform raycast from the tractor's position
+        RaycastHit2D tractorHit = Physics2D.Raycast(tractorPosition, tractorFacingDirection, _raycastRange, _layerMask);
+
+        // Process the raycast result
+        if (tractorHit.collider != null)
         {
-            _uiManager.ShowEInteract(false);
-            _uiManager.ShowFInteract(false);
+            ITractor itractor = tractorHit.collider.GetComponent<ITractor>();
+            if (itractor != null)
+            {
+                _uiManager.ShowFInteract(true);
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    itractor.InteractF();
+                }
+                return; 
+            }
         }
-        Debug.DrawRay(transform.position, rayDirection * _raycastRange, rayColor);
+
+        _uiManager.ShowFInteract(false);
     }
 }

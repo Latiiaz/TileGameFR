@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 6364872236354556277}
   - component: {fileID: -2943562665673140762}
   - component: {fileID: 5848793290081709536}
+  - component: {fileID: 155433471350873358}
   m_Layer: 8
   m_Name: Tractor
   m_TagString: Tractor
@@ -279,6 +280,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &155433471350873358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187807225899239704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4098ec5c402ec4aa8afea30a6954f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _raycastRange: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1 &7777287780204628247
 GameObject:
   m_ObjectHideFlags: 0

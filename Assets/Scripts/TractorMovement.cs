@@ -166,4 +166,11 @@ public class TractorMovement : MonoBehaviour, IInteractable
     //{
     //    return _tractorPosition;
     //}
+
+    public Vector2 GetFacingDirection()
+    {
+        // Example logic
+        return transform.up; // Modify as needed based on your facing logic
+    }
+
 }

@@ -279,4 +279,11 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(_actionCooldown);
         _isActionOnCooldown = false;
     }
+
+    public Vector2 GetFacingDirection()
+    {
+        // Example logic
+        return transform.up; // Modify as needed based on your facing logic
+    }
+
 }
