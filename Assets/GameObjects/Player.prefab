@@ -218,6 +218,7 @@ MonoBehaviour:
   _actionCooldown: 0.1
   _tetherSystem: {fileID: 0}
   _gameManager: {fileID: 0}
+  weight: 50
 --- !u!114 &-1229614216885073985
 MonoBehaviour:
   m_ObjectHideFlags: 0

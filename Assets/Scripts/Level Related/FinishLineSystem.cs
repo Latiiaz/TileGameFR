@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class FinishLineSystem : MonoBehaviour
 {
-    public GameObject[] PressurePlates;
+    public GameObject[] PressurePlates; // Assign pressure plates in the inspector
     [SerializeField] private bool isVictoryTriggered = false; // Ensure victory sequence only runs once
-
     public LevelManager levelManager;
+
+    [SerializeField] private float requiredWeight = 100f; // Total weight required to trigger victory
     private float _victoryDelay = 3f;
 
     [SerializeField] private AudioClip VictorySound;
@@ -34,31 +35,23 @@ public class FinishLineSystem : MonoBehaviour
 
     public void CheckPressurePlates()
     {
-        bool allPlatesActive = true;
+        float totalWeight = 0f;
 
-        for (int i = 0; i < PressurePlates.Length; i++)
+        foreach (GameObject pressurePlate in PressurePlates)
         {
-            GameObject pressureplate = PressurePlates[i];
-            if (pressureplate.CompareTag("PressurePlate"))
+            if (pressurePlate.CompareTag("PressurePlate"))
             {
-                PressurePlateSystem plateSystem = pressureplate.GetComponent<PressurePlateSystem>();
+                PressurePlateSystem plateSystem = pressurePlate.GetComponent<PressurePlateSystem>();
                 if (plateSystem != null)
                 {
-                    bool plateOutput = plateSystem.GetOutputStatus();
-
-                    if (!plateOutput)
-                    {
-                        allPlatesActive = false;
-                    }
+                    totalWeight += plateSystem.GetTotalWeight();
                 }
-            }
-            else
-            {
-                allPlatesActive = false;
             }
         }
 
-        if (allPlatesActive && !isVictoryTriggered)
+        Debug.Log($"Total Weight on Finish Line Plates: {totalWeight}");
+
+        if (totalWeight >= requiredWeight && !isVictoryTriggered)
         {
             isVictoryTriggered = true; // Ensure this block runs only once
             VictorySequence();
@@ -67,10 +60,10 @@ public class FinishLineSystem : MonoBehaviour
 
     void VictorySequence()
     {
-        StartCoroutine(WaitForSecondsCoroutine(_victoryDelay));
+        StartCoroutine(VictoryCoroutine(_victoryDelay));
     }
 
-    private IEnumerator WaitForSecondsCoroutine(float seconds)
+    private IEnumerator VictoryCoroutine(float seconds)
     {
         audioSource.clip = VictorySound;
         audioSource.Play();

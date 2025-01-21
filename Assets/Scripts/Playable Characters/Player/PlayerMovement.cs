@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IWeightedObject
 {
     // Script to Handle Movement of player on tiles/grids
     // Player needs to communicate with dictionary to ensure they dont teleport back to starting point before getting into the tractor
@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     //public GameManager _gameManager;
     //public SpriteRenderer spriteRenderer;
+
+    [SerializeField] private float weight = 10f;
 
 
     // Start is called before the first frame update
@@ -285,5 +287,10 @@ public class PlayerMovement : MonoBehaviour
         // Example logic
         return transform.up; // Modify as needed based on your facing logic
     }
+    public float GetWeight()
+    {
+        return weight;
+    }
+
 
 }

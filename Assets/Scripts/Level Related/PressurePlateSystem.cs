@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PressurePlateSystem : MonoBehaviour
 {
-    // Output strength on pressure plates to ensure that certain tiles can reach certain "checks"
-    [SerializeField] public bool output;
+    // Total weight on the pressure plate
+    [SerializeField] private float totalWeight = 0f;
 
-    [SerializeField] private AudioClip PressurePlateSound;
+    [SerializeField] private AudioClip pressurePlateSound;
     private AudioSource audioSource;
-
 
     private void Start()
     {
@@ -18,28 +17,49 @@ public class PressurePlateSystem : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-
         audioSource.playOnAwake = false;
     }
-    public bool GetOutputStatus()
+
+    public float GetTotalWeight()
     {
-        return output;
+        return totalWeight;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        ToggleOutput();
-        audioSource.clip = PressurePlateSound;
-        audioSource.Play();
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        ToggleOutput();
+        if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
+        {
+            Debug.Log($"Detected collision with: {other.name}, Tag: {other.tag}");
+
+            IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
+            if (weightedObject != null)
+            {
+                float weight = weightedObject.GetWeight();
+                totalWeight += weight;
+                Debug.Log($"Object entered: {other.name}, Weight: {weight}, Total Weight: {totalWeight}");
+
+                audioSource.clip = pressurePlateSound;
+                audioSource.Play();
+            }
+            else
+            {
+                Debug.LogWarning($"{other.name} does not have IWeightedObject implemented!");
+            }
+        }
     }
 
-    private void ToggleOutput()
+
+    private void OnTriggerExit2D(Collider2D other)
     {
-        output = !output;
-        Debug.Log($"Pressure Plate Output Changed: {output}");
+        if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
+        {
+            IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
+            if (weightedObject != null)
+            {
+                float weight = weightedObject.GetWeight();
+                totalWeight -= weight;
+                Debug.Log($"Object exited: {other.name}, Weight: {weight}, Total Weight: {totalWeight}");
+            }
+        }
     }
 }

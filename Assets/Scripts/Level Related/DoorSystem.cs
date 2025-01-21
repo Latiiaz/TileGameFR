@@ -4,55 +4,42 @@ using UnityEngine;
 
 public class DoorSystem : MonoBehaviour
 {
-    public GameObject[] PressurePlates;
-    public GameObject NonCodeObject;
+    public GameObject[] PressurePlates; // Assign connected pressure plates in the Inspector
+    public GameObject NonCodeObject;   // The door object
     [SerializeField] private bool isDoorOpen = false;
 
+    [SerializeField] private float requiredWeight = 50f; // The weight required to open the door
 
-    void Start()
-    {
-        
-    }
     void Update()
     {
-
         CheckPressurePlates();
     }
 
-
-    public void CheckPressurePlates()
+    private void CheckPressurePlates()
     {
+        float totalWeight = 0f;
 
-        bool allPlatesActive = true;
-
-        for (int i = 0; i < PressurePlates.Length; i++)
+        // Calculate the total weight from all connected pressure plates
+        foreach (GameObject pressurePlate in PressurePlates)
         {
-            GameObject pressureplate = PressurePlates[i];
-            if (pressureplate.CompareTag("PressurePlate"))
+            if (pressurePlate.CompareTag("PressurePlate"))
             {
-                PressurePlateSystem plateSystem = pressureplate.GetComponent<PressurePlateSystem>();
+                PressurePlateSystem plateSystem = pressurePlate.GetComponent<PressurePlateSystem>();
                 if (plateSystem != null)
                 {
-                    bool plateOutput = plateSystem.GetOutputStatus();
-
-                    if (!plateOutput)
-                    {
-                        allPlatesActive = false;
-                    }
+                    totalWeight += plateSystem.GetTotalWeight();
                 }
-
-            }
-            else
-            {
-                allPlatesActive = false;
             }
         }
 
-        if (allPlatesActive && !isDoorOpen)
+        Debug.Log($"Total Weight on Plates: {totalWeight}");
+
+        // Check if the total weight meets the required weight to open the door
+        if (totalWeight == requiredWeight && !isDoorOpen)
         {
             DoorOpen();
         }
-        else if (!allPlatesActive && isDoorOpen)
+        else if (totalWeight != requiredWeight && isDoorOpen)
         {
             DoorClose();
         }
@@ -60,18 +47,17 @@ public class DoorSystem : MonoBehaviour
 
     private void DoorOpen()
     {
-        Debug.Log("All pressure plates are active. The door is now open!");
+        Debug.Log("Required weight achieved. The door is now open!");
         isDoorOpen = true;
 
-        NonCodeObject.SetActive(false);
+        NonCodeObject.SetActive(false); // Hide the door to simulate it opening
     }
 
-   
     private void DoorClose()
     {
-        Debug.Log("Not all pressure plates are active. The door is now closed!");
+        Debug.Log("Required weight not met. The door is now closed!");
         isDoorOpen = false;
 
-        NonCodeObject.SetActive(true);
+        NonCodeObject.SetActive(true); // Show the door to simulate it closing
     }
 }
