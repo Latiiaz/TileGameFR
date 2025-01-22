@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
     //public GameManager _gameManager;
     //public SpriteRenderer spriteRenderer;
 
-    [SerializeField] private float weight = 10f;
+    [SerializeField] private float weight;
 
 
     // Start is called before the first frame update

@@ -70,9 +70,9 @@ public class InteractSystem : MonoBehaviour
             if (itractor != null)
             {
                 _uiManager.ShowFInteract(true);
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.LeftShift))
                 {
-                    itractor.InteractF();
+                    itractor.InteractF(); // uses itractor but still still uses shift + e to control.
                 }
                 return; 
             }

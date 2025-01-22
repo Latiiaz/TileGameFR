@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TractorMovement : MonoBehaviour, IInteractable
+public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
 {
     // Tractor Movement script referenced off playermovement script :D
     // Tether system to the player
@@ -24,6 +24,8 @@ public class TractorMovement : MonoBehaviour, IInteractable
     private PlayerMovement _player;
 
     private int _maxMoves; // Gain more steps based off cooldown
+
+    [SerializeField] private float weight;
 
     // Start is called before the first frame update
     void Start()
@@ -171,6 +173,10 @@ public class TractorMovement : MonoBehaviour, IInteractable
     {
         // Example logic
         return transform.up; // Modify as needed based on your facing logic
+    }
+    public float GetWeight()
+    {
+        return weight;
     }
 
 }

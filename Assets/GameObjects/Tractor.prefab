@@ -110,9 +110,9 @@ GameObject:
   - component: {fileID: 5187807225899239709}
   - component: {fileID: 5187807225899239710}
   - component: {fileID: 5187807225899239711}
+  - component: {fileID: 5848793290081709536}
   - component: {fileID: 6364872236354556277}
   - component: {fileID: -2943562665673140762}
-  - component: {fileID: 5848793290081709536}
   - component: {fileID: 155433471350873358}
   m_Layer: 8
   m_Name: Tractor
@@ -206,6 +206,7 @@ MonoBehaviour:
   _moveSpeed: 0.15
   _actionCooldown: 0.1
   _gameManager: {fileID: 0}
+  weight: 100
 --- !u!61 &5187807225899239711
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -232,6 +233,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &5848793290081709536
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187807225899239704}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &6364872236354556277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,27 +281,6 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   maxSteps: 3
   IsCurrentlyActive: 1
---- !u!50 &5848793290081709536
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5187807225899239704}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &155433471350873358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +296,7 @@ MonoBehaviour:
   _raycastRange: 1
   _layerMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 128
 --- !u!1 &7777287780204628247
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class DoorSystem : MonoBehaviour
             }
         }
 
-        Debug.Log($"Total Weight on Plates: {totalWeight}");
+        //Debug.Log($"Total Weight on Plates: {totalWeight}");
 
         // Check if the total weight meets the required weight to open the door
         if (totalWeight == requiredWeight && !isDoorOpen)

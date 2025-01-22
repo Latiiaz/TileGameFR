@@ -100,8 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileManager: {fileID: 0}
-  _moveSpeed: 0.2
-  _actionCooldown: 0.2
+  weight: 50
 --- !u!61 &-5896317331991259583
 BoxCollider2D:
   m_ObjectHideFlags: 0

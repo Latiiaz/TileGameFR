@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSystem : MonoBehaviour, IInteractable
+public class ItemSystem : MonoBehaviour, IInteractable, IWeightedObject
 {
     //Same as tractor script to handle "carrying" 
     // Tether system to the player
@@ -15,6 +15,8 @@ public class ItemSystem : MonoBehaviour, IInteractable
     private ObjectiveSystem _objectiveSystem;
 
     public bool IsHidden { get; private set; } = false;
+
+    [SerializeField] private float weight;
 
     // Start is called before the first frame update
     void Start()
@@ -87,5 +89,10 @@ public class ItemSystem : MonoBehaviour, IInteractable
             _objectiveSystem._objectiveCount++;
             Destroy(gameObject);
         }
+    }
+
+    public float GetWeight()
+    {
+        return weight;
     }
 }

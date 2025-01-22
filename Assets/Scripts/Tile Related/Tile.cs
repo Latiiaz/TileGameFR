@@ -195,11 +195,11 @@ public class Tile : MonoBehaviour
         }
     }
 
-    void HandleNormalTileInteraction(Collider2D other)
+    void HandleNormalTileInteraction(Collider2D other) // basically runs on update
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered a normal tile.");
+            //Debug.Log("Player entered a normal tile.");
         }
     } // Normal tile logic
 

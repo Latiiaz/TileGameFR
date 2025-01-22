@@ -49,7 +49,7 @@ public class FinishLineSystem : MonoBehaviour
             }
         }
 
-        Debug.Log($"Total Weight on Finish Line Plates: {totalWeight}");
+        //Debug.Log($"Total Weight on Finish Line Plates: {totalWeight}");
 
         if (totalWeight >= requiredWeight && !isVictoryTriggered)
         {
