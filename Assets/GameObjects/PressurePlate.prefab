@@ -17,7 +17,7 @@ GameObject:
   m_TagString: PressurePlate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &329900533241749391
 Transform:
@@ -124,5 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a11be9e81bbf7458c4ddc88bad21f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  output: 0
-  PressurePlateSound: {fileID: 8300000, guid: ce7d23b9c96f0424497792df05b71380, type: 3}
+  totalWeight: 0
+  pressurePlateSound: {fileID: 8300000, guid: ce7d23b9c96f0424497792df05b71380, type: 3}

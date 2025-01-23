@@ -2691,7 +2691,7 @@ GameObject:
   - component: {fileID: 969838536}
   - component: {fileID: 969838535}
   m_Layer: 5
-  m_Name: 'F [Tractor]  Text '
+  m_Name: '[Shift + E] Interact Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2870,6 +2870,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 1816934810}
   - {fileID: 1581001760}
+  - {fileID: 1090510110}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3089,6 +3090,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
   m_PrefabInstance: {fileID: 203731444}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1090510109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090510110}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1090510110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090510109}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 978403371}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1097299862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4270,7 +4302,7 @@ MonoBehaviour:
   - {fileID: 739812858}
   isVictoryTriggered: 0
   levelManager: {fileID: 1816934809}
-  requiredWeight: 100
+  requiredWeight: 150
   VictorySound: {fileID: 8300000, guid: 1dfa843a2b40a894eaca3bd460683963, type: 3}
 --- !u!212 &1581001762
 SpriteRenderer:
@@ -4467,7 +4499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1713272323}
   m_Layer: 5
-  m_Name: 'F [Tractor] Text Box '
+  m_Name: '[Shift + E] Interact Text Box '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
