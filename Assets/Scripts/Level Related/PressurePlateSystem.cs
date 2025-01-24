@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressurePlateSystem : MonoBehaviour
+public class PressurePlateSystem : MonoBehaviour, IInteractable
 {
     // Total weight on the pressure plate
     [SerializeField] private float totalWeight = 0f;
@@ -61,5 +61,11 @@ public class PressurePlateSystem : MonoBehaviour
                 Debug.Log($"Object exited: {other.name}, Weight: {weight}, Total Weight: {totalWeight}");
             }
         }
+    }
+
+    public void InteractE()
+    {
+        Debug.Log("Diggy Diggy hole, Changing target door");
+        
     }
 }

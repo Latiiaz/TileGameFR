@@ -10,6 +10,8 @@ public class InteractSystem : MonoBehaviour
     [SerializeField] private float _raycastRange = 1f;
     [SerializeField] private LayerMask _layerMask;
 
+    [SerializeField] private Vector2 _raycastOffset;
+
     private PlayerMovement _player;
     private TractorMovement _tractor; 
     private UIManager _uiManager;
@@ -34,7 +36,7 @@ public class InteractSystem : MonoBehaviour
         Vector2 playerPosition = _player.transform.position;
 
         // Perform raycast from the player's position
-        RaycastHit2D playerHit = Physics2D.Raycast(playerPosition, playerFacingDirection, _raycastRange, _layerMask);
+        RaycastHit2D playerHit = Physics2D.Raycast((playerPosition + _raycastOffset), playerFacingDirection, _raycastRange, _layerMask);
 
         // Process the raycast result
         if (playerHit.collider != null)
@@ -61,7 +63,7 @@ public class InteractSystem : MonoBehaviour
         Vector2 tractorPosition = _tractor.transform.position;
 
         // Perform raycast from the tractor's position
-        RaycastHit2D tractorHit = Physics2D.Raycast(tractorPosition, tractorFacingDirection, _raycastRange, _layerMask);
+        RaycastHit2D tractorHit = Physics2D.Raycast(tractorPosition+ _raycastOffset, tractorFacingDirection, _raycastRange, _layerMask);
 
         // Process the raycast result
         if (tractorHit.collider != null)
