@@ -27,13 +27,16 @@ public class Tile : MonoBehaviour
     public TileType tileType = TileType.Normal;
     private Vector2Int _gridPosition;
 
-    public bool IsWalkable { get; private set; } = true; 
+    public bool IsWalkable { get; private set; } = true;
     public bool IsTraversable { get; private set; } = true;
 
     public bool IsShielded { get; private set; } = false;
 
     private SpriteRenderer _spriteRenderer;
     [SerializeField] private Sprite[] _tileSprites;
+
+    // Expose BoxCollider2D to be manually assigned in the Unity Editor
+    [SerializeField] private BoxCollider2D _boxCollider;
 
     void Awake()
     {
@@ -44,12 +47,19 @@ public class Tile : MonoBehaviour
             Debug.LogError("SpriteRenderer component not found on tile prefab!");
             return;
         }
+
+        // If the BoxCollider2D is not assigned in the editor, we can try to get it.
+        if (_boxCollider == null)
+        {
+            _boxCollider = GetComponent<BoxCollider2D>();
+        }
     }
 
     private void Update()
     {
-        //ResetTileMovability();
+        // ResetTileMovability(); // Keep if needed
     }
+
     public void SetIsShielded(bool shielded) // Currently the code runs often and the sprites keep changing
     {
         IsShielded = shielded;
@@ -69,17 +79,13 @@ public class Tile : MonoBehaviour
         return _gridPosition;
     }
 
-
     public void Initialize(Vector2Int position, TileType type)
     {
         _gridPosition = position;
         tileType = type;
-        ColorAssigning(); // Will be replaced by 
-        //                   SpriteAssign();
+        ColorAssigning(); // Will be replaced by SpriteAssign();
         ResetTileMovability();
     }
-
-     
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -88,8 +94,6 @@ public class Tile : MonoBehaviour
         // Handle tile-specific logic based on tile type
         switch (tileType)
         {
-           
-
             case TileType.Normal:
                 HandleNormalTileInteraction(other);
                 break;
@@ -131,24 +135,24 @@ public class Tile : MonoBehaviour
         ResetTileMovability();
     }
 
-    private void SetTileMovability(bool walkable, bool traversable) 
+    private void SetTileMovability(bool walkable, bool traversable)
     {
         IsWalkable = walkable;
         IsTraversable = traversable;
     }
+
     private void ResetTileMovability()
     {
         switch (tileType)
         {
-
             case TileType.Normal:
                 IsWalkable = true;
                 IsTraversable = true;
                 break;
 
             case TileType.River:
-                IsWalkable = false; 
-                IsTraversable = true; 
+                IsWalkable = false;
+                IsTraversable = true;
                 break;
 
             case TileType.Mud:
@@ -157,7 +161,7 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.Tree:
-                IsWalkable = true; 
+                IsWalkable = true;
                 IsTraversable = true;
                 break;
 
@@ -165,10 +169,12 @@ public class Tile : MonoBehaviour
                 IsWalkable = true;
                 IsTraversable = true;
                 break;
+
             case TileType.TractorSpawn:
                 IsWalkable = true;
                 IsTraversable = true;
                 break;
+
             case TileType.ObjectiveSpawn:
                 IsWalkable = true;
                 IsTraversable = true;
@@ -178,13 +184,14 @@ public class Tile : MonoBehaviour
                 IsWalkable = true;
                 IsTraversable = true;
                 break;
+
             case TileType.BushSpawn:
-                IsWalkable = true; 
+                IsWalkable = true;
                 IsTraversable = true;
                 break;
 
             case TileType.Pylon:
-                IsWalkable = true; 
+                IsWalkable = true;
                 IsTraversable = true;
                 break;
 
@@ -235,6 +242,7 @@ public class Tile : MonoBehaviour
             case TileType.River:
                 assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.2f);
                 break;
+
             case TileType.Mud:
                 assignedTileColor = new Color32(110, 38, 14, 25);
                 break;
@@ -246,18 +254,23 @@ public class Tile : MonoBehaviour
             case TileType.PlayerSpawn:
                 assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f), 0.3f);
                 break;
+
             case TileType.TractorSpawn:
                 assignedTileColor = new Color(1f, 0f, 0f, 0.3f);
                 break;
+
             case TileType.BoulderSpawn:
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
+
             case TileType.BushSpawn:
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
+
             case TileType.ObjectiveSpawn:
                 assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
+
             case TileType.Pylon:
                 assignedTileColor = new Color(0, 0, 0, 0.3f);
                 break;
@@ -269,6 +282,7 @@ public class Tile : MonoBehaviour
 
         _spriteRenderer.color = assignedTileColor;
     }
+
     void ColorAssigningShielded()
     {
         Color assignedTileColor;
@@ -277,6 +291,7 @@ public class Tile : MonoBehaviour
             case TileType.River:
                 assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
                 break;
+
             case TileType.Mud:
                 assignedTileColor = new Color32(110, 38, 14, 255);
                 break;
@@ -288,18 +303,23 @@ public class Tile : MonoBehaviour
             case TileType.PlayerSpawn:
                 assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f));
                 break;
+
             case TileType.TractorSpawn:
                 assignedTileColor = new Color(1f, 0f, 0f);
                 break;
+
             case TileType.BoulderSpawn:
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
+
             case TileType.BushSpawn:
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
+
             case TileType.ObjectiveSpawn:
                 assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
+
             case TileType.Pylon:
                 assignedTileColor = new Color(0, 0, 0);
                 break;
@@ -311,17 +331,17 @@ public class Tile : MonoBehaviour
 
         _spriteRenderer.color = assignedTileColor;
     }
+
     void SpriteAssign()
     {
-        Sprite assignedSprite;
+        Sprite assignedSprite = null;
+
         switch (tileType)
         {
-            case TileType.Normal:
-                assignedSprite = _tileSprites[0];
-                break;
             case TileType.River:
                 assignedSprite = _tileSprites[1];
                 break;
+
             case TileType.Mud:
                 assignedSprite = _tileSprites[2];
                 break;
@@ -333,32 +353,32 @@ public class Tile : MonoBehaviour
             case TileType.PlayerSpawn:
                 assignedSprite = _tileSprites[4];
                 break;
+
             case TileType.TractorSpawn:
                 assignedSprite = _tileSprites[5];
                 break;
+
             case TileType.BoulderSpawn:
                 assignedSprite = _tileSprites[6];
                 break;
+
             case TileType.BushSpawn:
                 assignedSprite = _tileSprites[7];
                 break;
+
             case TileType.ObjectiveSpawn:
                 assignedSprite = _tileSprites[8];
                 break;
+
             case TileType.Pylon:
                 assignedSprite = _tileSprites[9];
                 break;
 
             default:
-                assignedSprite = _tileSprites[10];
+                assignedSprite = _tileSprites[0];
                 break;
         }
 
         _spriteRenderer.sprite = assignedSprite;
     }
-
-
-
-
-
 }

@@ -178,8 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3d418fd70dc6941bef041f360ef79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PressurePlates:
-  - {fileID: 0}
-  - {fileID: 0}
-  NonCodeObject: {fileID: 2869792616870364474}
+  nonCodeObject: {fileID: 2869792616870364474}
+  requiredWeight: 50
   isDoorOpen: 0

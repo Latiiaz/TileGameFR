@@ -9,11 +9,11 @@ public class InteractSystem : MonoBehaviour
 
     [SerializeField] private float _raycastRange = 1f;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private float raycastStartOffset = 0.5f; 
 
-    [SerializeField] private Vector2 _raycastOffset;
 
     private PlayerMovement _player;
-    private TractorMovement _tractor; 
+    private TractorMovement _tractor;
     private UIManager _uiManager;
 
     private void Start()
@@ -33,10 +33,17 @@ public class InteractSystem : MonoBehaviour
     {
         // Get the player's facing direction
         Vector2 playerFacingDirection = _player.GetFacingDirection();
-        Vector2 playerPosition = _player.transform.position;
+        Vector2 playerPosition = (Vector2)_player.transform.position;
 
-        // Perform raycast from the player's position
-        RaycastHit2D playerHit = Physics2D.Raycast((playerPosition + _raycastOffset), playerFacingDirection, _raycastRange, _layerMask);
+        // Move raycast start point slightly forward in the facing direction
+        Vector2 raycastStart = playerPosition + playerFacingDirection * raycastStartOffset;
+
+        // Perform raycast
+        RaycastHit2D playerHit = Physics2D.Raycast(raycastStart, playerFacingDirection, _raycastRange, _layerMask);
+
+        // Debug visualization
+        Color debugColor = (playerHit.collider != null) ? Color.green : Color.red;
+        Debug.DrawRay(raycastStart, playerFacingDirection * _raycastRange, debugColor);
 
         // Process the raycast result
         if (playerHit.collider != null)
@@ -49,21 +56,29 @@ public class InteractSystem : MonoBehaviour
                 {
                     iinteractable.InteractE();
                 }
-                return; 
+                return;
             }
         }
 
         _uiManager.ShowEInteract(false);
     }
 
+
     private void HandleTractorInteraction()
     {
         // Get the tractor's facing direction
         Vector2 tractorFacingDirection = _tractor.GetFacingDirection();
-        Vector2 tractorPosition = _tractor.transform.position;
+        Vector2 tractorPosition = (Vector2)_tractor.transform.position;
 
-        // Perform raycast from the tractor's position
-        RaycastHit2D tractorHit = Physics2D.Raycast(tractorPosition+ _raycastOffset, tractorFacingDirection, _raycastRange, _layerMask);
+        // Move raycast start point slightly forward in the facing direction
+        Vector2 raycastStart = tractorPosition + tractorFacingDirection * raycastStartOffset;
+
+        // Perform raycast
+        RaycastHit2D tractorHit = Physics2D.Raycast(raycastStart, tractorFacingDirection, _raycastRange, _layerMask);
+
+        // Debug visualization
+        Color debugColor = (tractorHit.collider != null) ? Color.blue : Color.red;
+        Debug.DrawRay(raycastStart, tractorFacingDirection * _raycastRange, debugColor);
 
         // Process the raycast result
         if (tractorHit.collider != null)
@@ -74,12 +89,13 @@ public class InteractSystem : MonoBehaviour
                 _uiManager.ShowFInteract(true);
                 if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.LeftShift))
                 {
-                    itractor.InteractF(); // uses itractor but still still uses shift + e to control.
+                    itractor.InteractF();
                 }
-                return; 
+                return;
             }
         }
 
         _uiManager.ShowFInteract(false);
     }
+
 }

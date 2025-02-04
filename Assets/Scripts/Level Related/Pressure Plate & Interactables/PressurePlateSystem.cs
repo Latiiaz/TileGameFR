@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PressurePlateSystem : MonoBehaviour, IInteractable
 {
-    // Total weight on the pressure plate
     [SerializeField] private float totalWeight = 0f;
-
-    [SerializeField] private AudioClip pressurePlateSound;
+    [SerializeField] public AudioClip pressurePlateSound;
     private AudioSource audioSource;
+
+    [SerializeField] private List<DoorSystem> controlledDoors; // List of doors this plate controls
+    private int currentDoorIndex = 0;
 
     private void Start()
     {
@@ -29,25 +30,25 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
         {
-            Debug.Log($"Detected collision with: {other.name}, Tag: {other.tag}");
-
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
                 float weight = weightedObject.GetWeight();
                 totalWeight += weight;
-                Debug.Log($"Object entered: {other.name}, Weight: {weight}, Total Weight: {totalWeight}");
+                UpdateCurrentDoor();
 
-                audioSource.clip = pressurePlateSound;
-                audioSource.Play();
-            }
-            else
-            {
-                Debug.LogWarning($"{other.name} does not have IWeightedObject implemented!");
+                if (pressurePlateSound != null)
+                {
+                    audioSource.clip = pressurePlateSound;
+                    audioSource.Play();
+                }
+                else
+                {
+                    Debug.LogError("Pressure Plate Sound not assigned!");
+                }
             }
         }
     }
-
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -58,14 +59,34 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             {
                 float weight = weightedObject.GetWeight();
                 totalWeight -= weight;
-                Debug.Log($"Object exited: {other.name}, Weight: {weight}, Total Weight: {totalWeight}");
+                UpdateCurrentDoor();
             }
         }
     }
 
     public void InteractE()
     {
-        Debug.Log("Diggy Diggy hole, Changing target door");
-        
+        Debug.Log("Pressure plate interacted with. Cycling to next door.");
+        CycleToNextDoor();
+    }
+
+    private void CycleToNextDoor()
+    {
+        if (controlledDoors.Count == 0)
+        {
+            Debug.LogWarning("No doors assigned to this pressure plate!");
+            return;
+        }
+
+        currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
+        Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name}");
+    }
+
+    private void UpdateCurrentDoor()
+    {
+        if (controlledDoors.Count > 0)
+        {
+            controlledDoors[currentDoorIndex].UpdateDoorState(totalWeight);
+        }
     }
 }

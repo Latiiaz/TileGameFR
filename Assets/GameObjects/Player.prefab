@@ -233,11 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4098ec5c402ec4aa8afea30a6954f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastRange: 1
+  _raycastRange: 0.3
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
-  _raycastOffset: {x: 0, y: 0}
+  raycastStartOffset: 0
 --- !u!114 &4443379424527606014
 MonoBehaviour:
   m_ObjectHideFlags: 0
