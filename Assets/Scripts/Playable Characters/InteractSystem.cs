@@ -7,7 +7,6 @@ public class InteractSystem : MonoBehaviour
 {
     // Shoots a raycast in front of the player or tractor to detect interactable objects
 
-    [SerializeField] private float _raycastRange = 1f;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float raycastStartOffset = 0.5f; 
 
@@ -39,11 +38,17 @@ public class InteractSystem : MonoBehaviour
         Vector2 raycastStart = playerPosition + playerFacingDirection * raycastStartOffset;
 
         // Perform raycast
-        RaycastHit2D playerHit = Physics2D.Raycast(raycastStart, playerFacingDirection, _raycastRange, _layerMask);
+        RaycastHit2D playerHit = Physics2D.Raycast(raycastStart, playerFacingDirection, 0.5f, _layerMask);
 
         // Debug visualization
-        Color debugColor = (playerHit.collider != null) ? Color.green : Color.red;
-        Debug.DrawRay(raycastStart, playerFacingDirection * _raycastRange, debugColor);
+        if (playerHit.collider != null)
+        {
+            Debug.DrawRay(raycastStart, playerFacingDirection * playerHit.distance, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(raycastStart, playerFacingDirection * 0.5f, Color.red);
+        }
 
         // Process the raycast result
         if (playerHit.collider != null)
@@ -74,11 +79,11 @@ public class InteractSystem : MonoBehaviour
         Vector2 raycastStart = tractorPosition + tractorFacingDirection * raycastStartOffset;
 
         // Perform raycast
-        RaycastHit2D tractorHit = Physics2D.Raycast(raycastStart, tractorFacingDirection, _raycastRange, _layerMask);
+        RaycastHit2D tractorHit = Physics2D.Raycast(raycastStart, tractorFacingDirection, 0.5f, _layerMask);
 
         // Debug visualization
-        Color debugColor = (tractorHit.collider != null) ? Color.blue : Color.red;
-        Debug.DrawRay(raycastStart, tractorFacingDirection * _raycastRange, debugColor);
+        //Color debugColor = (tractorHit.collider != null) ? Color.blue : Color.red;
+        //Debug.DrawRay(raycastStart, tractorFacingDirection * 0.5f, debugColor);
 
         // Process the raycast result
         if (tractorHit.collider != null)

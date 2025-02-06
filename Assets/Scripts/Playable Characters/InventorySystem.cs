@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventorySystem : MonoBehaviour
 {
     [SerializeField] public GameObject heldItem = null;
+    [SerializeField]    private bool canPickUp = true;
 
     public bool IsHoldingItem()
     {
@@ -18,9 +19,9 @@ public class InventorySystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E) && IsHoldingItem()) // Pick up items but it drops the 
+        if (Input.GetKeyDown(KeyCode.E) && IsHoldingItem() && !canPickUp) // Pick up items but it drops the 
         {
-            DropItem();
+            StartCoroutine(PickupCooldown());
         }
     }
 
@@ -54,11 +55,16 @@ public class InventorySystem : MonoBehaviour
                 }
                 heldItem = null;
             }
-            else
-            {
-               
-            }
-            
         }
+        
     }
+
+    public IEnumerator PickupCooldown()
+    {
+        canPickUp = false;  // Disable picking up immediately
+        yield return new WaitForSeconds(0.5f);  // Wait for 0.5 seconds
+        DropItem(); // Drop the item after the delay
+        canPickUp = true; // Allow picking up again
+    }
+
 }

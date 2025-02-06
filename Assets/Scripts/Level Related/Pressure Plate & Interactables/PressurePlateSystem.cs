@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PressurePlateSystem : MonoBehaviour, IInteractable
 {
@@ -11,6 +12,10 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     [SerializeField] private List<DoorSystem> controlledDoors; // List of doors this plate controls
     private int currentDoorIndex = 0;
 
+    [SerializeField] private TextMeshProUGUI weightText;
+
+    [SerializeField] private GameObject targetHighlight;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -19,6 +24,10 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.playOnAwake = false;
+
+        UpdateWeightText();
+
+        targetHighlight.transform.position = controlledDoors[currentDoorIndex].transform.position;
     }
 
     public float GetTotalWeight()
@@ -36,6 +45,7 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
                 float weight = weightedObject.GetWeight();
                 totalWeight += weight;
                 UpdateCurrentDoor();
+                UpdateWeightText();
 
                 if (pressurePlateSound != null)
                 {
@@ -60,6 +70,7 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
                 float weight = weightedObject.GetWeight();
                 totalWeight -= weight;
                 UpdateCurrentDoor();
+                UpdateWeightText();
             }
         }
     }
@@ -79,8 +90,10 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
 
         currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
-        Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name}");
+        targetHighlight.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name} at position {controlledDoors[currentDoorIndex].transform.position}");
     }
+
 
     private void UpdateCurrentDoor()
     {
@@ -89,4 +102,16 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             controlledDoors[currentDoorIndex].UpdateDoorState(totalWeight);
         }
     }
+    private void UpdateWeightText()
+    {
+        if (weightText != null)
+        {
+            weightText.text = $"{totalWeight}";
+        }
+        else
+        {
+            Debug.LogWarning("Weight TextMeshPro is not assigned in the Inspector!");
+        }
+    }
+
 }

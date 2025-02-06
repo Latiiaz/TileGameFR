@@ -5655,6 +5655,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 527604711}
     m_Modifications:
+    - target: {fileID: 368067423, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 329900533241749363, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Name
       value: PressurePlate (2)
@@ -5788,6 +5792,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 527604711}
     m_Modifications:
+    - target: {fileID: 368067423, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: controlledDoors.Array.data[0]
       value: 
@@ -7072,6 +7080,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3040320732786790544, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 499266c41418b1340a535d7d80405e17, type: 3}
 --- !u!1 &1824221050
