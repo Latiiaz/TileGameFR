@@ -30,17 +30,14 @@ public class InteractSystem : MonoBehaviour
 
     private void HandlePlayerInteraction()
     {
-        // Get the player's facing direction
         Vector2 playerFacingDirection = _player.GetFacingDirection();
         Vector2 playerPosition = (Vector2)_player.transform.position;
 
-        // Move raycast start point slightly forward in the facing direction
         Vector2 raycastStart = playerPosition + playerFacingDirection * raycastStartOffset;
 
-        // Perform raycast
         RaycastHit2D playerHit = Physics2D.Raycast(raycastStart, playerFacingDirection, 0.5f, _layerMask);
 
-        // Debug visualization
+        // Visualizing Raycast
         if (playerHit.collider != null)
         {
             Debug.DrawRay(raycastStart, playerFacingDirection * playerHit.distance, Color.green);
@@ -50,16 +47,33 @@ public class InteractSystem : MonoBehaviour
             Debug.DrawRay(raycastStart, playerFacingDirection * 0.5f, Color.red);
         }
 
-        // Process the raycast result
         if (playerHit.collider != null)
         {
             IInteractable iinteractable = playerHit.collider.GetComponent<IInteractable>();
+
+            // copy this code but for pressure plate system and then copy UI manager script to turn on or off for the game object UI for now
+
+
+
             if (iinteractable != null)
             {
                 _uiManager.ShowEInteract(true);
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     iinteractable.InteractE();
+                }
+                return;
+            }
+
+
+
+            if (playerHit.collider.CompareTag("PressurePlate"))
+            {
+                _uiManager.ShowEInteract(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    // Placeholder for pressure plate interaction logic
+                    Debug.Log("Pressure Plate activated");
                 }
                 return;
             }

@@ -206,7 +206,7 @@ MonoBehaviour:
   _moveSpeed: 0.15
   _actionCooldown: 0.1
   _gameManager: {fileID: 0}
-  weight: 100
+  weight: 50
 --- !u!61 &5187807225899239711
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -293,10 +293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4098ec5c402ec4aa8afea30a6954f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastRange: 1
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
+  raycastStartOffset: 0.5
 --- !u!1 &7777287780204628247
 GameObject:
   m_ObjectHideFlags: 0

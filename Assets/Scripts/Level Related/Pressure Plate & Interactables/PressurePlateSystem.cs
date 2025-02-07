@@ -14,8 +14,11 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
 
     [SerializeField] private TextMeshProUGUI weightText;
 
+    [SerializeField] private GameObject highlightBox;
     [SerializeField] private GameObject targetHighlight;
 
+
+    public Vector3 endPosition; 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -27,7 +30,13 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
 
         UpdateWeightText();
 
-        targetHighlight.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+    }
+
+    void Update()
+    {
+        highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+
     }
 
     public float GetTotalWeight()
@@ -90,7 +99,6 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
 
         currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
-        targetHighlight.transform.position = controlledDoors[currentDoorIndex].transform.position;
         Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name} at position {controlledDoors[currentDoorIndex].transform.position}");
     }
 
@@ -114,4 +122,20 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
     }
 
+    void ShowTargetHighlight(bool highlightActive)
+    {
+        if (true)
+        {
+            targetHighlight.SetActive(highlightActive);
+
+        }
+    }
+   
+
+    public Vector3 GetEndPosition()
+    {
+        endPosition = controlledDoors[currentDoorIndex].transform.position;
+        return endPosition;
+    }
 }
+

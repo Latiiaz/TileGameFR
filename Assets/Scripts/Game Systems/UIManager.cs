@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+
+    // Handles most On Screen UI instead of worldspace UI
     //For all canvas and UI stuff
     // E/F Interact Keys, Maximum Steps, WASD keys on the side too?
 
