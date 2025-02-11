@@ -5,7 +5,7 @@ using UnityEngine;
 public class OxygenTimerSystem : MonoBehaviour
 {
     [Header("Oxygen Settings")]
-    [SerializeField] public float maxOxygen = 60f; 
+    [SerializeField] public float maxOxygen = 60f; //Supposed number is 30, but increased just to test stuff
     [SerializeField] private float currentOxygen;  
     [SerializeField] private float displayedOxygen; 
 
@@ -36,7 +36,7 @@ public class OxygenTimerSystem : MonoBehaviour
             else
             {
                 depletionRate = Time.deltaTime;
-                currentOxygen -= depletionRate * 3; // Deplete oxygen faster when outside tether
+                currentOxygen -= depletionRate; // Deplete oxygen faster when outside tether
             }
 
             currentOxygen = Mathf.Clamp(currentOxygen, 0, maxOxygen);
