@@ -35,8 +35,15 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
 
     void Update()
     {
-        highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        if (highlightBox == null)
+        {
+            
 
+        }
+        else
+        {
+            highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        }
     }
 
     public float GetTotalWeight()
@@ -65,6 +72,18 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
                 {
                     Debug.LogError("Pressure Plate Sound not assigned!");
                 }
+            }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
+        {
+            IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
+            if (weightedObject != null)
+            {
+                UpdateCurrentDoor();
+                UpdateWeightText();
             }
         }
     }
@@ -122,20 +141,23 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
     }
 
-    void ShowTargetHighlight(bool highlightActive)
-    {
-        if (true)
-        {
-            targetHighlight.SetActive(highlightActive);
+    //void ShowTargetHighlight(bool highlightActive)
+    //{
+    //    if (true)
+    //    {
+    //        targetHighlight.SetActive(highlightActive);
 
-        }
-    }
-   
+    //    }
+    //}
+
 
     public Vector3 GetEndPosition()
     {
-        endPosition = controlledDoors[currentDoorIndex].transform.position;
-        return endPosition;
+        if (controlledDoors.Count > 0)
+        {
+            return controlledDoors[currentDoorIndex].transform.position;
+        }
+        return transform.position;
     }
 }
 

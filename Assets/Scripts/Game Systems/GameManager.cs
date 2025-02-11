@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         SpawnTractor(); // Spawn tractor since the player needs to find the tractor in order to spawn on it
         // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
         //SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
-        SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
+        //SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
         //SpawnPylon();
         SpawnPlayer();
     }

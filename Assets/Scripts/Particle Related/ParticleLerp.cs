@@ -4,55 +4,52 @@ using UnityEngine;
 
 public class ParticleLerp : MonoBehaviour
 {
-    public float lerpSpeed = 0.25f; // Speed of the lerp
+    public float moveDuration = 1.0f; // Time in seconds to reach the destination
     private Vector3 startPosition;
-    private Vector3 endPosition; // Ending position obtained from another script
-    private float lerpTime = 0.0f; // Time variable for lerp
+    private Vector3 endPosition;
+    private float elapsedTime = 0.0f;
+    private bool isLerping = false;
 
-    // Reference to the other script that contains the end position
     public PressurePlateSystem pressurePlateSystem; // Assign this in the inspector
 
     void Start()
     {
+        if (pressurePlateSystem == null)
+        {
+            Debug.LogError("PressurePlateSystem reference is not set!");
+            return;
+        }
+
         startPosition = pressurePlateSystem.transform.position;
+        endPosition = pressurePlateSystem.GetEndPosition();
         transform.position = startPosition;
-
-        if (pressurePlateSystem != null)
-        {
-            endPosition = pressurePlateSystem.GetEndPosition();
-        }
-        else
-        {
-            Debug.LogError("OtherScript reference is not set!");
-        }
-
-        
+        StartCoroutine(MoveParticle());
     }
 
     void Update()
     {
-        StartCoroutine(ParticleRespawn());
-    }
-
-    private void LerpingParticle()
-    {
-        lerpTime += Time.deltaTime * lerpSpeed;
-
-        // Lerp the position
-        transform.position = Vector3.Lerp(startPosition, endPosition, lerpTime);
-
-        // Optional: Reset the lerp when it reaches the end position
-        if (lerpTime >= 1.0f)
+        if (pressurePlateSystem != null)
         {
-            // Optionally reset or stop the lerp
-            // lerpTime = 0.0f; // Uncomment to loop
-            enabled = false; // Disable this script if you want to stop
+            endPosition = pressurePlateSystem.GetEndPosition();
         }
     }
 
-    private IEnumerator ParticleRespawn()
+    private IEnumerator MoveParticle()
     {
-        LerpingParticle();
-        yield return new WaitForSeconds(3f);
+        isLerping = true;
+        elapsedTime = 0.0f;
+
+        while (elapsedTime < moveDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float timetomove = elapsedTime / moveDuration;
+            transform.position = Vector3.Lerp(startPosition, endPosition, timetomove);
+            yield return null;
+        }
+
+        transform.position = endPosition;
+        //yield return new WaitForSeconds(1f); // Optional delay before teleporting back
+        transform.position = startPosition;
+        StartCoroutine(MoveParticle()); // Restart the process
     }
 }

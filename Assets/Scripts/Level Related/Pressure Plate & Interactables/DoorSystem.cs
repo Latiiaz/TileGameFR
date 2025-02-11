@@ -8,6 +8,10 @@ public class DoorSystem : MonoBehaviour
     [SerializeField] private float requiredWeight = 50f; // The weight required to open the door
     [SerializeField] private bool isDoorOpen = false;
 
+
+    private void Update()
+    {
+    }
     public void UpdateDoorState(float totalWeight)
     {
         if (totalWeight == requiredWeight && !isDoorOpen)
@@ -32,10 +36,5 @@ public class DoorSystem : MonoBehaviour
         Debug.Log("Required weight not met. The door is now closed!");
         isDoorOpen = false;
         nonCodeObject.SetActive(true); // Show the door to simulate it closing
-    }
-
-    public bool IsDoorOpen()
-    {
-        return isDoorOpen;
     }
 }
