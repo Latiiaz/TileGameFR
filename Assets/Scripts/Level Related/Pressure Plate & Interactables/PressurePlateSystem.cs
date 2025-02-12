@@ -82,6 +82,8 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
+                float weight = weightedObject.GetWeight();
+                totalWeight = weight;
                 UpdateCurrentDoor();
                 UpdateWeightText();
             }

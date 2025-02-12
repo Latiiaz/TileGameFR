@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Sprite[] _tileSprites;
 
     // Expose BoxCollider2D to be manually assigned in the Unity Editor
-    [SerializeField] private BoxCollider2D _boxCollider;
+    //[SerializeField] private BoxCollider2D _boxCollider;
 
     void Awake()
     {
@@ -49,10 +49,10 @@ public class Tile : MonoBehaviour
         }
 
         // If the BoxCollider2D is not assigned in the editor, we can try to get it.
-        if (_boxCollider == null)
-        {
-            _boxCollider = GetComponent<BoxCollider2D>();
-        }
+        //if (_boxCollider == null)
+        //{
+        //    _boxCollider = GetComponent<BoxCollider2D>();
+        //}
     }
 
     private void Update()
@@ -240,7 +240,7 @@ public class Tile : MonoBehaviour
         switch (tileType)
         {
             case TileType.River:
-                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.2f);
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.55f);
                 break;
 
             case TileType.Mud:
@@ -276,7 +276,7 @@ public class Tile : MonoBehaviour
                 break;
 
             default:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.2f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.55f);
                 break;
         }
 

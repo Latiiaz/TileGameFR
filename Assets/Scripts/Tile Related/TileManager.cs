@@ -20,6 +20,20 @@ public class TileManager : MonoBehaviour
 
     [SerializeField] public float NumberOfItems;
 
+    [Header("River tiles Spawning")]
+    public int minX;
+    public int maxX;
+    public int minY;
+    public int maxY;
+
+    [Header("Player Spawning")]
+    public int playerX;
+    public int playerY;
+
+    [Header("Robot Spawning")]
+    public int robotX;
+    public int robotY;
+
 
     public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
 
@@ -65,27 +79,27 @@ public class TileManager : MonoBehaviour
                 //else // The more randomized ones and the normal tiles // These are for weird tiels 
                 //{
 
-                 if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
+                 if (position.x == robotX && position.y == robotY) // For the tiles that only 1 of
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);
                     //tractorSpawnPlaced = true;
                 }
-                else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
+                else if (position.x == playerX && position.y == playerY) // Spawn Objectivve Test Item
                 {
                     type = TileType.PlayerSpawn;
                     Debug.Log(position);
                     //itemtestSpawnPlaced = true;
                 }
-                else if (position.x == 5 || position.x == 6 || position.x == 7 || position.x == 8 || position.x == 9 || position.x == 10 || position.x == 4) // Spawns 2 length river tile on the 6th and 7th X coordinate
+                else if (position.x >= minX && position.x <= maxX) // Spawns 2 length river tile on the 6th and 7th X coordinate
                 {
-                    if (position.y <= 5)
+                    if (position.y >= minY && position.y <= maxY)
                     {
-                        type = TileType.Normal;
+                        type = TileType.River;
                     }
                     else
                     {
-                        type = TileType.River;
+                        type = TileType.Normal;
                     }
 
                 }
