@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
                 }
                 else
                 {
-                    Debug.LogWarning("(PLAYER): Tile is not walkable or available.");
+                    Debug.LogWarning("This Tile Cannot be moved to."); // Can change this to UI indicator
                 }
             }
     }
