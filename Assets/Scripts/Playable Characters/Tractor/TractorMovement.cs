@@ -71,21 +71,51 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
 
     void HandleInput()
     {
-        if (!Input.GetKey(KeyCode.LeftShift)) // Tractor only moves when LeftShift is held
+        if (_isMoving || _isActionOnCooldown)
         {
             return;
         }
 
-        // Tractor movement logic
-        if (Input.GetKey(KeyCode.W))
-            MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.A))
-            MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.S))
-            MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.D))
-            MoveOrTurn(Vector2Int.right);
+        if (Input.GetKey(KeyCode.W)) // Move forward
+        {
+            MoveOrTurn(_tractorDirection);
+        }
+        else if (Input.GetKeyDown(KeyCode.S)) // Move backward without changing rotation
+        {
+           
+            MoveOrTurn(-_tractorDirection);
+        }
+        else if (Input.GetKeyDown(KeyCode.A)) // Rotate 90 degrees left
+        {
+            RotateTractor(-1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D)) // Rotate 90 degrees right
+        {
+            RotateTractor(1);
+        }
     }
+    // Possible movement directions in clockwise order: UP, RIGHT, DOWN, LEFT
+    private Vector2Int[] _directions = new Vector2Int[]
+    {
+    Vector2Int.up,    // (0,1)
+    Vector2Int.right, // (1,0)
+    Vector2Int.down,  // (0,-1)
+    Vector2Int.left   // (-1,0)
+    };
+
+    private int _directionIndex = 0; // Tracks the current facing direction (0 = UP)
+
+    // Rotates the tractor left (-1) or right (1) by adjusting the index in the _directions array
+    void RotateTractor(int direction)
+    {
+        _directionIndex = (_directionIndex + direction + _directions.Length) % _directions.Length;
+        _tractorDirection = _directions[_directionIndex];
+
+        // Apply the new rotation (z-axis rotation since it's a 2D game)
+        float newRotation = _directionIndex * -90f; // -90 for left-hand rotation order
+        transform.rotation = Quaternion.Euler(0, 0, newRotation);
+    }
+
     void MoveOrTurn(Vector2Int direction)
     {
         if (_isMoving || _isActionOnCooldown)
@@ -98,7 +128,6 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
             _tractorDirection = direction;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
             //_isActionOnCooldown = true;
-            StartCoroutine(ActionCooldown());
         }
         else
         {
@@ -136,14 +165,15 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         _tractorPosition = newPosition;
 
         _isMoving = false;
-        StartCoroutine(ActionCooldown());
-    }
-
-    IEnumerator ActionCooldown()
-    {
         yield return new WaitForSeconds(_actionCooldown);
         _isActionOnCooldown = false;
     }
+
+    //IEnumerator ActionCooldown()
+    //{
+    //    yield return new WaitForSeconds(_actionCooldown);
+    //    _isActionOnCooldown = false;
+    //}
 
     //public void InteractF() //Enter Exit tractor
     //{
