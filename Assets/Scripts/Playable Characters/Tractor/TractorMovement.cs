@@ -10,7 +10,8 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
 
     [SerializeField] private TileManager _tileManager;
     private Vector2Int _tractorPosition = new Vector2Int(0, 0);
-    private Vector2Int _tractorDirection = Vector2Int.up;
+    private Vector2Int _tractorDirection = Vector2Int.left;
+    private Vector2Int _tractorBackwards = new Vector2Int(0, -2);
 
     [SerializeField] private float _moveSpeed = 0.2f;
     [SerializeField] private float _actionCooldown = 0.2f;
@@ -26,6 +27,7 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     private int _maxMoves; // Gain more steps based off cooldown
 
     [SerializeField] private float weight;
+    private float _movementTimer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -41,16 +43,12 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     // Update is called once per frame
     void Update()
     {
+        if (_movementTimer > 0)
+        {
+            _movementTimer -= Time.deltaTime; // Reduce timer every frame
+        }
+
         HandleInput();
-        //if (_gameManager.TurnStatus())
-        //{
-
-        //}
-        //else
-        //{
-        //    HandleInput();
-        //}
-
     }
 
 
@@ -71,26 +69,29 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
 
     void HandleInput()
     {
-        if (_isMoving || _isActionOnCooldown)
+        if (_isMoving || _isActionOnCooldown || _movementTimer > 0)
         {
             return;
         }
 
         if (Input.GetKey(KeyCode.W)) // Move forward
         {
-            MoveOrTurn(_tractorDirection);
+            StartCoroutine(MovementDelay());
+            MoveForward(_tractorDirection);
         }
         else if (Input.GetKeyDown(KeyCode.S)) // Move backward without changing rotation
         {
-           
-            MoveOrTurn(-_tractorDirection);
+            StartCoroutine(MovementDelay());
+            MoveBackwards(_tractorDirection);
         }
         else if (Input.GetKeyDown(KeyCode.A)) // Rotate 90 degrees left
         {
+            StartCoroutine(MovementDelay());
             RotateTractor(-1);
         }
         else if (Input.GetKeyDown(KeyCode.D)) // Rotate 90 degrees right
         {
+            StartCoroutine(MovementDelay());
             RotateTractor(1);
         }
     }
@@ -116,7 +117,7 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         transform.rotation = Quaternion.Euler(0, 0, newRotation);
     }
 
-    void MoveOrTurn(Vector2Int direction)
+    void MoveForward(Vector2Int direction)
     {
         if (_isMoving || _isActionOnCooldown)
         {
@@ -132,6 +133,33 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         else
         {
             Vector2Int newPosition = _tractorPosition + direction;
+
+            if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileTraversable(newPosition))
+            {
+                StartCoroutine(MoveToPosition(newPosition));
+            }
+            else
+            {
+                Debug.LogWarning("(TRACTOR): Tile is not walkable or available.");
+            }
+        }
+    }
+    void MoveBackwards(Vector2Int direction)
+    {
+        if (_isMoving || _isActionOnCooldown)
+        {
+            return;
+        }
+
+        if (_tractorDirection != direction)
+        {
+            _tractorDirection = direction;
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
+            //_isActionOnCooldown = true;
+        }
+        else
+        {
+            Vector2Int newPosition = _tractorPosition - direction;
 
             if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileTraversable(newPosition))
             {
@@ -169,6 +197,11 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         _isActionOnCooldown = false;
     }
 
+    IEnumerator MovementDelay()
+    {
+        _movementTimer = 0.1f; // Set delay time
+        yield return new WaitForSeconds(_movementTimer);
+    }
     //IEnumerator ActionCooldown()
     //{
     //    yield return new WaitForSeconds(_actionCooldown);
@@ -180,7 +213,7 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     //    // TRACKTOR BRAINS!!!!!! (move the player inside)
     //    if (_player.IsInTractor)
     //    {
-            
+
     //        _player.AttemptEnterOrExitTractor();
     //    }
     //    else

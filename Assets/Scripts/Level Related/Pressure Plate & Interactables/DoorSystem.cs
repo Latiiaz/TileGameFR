@@ -14,7 +14,7 @@ public class DoorSystem : MonoBehaviour
     }
     public void UpdateDoorState(float totalWeight)
     {
-        if (totalWeight == requiredWeight && !isDoorOpen)
+        if (totalWeight == (requiredWeight) && !isDoorOpen)
         {
             DoorOpen();
         }

@@ -7031,10 +7031,14 @@ MonoBehaviour:
   PercentageRiverTiles: 5
   PercentageItemTiles: 0.05
   NumberOfItems: 0
-  minX: 3
-  maxX: 5
-  minY: 1
-  maxY: 15
+  minX: 0
+  maxX: 0
+  minY: 0
+  maxY: 0
+  playerX: 2
+  playerY: 2
+  robotX: 3
+  robotY: 3
 --- !u!4 &1777368967
 Transform:
   m_ObjectHideFlags: 0
