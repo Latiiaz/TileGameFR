@@ -5,7 +5,7 @@ using TMPro;
 
 public class PressurePlateSystem : MonoBehaviour, IInteractable
 {
-    [SerializeField] private float totalWeight = 0f;
+    [SerializeField] private float totalWeight;
     [SerializeField] public AudioClip pressurePlateSound;
     private AudioSource audioSource;
 
@@ -27,7 +27,7 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.playOnAwake = false;
-
+        UpdateCurrentDoor();
         UpdateWeightText();
 
         highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
@@ -35,15 +35,16 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
 
     void Update()
     {
-        if (highlightBox == null)
-        {
+        //Debug.Log(totalWeight);
+        //if (highlightBox == null)
+        //{
             
 
-        }
-        else
-        {
-            highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
-        }
+        //}
+        //else
+        //{
+        //    highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        //}
     }
 
     public float GetTotalWeight()
@@ -75,20 +76,20 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             }
         }
     }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
-        {
-            IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
-            if (weightedObject != null)
-            {
-                float weight = weightedObject.GetWeight();
-                totalWeight = weight;
-                UpdateCurrentDoor();
-                UpdateWeightText();
-            }
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
+    //    {
+    //        IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
+    //        if (weightedObject != null)
+    //        {
+    //            float weight = weightedObject.GetWeight();
+    //            totalWeight = weight;
+    //            UpdateCurrentDoor();
+    //            UpdateWeightText();
+    //        }
+    //    }
+    //}
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -135,7 +136,7 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     {
         if (weightText != null)
         {
-            weightText.text = $"{totalWeight}";
+            weightText.text = $"{totalWeight%100}";
         }
         else
         {
@@ -160,6 +161,15 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             return controlledDoors[currentDoorIndex].transform.position;
         }
         return transform.position;
+    }
+
+    public DoorSystem GetCurrentDoor()
+    {
+        if (controlledDoors.Count > 0)
+        {
+            return controlledDoors[currentDoorIndex]; // Return the currently active door
+        }
+        return null;
     }
 }
 

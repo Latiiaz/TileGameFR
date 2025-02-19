@@ -74,26 +74,36 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
             return;
         }
 
-        if (Input.GetKey(KeyCode.W)) // Move forward
-        {
-            StartCoroutine(MovementDelay());
-            MoveForward(_tractorDirection);
-        }
-        else if (Input.GetKeyDown(KeyCode.S)) // Move backward without changing rotation
-        {
-            StartCoroutine(MovementDelay());
-            MoveBackwards(_tractorDirection);
-        }
-        else if (Input.GetKeyDown(KeyCode.A)) // Rotate 90 degrees left
-        {
-            StartCoroutine(MovementDelay());
-            RotateTractor(-1);
-        }
-        else if (Input.GetKeyDown(KeyCode.D)) // Rotate 90 degrees right
-        {
-            StartCoroutine(MovementDelay());
-            RotateTractor(1);
-        }
+        //if (Input.GetKey(KeyCode.W)) // Move forward
+        //{
+        //    StartCoroutine(MovementDelay());
+        //    MoveForward(_tractorDirection);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.S)) // Move backward without changing rotation
+        //{
+        //    StartCoroutine(MovementDelay());
+        //    MoveBackwards(_tractorDirection);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.A)) // Rotate 90 degrees left
+        //{
+        //    StartCoroutine(MovementDelay());
+        //    RotateTractor(-1);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.D)) // Rotate 90 degrees right
+        //{
+        //    StartCoroutine(MovementDelay());
+        //    RotateTractor(1);
+        //}
+
+        if (Input.GetKey(KeyCode.W))
+            MoveForward(Vector2Int.up);
+        else if (Input.GetKey(KeyCode.A))
+            MoveForward(Vector2Int.left);
+        else if (Input.GetKey(KeyCode.S))
+            MoveForward(Vector2Int.down);
+        else if (Input.GetKey(KeyCode.D))
+            MoveForward(Vector2Int.right);
+
     }
     // Possible movement directions in clockwise order: UP, RIGHT, DOWN, LEFT
     private Vector2Int[] _directions = new Vector2Int[]
@@ -123,7 +133,7 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         {
             return;
         }
-            
+        Vector2 tractorMovement = new Vector2(direction.x, direction.y);
         if (_tractorDirection != direction)
         {
             _tractorDirection = direction;

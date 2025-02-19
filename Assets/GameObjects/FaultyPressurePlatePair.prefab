@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1443022694540017885}
   m_Layer: 0
-  m_Name: PressurePlatePair
+  m_Name: FaultyPressurePlatePair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,10 +101,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1443022694540017885}
     m_Modifications:
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.b
+      value: 0.21473834
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.g
+      value: 0.21473834
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3018868
+      objectReference: {fileID: 0}
     - target: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: weightText
       value: 
       objectReference: {fileID: 2958755191068638192}
+    - target: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: totalWeight
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: controlledDoors.Array.data[0]
       value: 

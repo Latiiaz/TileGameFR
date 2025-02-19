@@ -59,19 +59,6 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
         {
             HandleInput();
         }
-        
-        //if (IsInTractor)
-        //{
-        //    return;
-        //}
-        //if (IsCarryingItem)
-        //{
-        //    return;
-        //}
-        //if (_gameManager.TurnStatus())
-        //{
-            
-        //}
     }
 
     void SetPlayerSpawnPosition() // Sets the player spawn location
@@ -124,7 +111,6 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
             else
             {
                 Vector2Int newPosition = _playerPosition + direction;
-
                 if (_tileManager.IsTileAvailable(newPosition) && _tileManager.IsTileWalkable(newPosition)) // This is what handles the dictionary for the player & tile walkasbility
                 {
                     StartCoroutine(MoveToPosition(newPosition));
@@ -237,17 +223,17 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
     //    StartCoroutine(ActionCooldown());
     //}
 
-    void CheckCurrentTile() //Wee woo
-    {
-        if (_tileManager.IsTileAvailable(_playerPosition))
-        {
-            Debug.Log("Player is now on tile: " + _playerPosition);
-        }
-        else
-        {
-            Debug.LogWarning("No tile at player position: " + _playerPosition);
-        }
-    }
+    //void CheckCurrentTile() //Wee woo
+    //{
+    //    if (_tileManager.IsTileAvailable(_playerPosition))
+    //    {
+    //        Debug.Log("Player is now on tile: " + _playerPosition);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("No tile at player position: " + _playerPosition);
+    //    }
+    //}
 
     IEnumerator MoveToPosition(Vector2Int newPosition)
     {
@@ -273,7 +259,7 @@ public class PlayerMovement : MonoBehaviour, IWeightedObject
         _isMoving = false;
         StartCoroutine(ActionCooldown());
 
-        CheckCurrentTile();
+        //CheckCurrentTile();
     }
 
     IEnumerator ActionCooldown()
