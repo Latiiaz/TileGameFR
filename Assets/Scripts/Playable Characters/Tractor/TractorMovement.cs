@@ -43,12 +43,14 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     // Update is called once per frame
     void Update()
     {
-        if (_movementTimer > 0)
+        if (_isMoving || _isActionOnCooldown)
         {
-            _movementTimer -= Time.deltaTime; // Reduce timer every frame
-        }
 
-        HandleInput();
+        }
+        else
+        {
+            HandleInput();
+        }
     }
 
 
@@ -67,34 +69,14 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     }
 
 
-    void HandleInput()
+   void HandleInput()
     {
-        if (_isMoving || _isActionOnCooldown || _movementTimer > 0)
+        if (Input.GetKey(KeyCode.LeftShift)) // When LeftShift is held, do not process player input
         {
             return;
         }
 
-        //if (Input.GetKey(KeyCode.W)) // Move forward
-        //{
-        //    StartCoroutine(MovementDelay());
-        //    MoveForward(_tractorDirection);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.S)) // Move backward without changing rotation
-        //{
-        //    StartCoroutine(MovementDelay());
-        //    MoveBackwards(_tractorDirection);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.A)) // Rotate 90 degrees left
-        //{
-        //    StartCoroutine(MovementDelay());
-        //    RotateTractor(-1);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.D)) // Rotate 90 degrees right
-        //{
-        //    StartCoroutine(MovementDelay());
-        //    RotateTractor(1);
-        //}
-
+        // Player movement logic
         if (Input.GetKey(KeyCode.W))
             MoveForward(Vector2Int.up);
         else if (Input.GetKey(KeyCode.A))
@@ -103,7 +85,6 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
             MoveForward(Vector2Int.down);
         else if (Input.GetKey(KeyCode.D))
             MoveForward(Vector2Int.right);
-
     }
     // Possible movement directions in clockwise order: UP, RIGHT, DOWN, LEFT
     private Vector2Int[] _directions = new Vector2Int[]
@@ -138,7 +119,7 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
         {
             _tractorDirection = direction;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
-            //_isActionOnCooldown = true;
+            StartCoroutine(ActionCooldown());
         }
         else
         {
@@ -251,5 +232,9 @@ public class TractorMovement : MonoBehaviour, IInteractable, IWeightedObject
     {
         return weight;
     }
-
+    IEnumerator ActionCooldown()
+    {
+        yield return new WaitForSeconds(_actionCooldown);
+        _isActionOnCooldown = false;
+    }
 }

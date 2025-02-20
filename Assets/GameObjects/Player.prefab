@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ee38ef03756d145a3b97152bcf516e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxOxygen: 90
+  maxOxygen: 30000
   currentOxygen: 0
   displayedOxygen: 0
   levelManager: {fileID: 0}

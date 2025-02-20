@@ -109,9 +109,22 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     public void InteractE()
     {
         Debug.Log("Pressure plate interacted with. Cycling to next door.");
-        CycleToNextDoor();
+        CheckDoors();
     }
-
+    private void CheckDoors()
+    {
+        if (controlledDoors != null)
+        {
+            CycleToNextDoor();
+            return;
+        }
+        else
+        {
+            currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
+            CycleToNextDoor();
+        }
+        
+    }
     private void CycleToNextDoor()
     {
         if (controlledDoors.Count == 0)

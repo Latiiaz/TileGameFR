@@ -276,7 +276,7 @@ public class Tile : MonoBehaviour
                 break;
 
             default:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.55f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
         }
 
