@@ -252,11 +252,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.PlayerSpawn:
-                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f), 0.3f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
             case TileType.TractorSpawn:
-                assignedTileColor = new Color(1f, 0f, 0f, 0.3f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
             case TileType.BoulderSpawn:
@@ -301,11 +301,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.PlayerSpawn:
-                assignedTileColor = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.4f), Random.Range(0.3f, 0.6f));
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
             case TileType.TractorSpawn:
-                assignedTileColor = new Color(1f, 0f, 0f);
+                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
             case TileType.BoulderSpawn:

@@ -10,6 +10,7 @@ public class FinishLineSystem : MonoBehaviour
 
     [SerializeField] private float requiredWeight = 100f; // Total weight required to trigger victory
     private float _victoryDelay = 3f;
+    [SerializeField] private float requiredTime = 1f;
 
     [SerializeField] private AudioClip VictorySound;
     private AudioSource audioSource;
