@@ -18,9 +18,15 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     [SerializeField] private GameObject targetHighlight;
 
 
-    public Vector3 endPosition; 
+    public Vector3 endPosition;
+
+    [SerializeField] private bool isLocked = false;
+    private ObjectiveSystem _objectiveSystem;
+
+
     private void Start()
     {
+        _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
@@ -38,13 +44,24 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         //Debug.Log(totalWeight);
         //if (highlightBox == null)
         //{
-            
+
 
         //}
         //else
         //{
         //    highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
         //}
+        if (_objectiveSystem._objectiveEnabled && isLocked == true)
+        {
+            isLocked = false;
+            audioSource.clip = pressurePlateSound;
+            audioSource.Play();
+        }
+        else
+        {
+
+        }
+
     }
 
     public float GetTotalWeight()

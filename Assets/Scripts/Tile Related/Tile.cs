@@ -18,7 +18,7 @@ public enum TileType
     TractorSpawn,
     BoulderSpawn,
     BushSpawn,
-    ObjectiveSpawn,
+    BreakableTile,
     Pylon
 }
 
@@ -31,6 +31,8 @@ public class Tile : MonoBehaviour
     public bool IsTraversable { get; private set; } = true;
 
     public bool IsShielded { get; private set; } = false;
+
+    private bool isBroken = false;
 
     private SpriteRenderer _spriteRenderer;
     [SerializeField] private Sprite[] _tileSprites;
@@ -106,6 +108,10 @@ public class Tile : MonoBehaviour
                 HandleMudTileInteraction(other);
                 break;
 
+            case TileType.BreakableTile:
+                HandleBreakableTileInteraction(other);
+                break;
+
             case TileType.PlayerSpawn:
                 if (other.CompareTag("Player"))
                 {
@@ -119,6 +125,8 @@ public class Tile : MonoBehaviour
                     //Debug.Log("Tractor has entered the TractorSpawn tile.");
                 }
                 break;
+
+          
 
             case TileType.Pylon:
                 Debug.Log("Pylon interaction triggered.");
@@ -175,7 +183,7 @@ public class Tile : MonoBehaviour
                 IsTraversable = true;
                 break;
 
-            case TileType.ObjectiveSpawn:
+            case TileType.BreakableTile:
                 IsWalkable = true;
                 IsTraversable = true;
                 break;
@@ -233,6 +241,27 @@ public class Tile : MonoBehaviour
             Debug.Log("Tractor is unaffected by mud.");
         }
     } // Mud tile logic
+    void HandleBreakableTileInteraction(Collider2D other)
+    {
+        if (isBroken)
+        {
+            return;
+        }
+
+        if (other.CompareTag("Player") || other.CompareTag("Tractor"))
+        {
+            if (tileType == TileType.BreakableTile)
+            {
+                isBroken = true; 
+         
+                IsWalkable = false;
+                IsTraversable = false;       
+                
+                _spriteRenderer.color = new Color(0.5f, 0.2f, 0.2f, 0.5f);
+                Debug.Log("Tile Kaboom.");
+            }
+        }
+    }
 
     void ColorAssigning()
     {
@@ -267,7 +296,7 @@ public class Tile : MonoBehaviour
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
 
-            case TileType.ObjectiveSpawn:
+            case TileType.BreakableTile:
                 assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f, 0.3f);
                 break;
 
@@ -316,7 +345,7 @@ public class Tile : MonoBehaviour
                 assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
-            case TileType.ObjectiveSpawn:
+            case TileType.BreakableTile:
                 assignedTileColor = new Color(0.8f, Random.Range(0.3f, 0.4f), 0.2f);
                 break;
 
@@ -366,7 +395,7 @@ public class Tile : MonoBehaviour
                 assignedSprite = _tileSprites[7];
                 break;
 
-            case TileType.ObjectiveSpawn:
+            case TileType.BreakableTile:
                 assignedSprite = _tileSprites[8];
                 break;
 

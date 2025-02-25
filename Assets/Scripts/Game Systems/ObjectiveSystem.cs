@@ -12,6 +12,8 @@ public class ObjectiveSystem : MonoBehaviour
 
     private float _victoryDelay = 3f;
 
+    public bool _objectiveEnabled = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,15 +30,16 @@ public class ObjectiveSystem : MonoBehaviour
     }
 
     void VictorySequence() // Move the tractor out, player walks back into the tractor following the tether line
-    {
+    { 
         StartCoroutine(WaitForSecondsCoroutine(_victoryDelay));
         
     }
 
     private IEnumerator WaitForSecondsCoroutine(float seconds)
     {
+        _objectiveEnabled = true;
         yield return new WaitForSeconds(seconds);
-        levelManager.LoadVictoryScene();
+        //levelManager.LoadVictoryScene();
 
     }
 }

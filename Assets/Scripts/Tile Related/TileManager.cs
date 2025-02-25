@@ -34,6 +34,9 @@ public class TileManager : MonoBehaviour
     public int robotX;
     public int robotY;
 
+    [Header("Breakable Tiles")]
+    public int breakabletileX;
+    public int breakabletileY;
 
     public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
 
@@ -79,7 +82,7 @@ public class TileManager : MonoBehaviour
                 //else // The more randomized ones and the normal tiles // These are for weird tiels 
                 //{
 
-                 if (position.x == robotX && position.y == robotY) // For the tiles that only 1 of
+                if (position.x == robotX && position.y == robotY) // For the tiles that only 1 of
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);
@@ -103,12 +106,12 @@ public class TileManager : MonoBehaviour
                     }
 
                 }
-                //else if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
-                //{
-                //    type = TileType.TractorSpawn;
-                //    Debug.Log(position);
-                //    //tractorSpawnPlaced = true;
-                //}
+                else if (position.x == breakabletileX && position.y == breakabletileY) // For the tiles that only 1 of
+                {
+                    type = TileType.BreakableTile;
+                    Debug.Log(position);
+                    //tractorSpawnPlaced = true;
+                }
                 //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
                 //{
                 //    type = TileType.PlayerSpawn;

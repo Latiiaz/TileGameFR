@@ -34,7 +34,7 @@ public class ItemSystem : MonoBehaviour, IInteractable, IWeightedObject
     {
         foreach (var tileKey in _tileManager.tileDictionary)
         {
-            if (tileKey.Value.tileType == TileType.ObjectiveSpawn)
+            if (tileKey.Value.tileType == TileType.BreakableTile)
             {
                 _itemPosition = tileKey.Key;
                 Vector2 worldPosition = new Vector2(_itemPosition.x * _tileManager.TileSize, _itemPosition.y * _tileManager.TileSize);
