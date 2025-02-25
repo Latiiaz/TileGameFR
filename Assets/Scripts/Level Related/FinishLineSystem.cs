@@ -71,4 +71,12 @@ public class FinishLineSystem : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         levelManager.LoadVictoryScene();
     }
+
+    private IEnumerator DelayCheck(float seconds)
+    {
+        audioSource.clip = VictorySound;
+        audioSource.Play();
+        yield return new WaitForSeconds(seconds);
+        levelManager.LoadVictoryScene();
+    }
 }
