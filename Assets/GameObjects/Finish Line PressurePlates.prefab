@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749363, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Name
-      value: PressurePlate (1)
+      value: Robot PressurePlate
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_RootOrder
@@ -156,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749363, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Name
-      value: PressurePlate
+      value: Player PressurePlate
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_RootOrder
