@@ -21,8 +21,9 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
     public Vector3 endPosition;
 
     [SerializeField] private bool isLocked = false;
-    private ObjectiveSystem _objectiveSystem;
 
+    private ObjectiveSystem _objectiveSystem;
+    [SerializeField] private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer
 
     private void Start()
     {
@@ -36,32 +37,27 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         UpdateCurrentDoor();
         UpdateWeightText();
 
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
+        }
+
         highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
     }
 
     void Update()
     {
-        //Debug.Log(totalWeight);
-        //if (highlightBox == null)
-        //{
-
-
-        //}
-        //else
-        //{
-        //    highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
-        //}
-        if (_objectiveSystem._objectiveEnabled && isLocked == true)
+        if (_objectiveSystem._objectiveEnabled && isLocked)
         {
             isLocked = false;
             audioSource.clip = pressurePlateSound;
             audioSource.Play();
         }
-        else
+
+        if (spriteRenderer != null)
         {
-
+            spriteRenderer.color = isLocked ? Color.gray : Color.magenta;
         }
-
     }
 
     public float GetTotalWeight()

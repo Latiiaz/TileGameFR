@@ -192,7 +192,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -900
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4811321, g: 0.43801177, b: 0.43801177, a: 1}
   m_FlipX: 0
@@ -252,6 +252,7 @@ MonoBehaviour:
   highlightBox: {fileID: 173916112164677984}
   targetHighlight: {fileID: 368067423}
   endPosition: {x: 6, y: 0, z: 0}
+  isLocked: 0
 --- !u!1 &736217373185956936
 GameObject:
   m_ObjectHideFlags: 0

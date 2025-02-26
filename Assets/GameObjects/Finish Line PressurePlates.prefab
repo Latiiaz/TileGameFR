@@ -44,6 +44,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3520562908458935078, guid: eaadd57603e51154695b2b9f62276d29, type: 3}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 329900533241749363, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Name
       value: PressurePlate (1)
@@ -113,6 +133,26 @@ PrefabInstance:
     - target: {fileID: 173916112164677984, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3520562908458935078, guid: eaadd57603e51154695b2b9f62276d29, type: 3}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749363, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Name
