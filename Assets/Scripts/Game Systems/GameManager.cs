@@ -67,26 +67,26 @@ public class GameManager : MonoBehaviour
         //} 
     }
 
-    public void SwitchTurn()
-    {
-        _currentTurnIsPlayer = !_currentTurnIsPlayer;
-        TurnChecker();
-    }
+    //public void SwitchTurn()
+    //{
+    //    _currentTurnIsPlayer = !_currentTurnIsPlayer;
+    //    TurnChecker();
+    //}
 
-    public void TurnChecker()
-    {
+    //public void TurnChecker()
+    //{
 
-        if (_currentTurnIsPlayer)
-        {
-            _enemyTurn = false;
-            //Debug.Log("It's now the Player's turn.");
-        }
-        else
-        {
-            _enemyTurn = true;
-            //Debug.Log("It's now the Enemy's turn.");
-        }
-    }
+    //    if (_currentTurnIsPlayer)
+    //    {
+    //        _enemyTurn = false;
+    //        //Debug.Log("It's now the Player's turn.");
+    //    }
+    //    else
+    //    {
+    //        _enemyTurn = true;
+    //        //Debug.Log("It's now the Enemy's turn.");
+    //    }
+    //}
 
     public bool TurnStatus()
     {
