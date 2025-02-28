@@ -68,11 +68,11 @@ public class Tile : MonoBehaviour
 
         if (shielded)
         {
-            //ColorAssigningShielded(); // add checks to only change once
+            ColorAssigningShielded(); // add checks to only change once
         }
         else
         {
-            //ColorAssigning();
+            ColorAssigning();
         }
     }
 
