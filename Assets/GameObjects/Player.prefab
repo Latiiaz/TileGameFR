@@ -92,15 +92,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2580969965266549832}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7a9a93aa7f1c324e9eb6d00ea3ee85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomIntervalTimer: 0
+  PlayerPressurePlate: {fileID: 0}
   actionSpeed: 1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &3105728753794506728
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,10 +620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a9a93aa7f1c324e9eb6d00ea3ee85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomIntervalTimer: 0
+  PlayerPressurePlate: {fileID: 0}
   actionSpeed: 0
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &8263057052819803967
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,12 +715,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8263057052819803967}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7a9a93aa7f1c324e9eb6d00ea3ee85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomIntervalTimer: 0
+  PlayerPressurePlate: {fileID: 0}
   actionSpeed: 1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
