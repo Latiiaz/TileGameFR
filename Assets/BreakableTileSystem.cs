@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class BreakableTileSystem : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D _boxCollider2D;
-    [SerializeField] private GameObject replacementObject; // The object to place when max passes are reached
-    [SerializeField] private int maxPasses = 3; // Maximum number of times the tile can be stepped on
+    [SerializeField] private GameObject BreakableTileLocation;
+    [SerializeField] private GameObject BreakableTileRigidBody;
 
-    [SerializeField]    private int timesPassed = 0;
+    [SerializeField] private int currentTriggerCount = 0;
+    [SerializeField] private const int triggerThreshold = 3;
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Robot"))
+        Debug.Log("dwhaj");
+        if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
-            timesPassed++;
-            Debug.Log("Dwa");
-            if (timesPassed >= maxPasses)
+            currentTriggerCount++;
+            Debug.Log("dwnujia");
+            if (currentTriggerCount >= triggerThreshold)
             {
-                
-                _boxCollider2D.isTrigger = false;
-                if (replacementObject != null)
-                {
-                    Instantiate(replacementObject, transform.position, Quaternion.identity);
-                }
+                MoveBreakableTile();
             }
+        }
+    }
+
+    private void MoveBreakableTile()
+    {
+        if (BreakableTileRigidBody != null && BreakableTileLocation != null)
+        {
+            BreakableTileRigidBody.transform.position = BreakableTileLocation.transform.position;
         }
     }
 }
