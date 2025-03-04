@@ -6,21 +6,30 @@ public class BreakableTileSystem : MonoBehaviour
 {
     [SerializeField] private GameObject BreakableTileLocation;
     [SerializeField] private GameObject BreakableTileRigidBody;
+    [SerializeField] private Sprite[] tileSprites;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] private int currentTriggerCount = 0;
-    [SerializeField] private const int triggerThreshold = 3;
+    [SerializeField] private const int triggerThreshold = 4;
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("dwhaj");
         if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
             currentTriggerCount++;
-            Debug.Log("dwnujia");
+            UpdateTileSprite();
             if (currentTriggerCount >= triggerThreshold)
             {
                 MoveBreakableTile();
             }
+        }
+    }
+
+    private void UpdateTileSprite()
+    {
+        if (tileSprites.Length > 0 && currentTriggerCount - 1 < tileSprites.Length)
+        {
+            spriteRenderer.sprite = tileSprites[currentTriggerCount - 1];
         }
     }
 
