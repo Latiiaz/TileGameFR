@@ -50,7 +50,7 @@ public class TetherSystem : MonoBehaviour
 
         foreach (Tile tile in currentlyShieldedTiles)
         {
-            tile.SetIsShielded(false);
+            //tile.SetIsShielded(false);
         }
 
         
@@ -60,7 +60,7 @@ public class TetherSystem : MonoBehaviour
 
         foreach (Tile tile in currentlyShieldedTiles)
         {
-            tile.SetIsShielded(true);
+            //tile.SetIsShielded(true);
         }
     }
 

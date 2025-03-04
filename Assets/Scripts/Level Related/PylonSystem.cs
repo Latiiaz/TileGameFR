@@ -35,7 +35,6 @@ public class PylonSystem : MonoBehaviour, IInteractable
         _tileManager = FindObjectOfType<TileManager>();
         if (_pylonPosition == null)
         {
-            SetPylonSpawnPosition();
         }
         else
         {
@@ -53,18 +52,4 @@ public class PylonSystem : MonoBehaviour, IInteractable
             audioSource.Play();
         }
     }
-    void SetPylonSpawnPosition()
-    {
-        foreach (var tileKey in _tileManager.tileDictionary)
-        {
-            if (tileKey.Value.tileType == TileType.Pylon)
-            {
-                _pylonPosition = tileKey.Key;
-                Vector2 worldPosition = new Vector2(_pylonPosition.x * _tileManager.TileSize, _pylonPosition.y * _tileManager.TileSize);
-                transform.position = worldPosition;
-                Debug.Log($"Pylon spawned at: {worldPosition}");
-            }
-        }
-    }
-
 }

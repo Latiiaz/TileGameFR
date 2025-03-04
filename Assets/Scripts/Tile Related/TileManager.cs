@@ -106,12 +106,6 @@ public class TileManager : MonoBehaviour
                     }
 
                 }
-                else if (position.x == breakabletileX && position.y == breakabletileY) // For the tiles that only 1 of
-                {
-                    type = TileType.BreakableTile;
-                    Debug.Log(position);
-                    //tractorSpawnPlaced = true;
-                }
                 //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
                 //{
                 //    type = TileType.PlayerSpawn;

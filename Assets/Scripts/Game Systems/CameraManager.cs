@@ -23,10 +23,6 @@ public class CameraManager : MonoBehaviour
     private Transform _playerPos;
     private Transform _tractorPos;
 
-
-    [SerializeField] Image _greenFilter;
-    [SerializeField] Image _transparentMiddle;
-
     [SerializeField] GameManager _gameManager;
 
 
@@ -58,8 +54,7 @@ public class CameraManager : MonoBehaviour
         transform.position = new Vector3(LerpLocation.x,LerpLocation.y, -15);
 
         //Additional Stuff goes here
-        _greenFilter.gameObject.SetActive(false);
-        _transparentMiddle.gameObject.SetActive(true);
+
 
     }
     void CenteredOnRobot()
@@ -67,9 +62,6 @@ public class CameraManager : MonoBehaviour
         Vector3 Robot = (_tractorPos.position);
         Vector3 LerpLocation = Vector3.Lerp(transform.position, Robot, LerpSpeed * Time.deltaTime);
         transform.position = new Vector3(LerpLocation.x, LerpLocation.y, -15);
-
-        _greenFilter.gameObject.SetActive(true);
-        _transparentMiddle.gameObject.SetActive(false);
 
     }
     void CenteredOnMidpointBoth()
@@ -79,10 +71,6 @@ public class CameraManager : MonoBehaviour
 
         Vector3 LerpLocation = Vector3.Lerp(transform.position, (Robot + Player + Player) /3, LerpSpeed * Time.deltaTime);
         transform.position = new Vector3(_tileManager.GridWidth/2, LerpLocation.y, -15);
-
-        _greenFilter.gameObject.SetActive(false);
-        _transparentMiddle.gameObject.SetActive(true);
-
     }
 
 

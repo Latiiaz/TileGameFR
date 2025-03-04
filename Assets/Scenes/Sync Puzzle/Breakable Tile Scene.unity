@@ -2378,7 +2378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4820975119155359750, guid: 1af721d88a4904b49a0a9b49cda695be, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1af721d88a4904b49a0a9b49cda695be, type: 3}
@@ -7212,11 +7212,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4024598278408968323, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4024598278408968323, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4024598278408968323, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7226,6 +7226,10 @@ PrefabInstance:
       propertyPath: spriteRenderer
       value: 
       objectReference: {fileID: 1327378990}
+    - target: {fileID: 4024598278408968324, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
+      propertyPath: currentTriggerCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4024598278408968324, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: tileSprites.Array.size
       value: 3
@@ -7272,7 +7276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4024598278565592252, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 4024598278565592252, guid: 155395c9bb0507a4fb3bfd8a6015d800, type: 3}
       propertyPath: m_LocalPosition.y

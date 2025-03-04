@@ -25,23 +25,6 @@ public class ItemSystem : MonoBehaviour, IInteractable, IWeightedObject
         _player = FindObjectOfType<PlayerMovement>();
         _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
         
-        SetItemSpawnPosition();
-    }
-
-
-
-    void SetItemSpawnPosition() // Item spawn position
-    {
-        foreach (var tileKey in _tileManager.tileDictionary)
-        {
-            if (tileKey.Value.tileType == TileType.BreakableTile)
-            {
-                _itemPosition = tileKey.Key;
-                Vector2 worldPosition = new Vector2(_itemPosition.x * _tileManager.TileSize, _itemPosition.y * _tileManager.TileSize);
-                transform.position = worldPosition;
-                Debug.Log($"Tractor spawned at: {worldPosition}");
-            }
-        }
     }
 
     public void InteractE()

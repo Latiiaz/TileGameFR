@@ -9,7 +9,7 @@ public class BreakableTileSystem : MonoBehaviour
     [SerializeField] private Sprite[] tileSprites;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    [SerializeField] private int currentTriggerCount = 0;
+    [SerializeField] private int currentTriggerCount = 1;
     [SerializeField] private const int triggerThreshold = 4;
 
     private void OnTriggerExit2D(Collider2D other)
