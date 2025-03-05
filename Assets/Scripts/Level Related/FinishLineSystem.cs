@@ -15,6 +15,8 @@ public class FinishLineSystem : MonoBehaviour
     [SerializeField] private AudioClip VictorySound;
     private AudioSource audioSource;
 
+    [SerializeField] private string nextLevel;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -55,7 +57,7 @@ public class FinishLineSystem : MonoBehaviour
         if (totalWeight >= requiredWeight && !isVictoryTriggered)
         {
             isVictoryTriggered = true; // Ensure this block runs only once
-            VictorySequence();
+            NextLevelSequence();
         }
     }
 
@@ -63,7 +65,17 @@ public class FinishLineSystem : MonoBehaviour
     {
         StartCoroutine(VictoryCoroutine(_victoryDelay));
     }
-
+    void NextLevelSequence()
+    {
+        StartCoroutine(NextLevelCoroutine(_victoryDelay));
+    }
+    private IEnumerator NextLevelCoroutine(float seconds)
+    {
+        audioSource.clip = VictorySound;
+        audioSource.Play();
+        yield return new WaitForSeconds(seconds);
+        levelManager.LoadSceneByName(nextLevel);
+    }
     private IEnumerator VictoryCoroutine(float seconds)
     {
         audioSource.clip = VictorySound;

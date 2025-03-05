@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 4398109549176217868}
   m_Layer: 7
   m_Name: ControlPanel
-  m_TagString: Untagged
+  m_TagString: Pylon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

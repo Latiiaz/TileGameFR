@@ -52,49 +52,29 @@ public class TileManager : MonoBehaviour
 
     public void GenerateGrid()
     {
-        bool tractorSpawnPlaced = false;
-        bool itemtestSpawnPlaced = false;
-
         for (int x = 0; x < GridWidth; x++)
         {
             for (int y = 0; y < GridHeight; y++)
             {
                 Vector2Int position = new Vector2Int(x, y);
-                Vector2 worldPosition = new Vector2(x * TileSize, y * TileSize); //Incase wanna increase tile size but probably kept at 1
+                Vector2 worldPosition = new Vector2(x * TileSize, y * TileSize); 
 
                 GameObject tileObject = Instantiate(_tilePrefab, worldPosition, Quaternion.identity, transform);
                 Tile tile = tileObject.GetComponent<Tile>();
 
                 TileType type;
 
-                //if (position.x == 9 && position.y == 8) // For the tiles that only 1 of
-                //{
-                //    type = TileType.TractorSpawn;
-                //    Debug.Log(position);
-                //    //tractorSpawnPlaced = true;
-                //}
-                //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
-                //{
-                //    type = TileType.PlayerSpawn;
-                //    Debug.Log(position);
-                //    //itemtestSpawnPlaced = true;
-                //}
-                //else // The more randomized ones and the normal tiles // These are for weird tiels 
-                //{
-
-                if (position.x == robotX && position.y == robotY) // For the tiles that only 1 of
+                if (position.x == robotX && position.y == robotY) 
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);
-                    //tractorSpawnPlaced = true;
                 }
-                else if (position.x == playerX && position.y == playerY) // Spawn Objectivve Test Item
+                else if (position.x == playerX && position.y == playerY) 
                 {
                     type = TileType.PlayerSpawn;
                     Debug.Log(position);
-                    //itemtestSpawnPlaced = true;
                 }
-                else if (position.x >= minX && position.x <= maxX) // Spawns 2 length river tile on the 6th and 7th X coordinate
+                else if (position.x >= minX && position.x <= maxX)
                 {
                     if (position.y >= minY && position.y <= maxY)
                     {
@@ -106,23 +86,7 @@ public class TileManager : MonoBehaviour
                     }
 
                 }
-                //else if (position.x == 1 && position.y == 1) // Spawn Objectivve Test Item
-                //{
-                //    type = TileType.PlayerSpawn;
-                //    Debug.Log(position);
-                //    //itemtestSpawnPlaced = true;
-                //}
-                //else if (position.x == 13 || position.x == 12) // Spawns 2 length mud tile on the 11 and 12th X coordinate
-                //{
-                //    if (position.y == 0 || position.y == 1)
-                //    {
-                //        type = TileType.Normal;
-                //    }
-                //    else
-                //    {
-                //        type = TileType.Mud;
-                //    }
-                //}
+
                 else
                     {
                         type = TileType.Normal;
@@ -157,14 +121,7 @@ public class TileManager : MonoBehaviour
         }
         return false;
     }
-        //public void ToggleTileWalkable(Vector2Int position)
-        //{
-        //    if (tileDictionary.ContainsKey(position))
-        //    {
-        //        Tile tile = tileDictionary[position];
-        //        tile.SetWalkable(!tile.IsWalkable); // Changes the tile.cs script on the tile to toggle between walkable and not walkable
-        //    }
-        //}
+
     
     public Tile GetTileAt(Vector2Int position) // Not used yet but will be used to determine spawnpoint tile(s) later
     {

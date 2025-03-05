@@ -12,6 +12,7 @@ TagManager:
   - Door
   - Wall
   - Pylon
+  - Physical
   layers:
   - Default
   - TransparentFX
