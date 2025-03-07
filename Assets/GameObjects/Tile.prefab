@@ -73,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   _tileSprites: []
+  _boxCollider: {fileID: 0}
 --- !u!1 &8588167548711413609
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -999
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 1734183066268318789, guid: 6906b18791d77214dba25fead5c5c9cb, type: 3}
   m_Color: {r: 0.23655434, g: 0.4245283, b: 0.12615699, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -200,3 +201,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   _tileSprites: []
+  _boxCollider: {fileID: 0}
