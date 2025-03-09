@@ -288,10 +288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081f8c838b6f2fd42938b81ba45f4e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileManager: {fileID: 0}
-  _moveSpeed: 0.15
-  _actionCooldown: 0.1
-  _gameManager: {fileID: 0}
+  moveSpeed: 0.2
+  actionCooldown: 0.1
+  tetherSystem: {fileID: 0}
+  gameManager: {fileID: 0}
   weight: 50
 --- !u!61 &5187807225899239711
 BoxCollider2D:

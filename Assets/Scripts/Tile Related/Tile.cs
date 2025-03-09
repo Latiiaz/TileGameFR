@@ -29,6 +29,9 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private BoxCollider2D _boxCollider;
 
+
+
+    private Color _originalColor;
     void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -54,9 +57,24 @@ public class Tile : MonoBehaviour
     {
         _gridPosition = position;
         tileType = type;
-        ColorAssigning(); // Will be replaced by SpriteAssign();
+
+        ColorAssigning();
+        _originalColor = _spriteRenderer.color; 
         ResetTileMovability();
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") || other.CompareTag("Tractor"))
+        {
+            // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
+            StopAllCoroutines(); // Stop any ongoing color transition
+            _spriteRenderer.color = Color.white; // Instantly turn white
+            StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+        }
+
+    }
+
 
     void OnTriggerStay2D(Collider2D other)
     { if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Door") || other.CompareTag("Pylon"))
@@ -100,7 +118,13 @@ public class Tile : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+
         ResetTileMovability();
+
+         // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
+            //StopAllCoroutines(); // Stop any ongoing color transition
+            //_spriteRenderer.color = Color.white; // Instantly turn white
+            //StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
     }
 
     private void SetTileMovability(bool walkable, bool traversable)
@@ -206,66 +230,19 @@ public class Tile : MonoBehaviour
         _spriteRenderer.color = assignedTileColor;
     }
 
-    //void ColorAssigningShielded()
-    //{
-    //    Color assignedTileColor;
-    //    switch (tileType)
-    //    {
-    //        case TileType.River:
-    //            assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f));
-    //            break;
 
-    //        case TileType.Mud:
-    //            assignedTileColor = new Color32(110, 38, 14, 255);
-    //            break;
+    private IEnumerator LerpColorBack(Color targetColor, float duration)
+    {
+        float time = 0;
+        Color startColor = _spriteRenderer.color;
 
-    //        case TileType.PlayerSpawn:
-    //            assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-    //            break;
+        while (time < duration)
+        {
+            _spriteRenderer.color = Color.Lerp(startColor, targetColor, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
 
-    //        case TileType.TractorSpawn:
-    //            assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-    //            break;
-
-           
-
-    //        default:
-    //            assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
-    //            break;
-    //    }
-
-    //    _spriteRenderer.color = assignedTileColor;
-    //}
-
-    //void SpriteAssign()
-    //{
-    //    Sprite assignedSprite = null;
-
-    //    switch (tileType)
-    //    {
-    //        case TileType.River:
-    //            assignedSprite = _tileSprites[1];
-    //            break;
-
-    //        case TileType.Mud:
-    //            assignedSprite = _tileSprites[2];
-    //            break;
-
-
-    //        case TileType.PlayerSpawn:
-    //            assignedSprite = _tileSprites[4];
-    //            break;
-
-    //        case TileType.TractorSpawn:
-    //            assignedSprite = _tileSprites[5];
-    //            break;
-
-
-    //        default:
-    //            assignedSprite = _tileSprites[0];
-    //            break;
-    //    }
-
-    //    _spriteRenderer.sprite = assignedSprite;
-    //}
+        _spriteRenderer.color = targetColor; // Ensure final color is set
+    }
 }

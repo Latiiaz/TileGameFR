@@ -403,10 +403,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d607c4500827974fa55895e9838d898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 0.15
-  _actionCooldown: 0.1
-  _tetherSystem: {fileID: 0}
-  _gameManager: {fileID: 0}
+  moveSpeed: 0.2
+  actionCooldown: 0.1
+  tetherSystem: {fileID: 0}
+  gameManager: {fileID: 0}
   weight: 50
 --- !u!114 &-1229614216885073985
 MonoBehaviour:
@@ -452,8 +452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2553825199e6a45a56c2154361431e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heldItem: {fileID: 0}
-  canPickUp: 1
 --- !u!50 &5855344545662574442
 Rigidbody2D:
   serializedVersion: 4
@@ -549,8 +547,8 @@ Transform:
   m_GameObject: {fileID: 7138209258171108377}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6797185670728119960}
   - {fileID: 4867817991144668158}

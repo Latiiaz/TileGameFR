@@ -122,16 +122,6 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
-    
-    public Tile GetTileAt(Vector2Int position) // Not used yet but will be used to determine spawnpoint tile(s) later
-    {
-        if (tileDictionary.ContainsKey(position))
-        {
-            return tileDictionary[position];
-        }
-        return null;
-    }
-
     public void LogAllTilesInDictionary() // Debug Log to check if tiles are functioning as intended for bugs
     {
         foreach (var tileKey in tileDictionary)

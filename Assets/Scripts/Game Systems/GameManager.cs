@@ -32,18 +32,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Main Character")]
     public bool _currentTurnIsPlayer = true;
-    private bool _enemyTurn = false;
-
     // Start is called before the first frame update
     void Start() // Spawns the map player tractor and cart
     {
         tileManager.GenerateGrid(); // Spawns grids so all tiles have spawned
         
-        SpawnTractor(); // Spawn tractor since the player needs to find the tractor in order to spawn on it
-        // The player spawns inside of the tractor and the F tractor key is called on start for the player, hardcoded way to always start in the tractor
-        //SpawnCart(); // Cart needs to spawn behind the tractor hence spawns after the player and tractor are both done spawning
-        //SpawnItem(); // Completely unaffected by the spawn conditions of the other 3 above it
-        //SpawnPylon();
+        SpawnTractor();
+      
         SpawnPlayer();
     }
     private void Awake()
@@ -75,17 +70,6 @@ public class GameManager : MonoBehaviour
 
     public void TurnChecker()
     {
-
-        if (_currentTurnIsPlayer)
-        {
-            _enemyTurn = false;
-            //Debug.Log("It's now the Player's turn.");
-        }
-        else
-        {
-            _enemyTurn = true;
-            //Debug.Log("It's now the Enemy's turn.");
-        }
     }
 
     public bool TurnStatus()
@@ -120,44 +104,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Invalid spawn position for tractor.");
         }
     }
-    void SpawnCart()
-    {
-        if (tileManager.IsTileAvailable(_cartStartPosition))
-        {
-            Vector2 spawnPosition = new Vector2(_cartStartPosition.x * tileManager.TileSize, _cartStartPosition.y * tileManager.TileSize);
-            _cart = Instantiate(CartPrefab, spawnPosition, Quaternion.identity);
-        }
-        else
-        {
-            Debug.LogWarning("Invalid spawn position for cart.");
-        }
-    }
-
-    void SpawnItem()
-    {
-        if (tileManager.IsTileAvailable(_itemTestStartPosition))
-        {
-            Vector2 spawnPosition = new Vector2(_itemTestStartPosition.x * tileManager.TileSize, _itemTestStartPosition.y * tileManager.TileSize);
-            _itemTest = Instantiate(ItemTestPrefab, spawnPosition, Quaternion.identity);
-            //Debug.Log("(TEST ITEM): " + _itemTest.transform.position);
-        }
-        else
-        {
-            Debug.LogWarning("Invalid spawn position for test item.");
-        }
-    }
-    void SpawnPylon()
-    {
-        if (tileManager.IsTileAvailable(_pylonStartPosition))
-        {
-            Vector2 spawnPosition = new Vector2(_pylonStartPosition.x * tileManager.TileSize, _pylonStartPosition.y * tileManager.TileSize);
-            _pylon = Instantiate(PylonPrefab, spawnPosition, Quaternion.identity);
-        }
-        else
-        {
-            Debug.LogWarning("Invalid spawn position for cart.");
-        }
-    }
+   
 
 
 
