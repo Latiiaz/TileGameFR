@@ -89,21 +89,6 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             }
         }
     }
-    //private void OnTriggerStay2D(Collider2D other)
-    //{
-    //    if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
-    //    {
-    //        IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
-    //        if (weightedObject != null)
-    //        {
-    //            float weight = weightedObject.GetWeight();
-    //            totalWeight = weight;
-    //            UpdateCurrentDoor();
-    //            UpdateWeightText();
-    //        }
-    //    }
-    //}
-
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
@@ -147,7 +132,7 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
 
         currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
-        Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name} at position {controlledDoors[currentDoorIndex].transform.position}");
+        //Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name} at position {controlledDoors[currentDoorIndex].transform.position}");
     }
 
 

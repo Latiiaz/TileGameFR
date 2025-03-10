@@ -1387,8 +1387,6 @@ MonoBehaviour:
   ShakeDuration: 0.3
   ShakeMultiplier: 1.5
   LerpSpeed: 5
-  _greenFilter: {fileID: 1872369479}
-  _transparentMiddle: {fileID: 847125639}
   _gameManager: {fileID: 978403370}
 --- !u!1 &522275380
 GameObject:
@@ -1459,7 +1457,7 @@ Transform:
   - {fileID: 1282967161}
   - {fileID: 667434274}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573416170
 GameObject:
@@ -5171,6 +5169,7 @@ MonoBehaviour:
   requiredWeight: 100
   requiredTime: 1
   VictorySound: {fileID: 8300000, guid: 1dfa843a2b40a894eaca3bd460683963, type: 3}
+  nextLevel: 
 --- !u!212 &1581001762
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7098,7 +7097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2871253436072327438, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2871253436072327438, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7143,6 +7142,10 @@ PrefabInstance:
     - target: {fileID: 2871253436072327439, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Name
       value: Finish Line PressurePlates
+      objectReference: {fileID: 0}
+    - target: {fileID: 7815136301889934319, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}

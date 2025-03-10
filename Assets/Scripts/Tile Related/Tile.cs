@@ -68,18 +68,24 @@ public class Tile : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
             // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
-            StopAllCoroutines(); // Stop any ongoing color transition
-            _spriteRenderer.color = Color.white; // Instantly turn white
-            StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+            //StopAllCoroutines(); // Stop any ongoing color transition
+            //_spriteRenderer.color = Color.white; // Instantly turn white
+            //StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
         }
 
     }
 
 
     void OnTriggerStay2D(Collider2D other)
-    { if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Door") || other.CompareTag("Pylon"))
+    {
+        if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Pylon"))
+
         {
             SetTileMovability(false, false);
+            if (other.CompareTag("Door"))
+            {
+                Debug.Log("dnwauhidba");
+            }
         }
         // Handle tile-specific logic based on tile type
         switch (tileType)
@@ -121,10 +127,10 @@ public class Tile : MonoBehaviour
 
         ResetTileMovability();
 
-         // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
-            //StopAllCoroutines(); // Stop any ongoing color transition
-            //_spriteRenderer.color = Color.white; // Instantly turn white
-            //StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+        // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
+        StopAllCoroutines(); // Stop any ongoing color transition
+        _spriteRenderer.color = Color.white; // Instantly turn white
+        StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
     }
 
     private void SetTileMovability(bool walkable, bool traversable)
