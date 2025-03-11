@@ -26,7 +26,7 @@ public class AnimalPickupSystem : MonoBehaviour
             _objectiveSystem._objectiveCount++;
             Destroy(gameObject);
         }
-        Debug.Log("dwanjid");
+        //Debug.Log("dwanjid");
       
     }
 }

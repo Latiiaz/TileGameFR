@@ -3,46 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PressurePlateSystem : MonoBehaviour, IInteractable
+public class PressurePlateSystem : MonoBehaviour
 {
     [SerializeField] private float totalWeight;
     [SerializeField] public AudioClip pressurePlateSound;
     private AudioSource audioSource;
 
     [SerializeField] private List<DoorSystem> controlledDoors; // List of doors this plate controls
-    private int currentDoorIndex = 0;
-
     [SerializeField] private TextMeshProUGUI weightText;
-
     [SerializeField] private GameObject highlightBox;
     [SerializeField] private GameObject targetHighlight;
-
-
     public Vector3 endPosition;
 
     [SerializeField] private bool isLocked = false;
-
     private ObjectiveSystem _objectiveSystem;
-    [SerializeField] private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
         _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
+        audioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        UpdateCurrentDoor();
+        UpdateAllDoors();
         UpdateWeightText();
 
         if (spriteRenderer == null)
         {
-            spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        highlightBox.transform.position = controlledDoors[currentDoorIndex].transform.position;
+        if (controlledDoors.Count > 0)
+        {
+            highlightBox.transform.position = controlledDoors[0].transform.position; // Use first door position for highlight
+        }
     }
 
     void Update()
@@ -72,23 +65,14 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
-                float weight = weightedObject.GetWeight();
-                totalWeight += weight;
-                UpdateCurrentDoor();
+                totalWeight += weightedObject.GetWeight();
+                UpdateAllDoors();
                 UpdateWeightText();
-
-                if (pressurePlateSound != null)
-                {
-                    audioSource.clip = pressurePlateSound;
-                    audioSource.Play();
-                }
-                else
-                {
-                    Debug.LogError("Pressure Plate Sound not assigned!");
-                }
+                PlayPressurePlateSound();
             }
         }
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player") || other.CompareTag("Objective") || other.CompareTag("Tractor"))
@@ -96,58 +80,39 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
-                float weight = weightedObject.GetWeight();
-                totalWeight -= weight;
-                UpdateCurrentDoor();
+                totalWeight -= weightedObject.GetWeight();
+                UpdateAllDoors();
                 UpdateWeightText();
             }
         }
     }
 
-    public void InteractE()
+    private void PlayPressurePlateSound()
     {
-        Debug.Log("Pressure plate interacted with. Cycling to next door.");
-        CheckDoors();
-    }
-    private void CheckDoors()
-    {
-        if (controlledDoors != null)
+        if (pressurePlateSound != null)
         {
-            CycleToNextDoor();
-            return;
+            audioSource.clip = pressurePlateSound;
+            audioSource.Play();
         }
         else
         {
-            currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
-            CycleToNextDoor();
+            Debug.LogError("Pressure Plate Sound not assigned!");
         }
-        
     }
-    private void CycleToNextDoor()
+
+    private void UpdateAllDoors()
     {
-        if (controlledDoors.Count == 0)
+        foreach (DoorSystem door in controlledDoors)
         {
-            Debug.LogWarning("No doors assigned to this pressure plate!");
-            return;
-        }
-
-        currentDoorIndex = (currentDoorIndex + 1) % controlledDoors.Count;
-        //Debug.Log($"Cycled to door: {controlledDoors[currentDoorIndex].name} at position {controlledDoors[currentDoorIndex].transform.position}");
-    }
-
-
-    private void UpdateCurrentDoor()
-    {
-        if (controlledDoors.Count > 0)
-        {
-            controlledDoors[currentDoorIndex].UpdateDoorState(totalWeight);
+            door.UpdateDoorState(totalWeight);
         }
     }
+
     private void UpdateWeightText()
     {
         if (weightText != null)
         {
-            weightText.text = $"{totalWeight%100}";
+            weightText.text = $"{totalWeight % 100}";
         }
         else
         {
@@ -155,32 +120,17 @@ public class PressurePlateSystem : MonoBehaviour, IInteractable
         }
     }
 
-    //void ShowTargetHighlight(bool highlightActive)
-    //{
-    //    if (true)
-    //    {
-    //        targetHighlight.SetActive(highlightActive);
-
-    //    }
-    //}
-
-
     public Vector3 GetEndPosition()
     {
         if (controlledDoors.Count > 0)
         {
-            return controlledDoors[currentDoorIndex].transform.position;
+            return controlledDoors[0].transform.position; // Return the first door's position
         }
         return transform.position;
     }
 
-    public DoorSystem GetCurrentDoor()
+    public List<DoorSystem> GetControlledDoors()
     {
-        if (controlledDoors.Count > 0)
-        {
-            return controlledDoors[currentDoorIndex]; // Return the currently active door
-        }
-        return null;
+        return controlledDoors; // Return all doors instead of just one
     }
 }
-

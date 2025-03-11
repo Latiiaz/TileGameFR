@@ -13,7 +13,7 @@ public class TractorMovement : Movement, IWeightedObject
         base.Start();
         gameManager = FindObjectOfType<GameManager>();
         tetherSystem = GetComponent<TetherSystem>();
-        SetPlayerSpawnPosition();
+        SetTractorSpawnPosition();
     }
 
     protected override void HandleInput()
@@ -26,7 +26,7 @@ public class TractorMovement : Movement, IWeightedObject
         else if (Input.GetKey(KeyCode.D)) MoveOrTurn(Vector2Int.right);
     }
 
-    private void SetPlayerSpawnPosition()
+    private void SetTractorSpawnPosition()
     {
         foreach (var tileKey in tileManager.tileDictionary)
         {
@@ -35,7 +35,7 @@ public class TractorMovement : Movement, IWeightedObject
                 currentPosition = tileKey.Key;
                 Vector2 worldPosition = new Vector2(currentPosition.x * tileManager.TileSize, currentPosition.y * tileManager.TileSize);
                 transform.position = worldPosition;
-                Debug.Log($"Player spawned at: {worldPosition}");
+                Debug.Log($"Tractor spawned at: {worldPosition}");
             }
         }
     }

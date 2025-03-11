@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public abstract class Movement : MonoBehaviour
 {
     protected Vector2Int currentPosition;
@@ -9,14 +10,27 @@ public abstract class Movement : MonoBehaviour
     [SerializeField] protected float moveSpeed = 0.2f;
     [SerializeField] protected float actionCooldown = 0.2f;
 
-    protected bool isMoving = false;
+    [SerializeField] protected bool isMoving = false;
     protected bool isActionOnCooldown = false;
 
     protected TileManager tileManager;
+    private BoxCollider2D boxCollider;
 
+
+    [SerializeField] protected float KBmoveSpeed = 0f;
     protected virtual void Start()
     {
         tileManager = FindObjectOfType<TileManager>();
+        boxCollider = GetComponent<BoxCollider2D>();
+
+        if (boxCollider == null)
+        {
+            Debug.LogError("BoxCollider2D missing on Movement object!");
+        }
+        else
+        {
+            boxCollider.isTrigger = true; // Ensure it works with triggers
+        }
     }
 
     protected virtual void Update()
@@ -24,20 +38,19 @@ public abstract class Movement : MonoBehaviour
         if (!isMoving && !isActionOnCooldown)
         {
             HandleInput();
+            KnockedBackwards();
         }
         if (!tileManager.IsTileAvailable(currentPosition))
         {
-            Debug.LogWarning("Player is in an occupied tile!");
+            Debug.LogWarning($"Player is in an occupied tile at position {currentPosition}!");
         }
-
     }
 
     protected abstract void HandleInput(); // Implemented in derived classes
 
     public virtual void MoveOrTurn(Vector2Int direction)
-    {
-
-        if (isMoving || isActionOnCooldown) return; // Prevents any input during cooldown
+    { 
+        if (isMoving || isActionOnCooldown) return;
 
         if (currentDirection != direction)
         {
@@ -51,13 +64,14 @@ public abstract class Movement : MonoBehaviour
             if (tileManager.IsTileAvailable(newPosition) && tileManager.IsTileWalkable(newPosition))
             {
                 StartCoroutine(MoveToPosition(newPosition));
-                StartCoroutine(ActionCooldown()); 
+                StartCoroutine(ActionCooldown());
             }
         }
     }
 
     protected IEnumerator MoveToPosition(Vector2Int newPosition)
     {
+        
         isMoving = true;
         isActionOnCooldown = true;
 
@@ -80,10 +94,9 @@ public abstract class Movement : MonoBehaviour
         isActionOnCooldown = false;
     }
 
-
     protected IEnumerator ActionCooldown()
     {
-        if (isActionOnCooldown) yield break; // Prevent multiple cooldowns
+        if (isActionOnCooldown) yield break;
 
         isActionOnCooldown = true;
         yield return new WaitForSeconds(actionCooldown);
@@ -94,4 +107,53 @@ public abstract class Movement : MonoBehaviour
     {
         return transform.up;
     }
+
+    private void KnockedBackwards()
+    {
+        int tileLayerMask = LayerMask.GetMask("Tile"); // Only check for tiles
+
+        Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(0.5f, 0.5f), 0, tileLayerMask);
+
+        if (hit != null && hit.CompareTag("Door") && !isMoving) // Ensure player is not moving
+        {
+            Debug.Log($"Knocked back from a Door tile at {currentPosition}");
+
+            Vector2Int oppositeDirection = -currentDirection;
+            Vector2Int newPosition = currentPosition + oppositeDirection;
+
+            // Keep moving backwards until a walkable tile is found
+            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition))
+            {
+                newPosition += oppositeDirection; // Move further back
+            }
+
+            // Move the player to the first available tile found
+            StartCoroutine(KnockBackMovement(newPosition));
+        }
+    }
+    protected IEnumerator KnockBackMovement(Vector2Int newPosition)
+    {
+
+        isMoving = true;
+        isActionOnCooldown = true;
+
+        Vector2 start = transform.position;
+        Vector2 end = new Vector2(newPosition.x * tileManager.TileSize, newPosition.y * tileManager.TileSize);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < KBmoveSpeed)
+        {
+            transform.position = Vector2.Lerp(start, end, elapsedTime / KBmoveSpeed);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = end;
+        currentPosition = newPosition;
+
+        isMoving = false;
+        isActionOnCooldown = false;
+    }
+
 }

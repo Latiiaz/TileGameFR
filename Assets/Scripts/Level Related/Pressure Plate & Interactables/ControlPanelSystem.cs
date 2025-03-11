@@ -8,7 +8,7 @@ public class ControlPanelSystem : MonoBehaviour, IInteractable
     {
         if (pressurePlate != null)
         {
-            pressurePlate.InteractE();
+            //pressurePlate.InteractE();
         }
     }
 }

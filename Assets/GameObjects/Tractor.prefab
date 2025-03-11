@@ -290,6 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
   actionCooldown: 0.1
+  isMoving: 0
+  KBmoveSpeed: 0.1
   tetherSystem: {fileID: 0}
   gameManager: {fileID: 0}
   weight: 50

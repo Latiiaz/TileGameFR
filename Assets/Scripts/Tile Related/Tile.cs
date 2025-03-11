@@ -78,14 +78,11 @@ public class Tile : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Pylon"))
+        if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Pylon")||other.CompareTag("Door"))
 
         {
             SetTileMovability(false, false);
-            if (other.CompareTag("Door"))
-            {
-                Debug.Log("dnwauhidba");
-            }
+           
         }
         // Handle tile-specific logic based on tile type
         switch (tileType)
@@ -129,7 +126,7 @@ public class Tile : MonoBehaviour
 
         // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
         StopAllCoroutines(); // Stop any ongoing color transition
-        _spriteRenderer.color = Color.white; // Instantly turn white
+        _spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
         StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
     }
 
