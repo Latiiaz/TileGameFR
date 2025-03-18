@@ -17,13 +17,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Character
   - Water
   - UI
   - 
   - Interactable
   - Tractor
-  - 
+  - Player
   - Tile
   - 
   - 
@@ -37,7 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Wall
   - 
   - 
   - 

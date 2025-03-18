@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/DefeatScene.unity
     guid: ca61949c1235d614c8cbfac3d2c6ca53
   - enabled: 1
-    path: Assets/Scenes/Sync Puzzle/Animal Unlock Screen.unity
+    path: Assets/Scenes/Sync Puzzle/Animal Unlock Scene.unity
     guid: 096efe9565a8c0840b19dbad42b30637
   - enabled: 1
     path: Assets/Scenes/Sync Puzzle/Sync Puzzle 1.unity

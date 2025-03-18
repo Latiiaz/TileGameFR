@@ -124,10 +124,12 @@ public class Tile : MonoBehaviour
 
         ResetTileMovability();
 
-        // In here, Apply method to change tile's sprite renderer from white and lerp it slowly to the original sprite renderer hexcode assigned in Initialize method.
-        StopAllCoroutines(); // Stop any ongoing color transition
-        _spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
-        StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+        if (other.CompareTag("Player") || other.CompareTag("Tractor"))
+        {
+            StopAllCoroutines(); // Stop any ongoing color transition
+            _spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
+            StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+        }
     }
 
     private void SetTileMovability(bool walkable, bool traversable)
@@ -210,7 +212,7 @@ public class Tile : MonoBehaviour
         switch (tileType)
         {
             case TileType.River:
-                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 0.55f);
+                assignedTileColor = new Color(0.2f, 0.2f, Random.Range(0.3f, 0.6f), 1f);
                 break;
 
             case TileType.Mud:
@@ -218,15 +220,15 @@ public class Tile : MonoBehaviour
                 break;
 
             case TileType.PlayerSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                assignedTileColor = new Color(0.8024783f, Random.Range(0.445194f, 0.545194f), 0.9811321f, 1f);
                 break;
 
             case TileType.TractorSpawn:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                assignedTileColor = new Color(0.8024783f, Random.Range(0.445194f, 0.545194f), 0.9811321f, 1f);
                 break;
 
             default:
-                assignedTileColor = new Color(0.2f, Random.Range(0.3f, 0.4f), 0.2f);
+                assignedTileColor = new Color(0.8024783f, Random.Range(0.445194f, 0.545194f), 0.9811321f,1f);
                 break;
         }
 

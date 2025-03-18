@@ -124,7 +124,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -5
   m_Sprite: {fileID: -7200089388387181871, guid: 1d081b0a2e32e354a9c5305e3efcb44e, type: 3}
-  m_Color: {r: 0, g: 0.74509805, b: 0.13333334, a: 1}
+  m_Color: {r: 0.32157117, g: 0, b: 0.6226415, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4024598278565592255}
   - component: {fileID: 4024598278565592254}
   - component: {fileID: 4024598278565592253}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Tile Rigidbody
   m_TagString: Physical
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -715633025323980280, guid: 1d081b0a2e32e354a9c5305e3efcb44e, type: 3}
-  m_Color: {r: 0, g: 0.745283, b: 0.13230747, a: 1}
+  m_Color: {r: 0.23893042, g: 0, b: 0.3584906, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 8954133912122837844}
   - component: {fileID: 390232742538004275}
   - component: {fileID: 8780458063567099538}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,8 +378,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190212
-  m_fontColor: {r: 0.5188679, g: 0, b: 0, a: 1}
+    rgba: 4294177779
+  m_fontColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 2029027577765729533}
   - component: {fileID: 1297790139204231212}
   - component: {fileID: 2908065169986185559}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

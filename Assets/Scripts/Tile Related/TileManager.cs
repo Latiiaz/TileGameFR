@@ -64,12 +64,12 @@ public class TileManager : MonoBehaviour
 
                 TileType type;
 
-                if (position.x == robotX && position.y == robotY) 
+                if (position.x == robotX-1 && position.y == robotY-1) 
                 {
                     type = TileType.TractorSpawn;
                     Debug.Log(position);
                 }
-                else if (position.x == playerX && position.y == playerY) 
+                else if (position.x == playerX-1 && position.y == playerY-1) 
                 {
                     type = TileType.PlayerSpawn;
                     Debug.Log(position);

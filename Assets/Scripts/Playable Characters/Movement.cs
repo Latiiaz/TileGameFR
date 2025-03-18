@@ -111,6 +111,7 @@ public abstract class Movement : MonoBehaviour
     private void KnockedBackwards()
     {
         int tileLayerMask = LayerMask.GetMask("Tile"); // Only check for tiles
+        int counter = 0;
 
         Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(0.5f, 0.5f), 0, tileLayerMask);
 
@@ -122,8 +123,16 @@ public abstract class Movement : MonoBehaviour
             Vector2Int newPosition = currentPosition + oppositeDirection;
 
             // Keep moving backwards until a walkable tile is found
-            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition))
+            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition) && hit.CompareTag("Door"))
             {
+                counter++;
+                if (counter >= 20)
+                {
+                    newPosition = currentPosition;
+                }
+
+
+
                 newPosition += oppositeDirection; // Move further back
             }
 

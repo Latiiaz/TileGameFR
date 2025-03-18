@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7567722384990403173}
   - component: {fileID: 5508677529468726460}
   - component: {fileID: 3211641239187502887}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4867817991144668158}
   - component: {fileID: 8362336821816373374}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 5636894868632698925}
   - component: {fileID: 4432496878073883323}
   - component: {fileID: 2519071420651342606}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player HitBoxes
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6797185670728119960}
   - component: {fileID: 2453834245273360513}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 5855344545662574442}
   - component: {fileID: 7010573614077414632}
   - component: {fileID: 497768996229464132}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
-  actionCooldown: 0.1
+  actionCooldown: 0.2
   isMoving: 0
   KBmoveSpeed: 0.1
   tetherSystem: {fileID: 0}
@@ -488,7 +488,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -499,7 +499,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.6}
   m_EdgeRadius: 0
 --- !u!95 &497768996229464132
 Animator:
@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 375527747968190661}
   - component: {fileID: 2818496731847446118}
   - component: {fileID: 840993989660634791}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +599,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.64833456, g: 0.20536669, b: 0.6698113, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.6313726, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 2780338448996473746}
   - component: {fileID: 4018250258246821153}
   - component: {fileID: 1772042738691960426}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

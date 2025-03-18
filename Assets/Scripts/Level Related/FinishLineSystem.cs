@@ -44,7 +44,7 @@ public class FinishLineSystem : MonoBehaviour
         {
             if (pressurePlate.CompareTag("PressurePlate"))
             {
-                PressurePlateSystem plateSystem = pressurePlate.GetComponent<PressurePlateSystem>();
+                FinalPPSystem plateSystem = pressurePlate.GetComponent<FinalPPSystem>();
                 if (plateSystem != null)
                 {
                     totalWeight += plateSystem.GetTotalWeight();
@@ -63,6 +63,7 @@ public class FinishLineSystem : MonoBehaviour
 
     void VictorySequence()
     {
+        //Add delay where the player cant move, get from the movement script and turn canMove to false for all game objects
         StartCoroutine(VictoryCoroutine(_victoryDelay));
     }
     void NextLevelSequence()
