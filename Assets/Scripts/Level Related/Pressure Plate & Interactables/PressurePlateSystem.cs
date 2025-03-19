@@ -15,7 +15,6 @@ public class PressurePlateSystem : MonoBehaviour
     [SerializeField] private GameObject targetHighlight;
     public Vector3 endPosition;
 
-    [SerializeField] private bool isLocked = false;
     private ObjectiveSystem _objectiveSystem;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
@@ -40,16 +39,8 @@ public class PressurePlateSystem : MonoBehaviour
 
     void Update()
     {
-        if (_objectiveSystem._objectiveEnabled && isLocked)
-        {
-            isLocked = false;
-            audioSource.clip = pressurePlateSound;
-            audioSource.Play();
-        }
-
         if (spriteRenderer != null)
         {
-            spriteRenderer.color = isLocked ? Color.gray : Color.magenta;
         }
     }
 

@@ -85,7 +85,7 @@ public class FinalPPSystem : MonoBehaviour
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
-                totalWeight -= weightedObject.GetWeight();
+                totalWeight = 0f;
                 isTimerRunning = false;
                 weightAdded = false; // Reset weight addition when the object leaves
                 currentWeightedObject = null;

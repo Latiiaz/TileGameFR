@@ -214,11 +214,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &19902923 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2543609104444134442, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
-  m_PrefabInstance: {fileID: 2871253435901689399}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &53305899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -345,11 +340,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
   m_PrefabInstance: {fileID: 1333371164}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &132385142 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2543609103259505420, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
-  m_PrefabInstance: {fileID: 2871253435901689399}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &200070259
 GameObject:
@@ -3982,6 +3972,11 @@ MonoBehaviour:
   bgmVolume: 0.28
   sfxClips: []
   bgmClips: []
+--- !u!1 &1092760351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8229005220307696856, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+  m_PrefabInstance: {fileID: 2871253435901689399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1094104278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5726,8 +5721,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PressurePlates:
-  - {fileID: 132385142}
-  - {fileID: 19902923}
+  - {fileID: 1981686863}
+  - {fileID: 1092760351}
   isVictoryTriggered: 0
   levelManager: {fileID: 1816934809}
   requiredWeight: 100
@@ -7460,6 +7455,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956795087}
   m_CullTransparentMesh: 1
+--- !u!1 &1981686863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1651798953935582727, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+  m_PrefabInstance: {fileID: 2871253435901689399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1983506901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7909,6 +7909,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2725324914883015535, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2725324915724925858, guid: b772460e7406a35499e594179e932a62, type: 3}
       propertyPath: m_Color.b
       value: 0.024608415
@@ -7921,6 +7925,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.733371
       objectReference: {fileID: 0}
+    - target: {fileID: 7218201895064949095, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: controlledDoors.Array.data[0]
+      value: 
+      objectReference: {fileID: 849913802}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b772460e7406a35499e594179e932a62, type: 3}
 --- !u!1001 &2871253435901689399
@@ -8017,6 +8025,22 @@ PrefabInstance:
     - target: {fileID: 2871253436072327439, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Name
       value: Finish Line PressurePlates
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356138517849943468, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356138517849943468, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353782635464550259, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353782635464550259, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}

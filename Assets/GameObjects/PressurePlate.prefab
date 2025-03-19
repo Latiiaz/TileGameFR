@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 329900533241749391}
   - component: {fileID: 329900533241749360}
   - component: {fileID: 329900533241749361}
-  - component: {fileID: 329900533241749362}
+  - component: {fileID: -1140939988967342652}
   m_Layer: 0
   m_Name: PressurePlate
   m_TagString: PressurePlate
@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 329900533241749363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 3, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6742335243674633561}
@@ -192,9 +192,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -50
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4811321, g: 0.43801177, b: 0.43801177, a: 1}
+  m_SortingOrder: -49
+  m_Sprite: {fileID: 1360613544948684685, guid: cbe4f677f96078f48a9c3b8e2b569a74, type: 3}
+  m_Color: {r: 0.8535845, g: 0.617257, b: 0.9150943, a: 0.78431374}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -228,9 +228,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &329900533241749362
+--- !u!114 &-1140939988967342652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,14 +246,12 @@ MonoBehaviour:
   pressurePlateSound: {fileID: 8300000, guid: ce7d23b9c96f0424497792df05b71380, type: 3}
   controlledDoors:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  weightText: {fileID: 1014671838102776289}
-  highlightBox: {fileID: 173916112164677984}
-  targetHighlight: {fileID: 368067423}
-  endPosition: {x: 6, y: 0, z: 0}
+  weightText: {fileID: 0}
+  highlightBox: {fileID: 0}
+  targetHighlight: {fileID: 0}
+  endPosition: {x: 0, y: 0, z: 0}
   isLocked: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 329900533241749360}
 --- !u!1 &736217373185956936
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6742335243674633561
 RectTransform:
   m_ObjectHideFlags: 0

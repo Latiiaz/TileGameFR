@@ -123,7 +123,7 @@ public abstract class Movement : MonoBehaviour
             Vector2Int newPosition = currentPosition + oppositeDirection;
 
             // Keep moving backwards until a walkable tile is found
-            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition) && hit.CompareTag("Door"))
+            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition))
             {
                 counter++;
                 if (counter >= 20)
@@ -132,8 +132,9 @@ public abstract class Movement : MonoBehaviour
                 }
 
 
-
+                //Debug log this and find out where the crash happens, add restart function when the thing happens
                 newPosition += oppositeDirection; // Move further back
+
             }
 
             // Move the player to the first available tile found
