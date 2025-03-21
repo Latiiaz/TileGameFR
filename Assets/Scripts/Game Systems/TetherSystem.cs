@@ -114,7 +114,7 @@ public class TetherSystem : MonoBehaviour
         {
             if (!isOutsideTetherRange)
             {
-                Debug.Log(name + ": You have moved outside the tether range!");
+                //Debug.Log(name + ": You have moved outside the tether range!");
                 isOutsideTetherRange = true;
             }
         }
@@ -122,7 +122,7 @@ public class TetherSystem : MonoBehaviour
         {
             if (isOutsideTetherRange)
             {
-                Debug.Log(name + ": You are back within the tether range.");
+                //Debug.Log(name + ": You are back within the tether range.");
                 isOutsideTetherRange = false;
             }
         }
@@ -152,7 +152,7 @@ public class TetherSystem : MonoBehaviour
         }
 
         maxSteps += 2;
-        Debug.Log($"Tether range increased! Max Steps: {maxSteps}");
+        //Debug.Log($"Tether range increased! Max Steps: {maxSteps}");
     }
 
     public int GetMaxSteps()

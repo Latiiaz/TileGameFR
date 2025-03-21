@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 public class CameraManager : MonoBehaviour
 {
-    // Script to handle Camera zoom and stuff
-    // Camera Shake when the tractor moves maybe? (Juicing)
     [Header("Tile Manager")]
     [SerializeField] private TileManager _tileManager;
 
@@ -23,61 +18,97 @@ public class CameraManager : MonoBehaviour
     private Transform _playerPos;
     private Transform _tractorPos;
 
-    [SerializeField] GameManager _gameManager;
+    [SerializeField] private GameManager _gameManager;
 
+    void Start()
+    {
+        FindCharacters();
+    }
 
     void FixedUpdate()
     {
-        GameObject _newPlayer = GameObject.FindWithTag("Player");
-        _playerPos = _newPlayer.transform;
+        CheckForRespawn();
 
-        GameObject _newTractor = GameObject.FindWithTag("Tractor");
-        _tractorPos = _newTractor.transform;
-        if (_gameManager.TurnStatus()) // Player Is the main target
+        if (_playerPos != null && _tractorPos != null)
         {
-            CenteredOnMidpointBoth();
+            if (_gameManager.TurnStatus()) // Player Is the main target
+            {
+                CenteredOnMidpointBoth();
+            }
+            else // Robot is the main target
+            {
+                CenteredOnRobot();
+            }
         }
-        else // Robot is the main target
+        else if (_playerPos != null) // Only Player exists
         {
-            CenteredOnRobot();
+            CenteredOnPlayerInstant();
         }
-        if (Input.GetKeyDown(KeyCode.G) && IsShaking == false)
+        else if (_tractorPos != null) // Only Tractor exists
+        {
+            CenteredOnRobotInstant();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && !IsShaking)
         {
             IsShaking = true;
             StartCoroutine(Shaking());
         }
     }
+
+    void FindCharacters()
+    {
+        GameObject _newPlayer = GameObject.FindWithTag("Player");
+        if (_newPlayer != null) _playerPos = _newPlayer.transform;
+
+        GameObject _newTractor = GameObject.FindWithTag("Tractor");
+        if (_newTractor != null) _tractorPos = _newTractor.transform;
+    }
+
+    void CheckForRespawn()
+    {
+        if (_playerPos == null || _tractorPos == null)
+        {
+            FindCharacters(); // Check if a character has respawned
+        }
+    }
+
     void CenteredOnPlayer()
     {
-        Vector3 Player = (_playerPos.position);
-        Vector3 LerpLocation = Vector3.Lerp(transform.position, Player, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(LerpLocation.x,LerpLocation.y, -15);
-
-        //Additional Stuff goes here
-
-
+        Vector3 targetPosition = _playerPos.position;
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
     }
+
     void CenteredOnRobot()
     {
-        Vector3 Robot = (_tractorPos.position);
-        Vector3 LerpLocation = Vector3.Lerp(transform.position, Robot, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(LerpLocation.x, LerpLocation.y, -15);
-
+        Vector3 targetPosition = _tractorPos.position;
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
     }
+
     void CenteredOnMidpointBoth()
     {
-        Vector3 Robot = (_tractorPos.position);
-        Vector3 Player = (_playerPos.position);
+        Vector3 playerPos = _playerPos.position;
+        Vector3 tractorPos = _tractorPos.position;
 
-        Vector3 LerpLocation = Vector3.Lerp(transform.position, (Robot + Player + Player) /3, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(_tileManager.GridWidth/2, LerpLocation.y, -15);
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, (playerPos + tractorPos) / 2, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
     }
 
+    void CenteredOnPlayerInstant()
+    {
+        transform.position = new Vector3(_playerPos.position.x, _playerPos.position.y, -15);
+    }
+
+    void CenteredOnRobotInstant()
+    {
+        transform.position = new Vector3(_tractorPos.position.x, _tractorPos.position.y, -15);
+    }
 
     public IEnumerator Shaking()
     {
         Vector3 startPosition = transform.position;
-
         float elapsedTime = 0f;
 
         while (elapsedTime < ShakeDuration)
@@ -87,6 +118,7 @@ public class CameraManager : MonoBehaviour
             transform.position = startPosition + Random.insideUnitSphere * strength * ShakeMultiplier;
             yield return null;
         }
+
         transform.position = startPosition;
         IsShaking = false;
     }

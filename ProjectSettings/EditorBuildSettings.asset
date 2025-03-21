@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/DefeatScene.unity
     guid: ca61949c1235d614c8cbfac3d2c6ca53
   - enabled: 1
-    path: Assets/Scenes/Sync Puzzle/Collectable Scene.unity
+    path: Assets/Scenes/Sync Puzzle/FinishLine Scene.unity
     guid: 096efe9565a8c0840b19dbad42b30637
   - enabled: 1
     path: Assets/Scenes/Sync Puzzle/Sync Puzzle 1.unity
@@ -32,4 +32,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sync Puzzle/Door Unlocking Scene.unity
     guid: 63e4df774dbac0448ae4e44fe24ab75b
+  - enabled: 1
+    path: Assets/Scenes/Sync Puzzle/Collection Scene.unity
+    guid: 10f281fbb2ca0da418f9f0d50173f7fc
+  - enabled: 1
+    path: Assets/Scenes/Sync Puzzle/awooga.unity
+    guid: a99de1dfa1e32b349a9ff112af70dd16
+  - enabled: 1
+    path: Assets/Scenes/Sync Puzzle/LaserRespawning Scene.unity
+    guid: 69d8f632cb7912e4293d47f0cc21bce2
   m_configObjects: {}

@@ -37,17 +37,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject _newPlayer = GameObject.FindWithTag("Player");
-        _oxygenTimerSystem = _newPlayer.GetComponent<OxygenTimerSystem>();
-        if (_maxDistanceTracker.text != null)
-        {
-            _maxDistanceTracker.text = _tetherSystem.GetMaxSteps().ToString("000");
-        }
-        else
-        {
-            return;
-        }
-        oxygenBar.value = _oxygenTimerSystem.GetTimeRemaining();
+       
     }
 
     public void ShowEInteract(bool activateE)

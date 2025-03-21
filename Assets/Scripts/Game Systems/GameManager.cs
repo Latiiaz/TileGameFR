@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject ItemTestPrefab;
     public GameObject PylonPrefab;
 
-    private GameObject _player;
-    private GameObject _tractor;
+    public GameObject _player;
+    public GameObject _tractor;
     private GameObject _cart;
     private GameObject _itemTest;
     private GameObject _pylon;
@@ -104,14 +104,36 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Invalid spawn position for tractor.");
         }
     }
-   
 
 
 
-    void CurrentTarget() // Indicates which object is the main target.
+    public void RespawnCharacter(GameObject character, Vector3 targetPosition)
     {
+        if (character != null)
+        {
+            character.SetActive(true); // Ensure the character is active
 
+            // Reset movement state (prevents movement lock issues)
+            Movement movementScript = character.GetComponent<Movement>();
+            if (movementScript != null)
+            {
+                movementScript.isMoving = false;
+                movementScript.isActionOnCooldown = false;
+            }
+
+            // Move character to the new position
+            character.transform.position = targetPosition;
+
+            // Update movement script's position tracking
+            if (movementScript != null)
+            {
+                movementScript.currentPosition = new Vector2Int((int)targetPosition.x, (int)targetPosition.y);
+            }
+
+            Debug.Log($"{character.name} has been respawned to {targetPosition} and is now active.");
+        }
     }
+
 
 
 }

@@ -68,20 +68,20 @@ public class LaserSystem : MonoBehaviour
                 if (((1 << hit.collider.gameObject.layer) & hideLayers) != 0)
                 {
                     hit.collider.gameObject.SetActive(false);
-                    Debug.Log($"Laser hit and disabled {hit.collider.gameObject.name} at {hit.point}");
+                    //Debug.Log($"Laser hit and disabled {hit.collider.gameObject.name} at {hit.point}");
                 }
 
                 // If the object is in the stopLayers, stop the laser
                 if (((1 << hit.collider.gameObject.layer) & stopLayers) != 0)
                 {
-                    Debug.Log($"Laser stopped by {hit.collider.gameObject.name}");
+                    //Debug.Log($"Laser stopped by {hit.collider.gameObject.name}");
                     break;
                 }
 
                 // If the object is in passThroughLayers, continue the laser
                 if (((1 << hit.collider.gameObject.layer) & passThroughLayers) != 0)
                 {
-                    Debug.Log($"Laser passed through {hit.collider.gameObject.name}");
+                    //Debug.Log($"Laser passed through {hit.collider.gameObject.name}");
                     bounces++; // Prevent infinite loop
                     continue;
                 }

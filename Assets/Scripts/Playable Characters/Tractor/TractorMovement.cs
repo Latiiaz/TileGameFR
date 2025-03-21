@@ -69,6 +69,36 @@ public class TractorMovement : Movement, IWeightedObject
             }
         }
     }
+
+
+    public void CheckRespawn(Transform plateA, Transform plateB)
+    {
+
+        Debug.Log($"CheckRespawn called for {gameObject.name} at position {transform.position}");
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        if (transform.position == plateA.position) // Shield stepped on Plate A
+        {
+            Debug.Log($"{gameObject.name} stepped on Plate A at {plateA.position}, respawning Player at {plateB.position}");
+            gameManager.RespawnCharacter(gameManager._player, plateB.position); // Move Player
+        }
+        else if (transform.position == plateB.position) // Shield stepped on Plate B
+        {
+            Debug.Log($"{gameObject.name} stepped on Plate B at {plateB.position}, respawning Player at {plateA.position}");
+            gameManager.RespawnCharacter(gameManager._player, plateA.position); // Move Player
+        }
+        else
+        {
+            Debug.Log($"{gameObject.name} did not step on a valid respawn plate.");
+        }
+    }
+    public void MoveToPosition(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+    }
+
+
     public float GetWeight()
     {
         return weight;

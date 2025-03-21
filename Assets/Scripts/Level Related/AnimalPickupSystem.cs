@@ -4,29 +4,23 @@ using UnityEngine;
 
 public class AnimalPickupSystem : MonoBehaviour
 {
-    private PlayerMovement _player;
     private ObjectiveSystem _objectiveSystem;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        _player = FindObjectOfType<PlayerMovement>();
         _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject _player = GameObject.FindWithTag("Player");
-        GameObject _robot = GameObject.FindWithTag("Tractor");
-
-        if (other == _player || _robot)
+        if (other.CompareTag("Player") || other.CompareTag("Tractor")) // Check if the tag matches
         {
-            _objectiveSystem._objectiveCount++;
-            Destroy(gameObject);
+            if (_objectiveSystem != null)
+            {
+                _objectiveSystem._objectiveCount++; // Increase objective count
+            }
+
+            Destroy(gameObject); // Destroy this pickup object
         }
-        //Debug.Log("dwanjid");
-      
     }
 }

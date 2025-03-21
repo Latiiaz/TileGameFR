@@ -4,14 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public abstract class Movement : MonoBehaviour
 {
-    protected Vector2Int currentPosition;
+    public Vector2Int currentPosition;
     protected Vector2Int currentDirection = Vector2Int.up;
 
     [SerializeField] protected float moveSpeed = 0.2f;
     [SerializeField] protected float actionCooldown = 0.2f;
 
-    [SerializeField] protected bool isMoving = false;
-    protected bool isActionOnCooldown = false;
+    [SerializeField] public bool isMoving = false;
+    public bool isActionOnCooldown = false;
 
     protected TileManager tileManager;
     private BoxCollider2D boxCollider;
