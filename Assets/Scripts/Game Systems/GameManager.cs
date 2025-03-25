@@ -1,82 +1,134 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class GameManager : MonoBehaviour
 {
-    // Script to Handle Spawning of player and tilebox checks
-    // Need to add dont destroy on load like level manager
-
     public GameObject PlayerPrefab;
     public GameObject TractorPrefab;
-    public GameObject CartPrefab;
-    public GameObject ItemTestPrefab;
-    public GameObject PylonPrefab;
 
     public GameObject _player;
     public GameObject _tractor;
-    private GameObject _cart;
-    private GameObject _itemTest;
-    private GameObject _pylon;
 
-    //They spawn on dedicated tiles for them now but player should spawn INSIDE of the tractor and the cart should always be behind the tractor
+    private PlayerMovement _playerMovement;
+    private TractorMovement _tractorMovement;
+
     private Vector2Int _playerStartPosition = new Vector2Int(0, 0);
     private Vector2Int _tractorStartPosition = new Vector2Int(0, 0);
-    private Vector2Int _cartStartPosition = new Vector2Int(0, 0);
-    private Vector2Int _itemTestStartPosition = new Vector2Int(0, 0);
-    private Vector2Int _pylonStartPosition = new Vector2Int(0, 0);
 
-    public LevelManager levelManager;
     public TileManager tileManager;
+    private bool _isHandlingMovement = true;
+    private bool _bothCharactersIdle = false;
 
-    [Header("Main Character")]
-    public bool _currentTurnIsPlayer = true;
-    // Start is called before the first frame update
-    void Start() // Spawns the map player tractor and cart
+    void Start()
     {
-        tileManager.GenerateGrid(); // Spawns grids so all tiles have spawned
-        
-        SpawnTractor();
-      
-        SpawnPlayer();
+        StartCoroutine(SetupGame());
     }
-    private void Awake()
+
+    private IEnumerator SetupGame()
     {
-        if (_player == null)
+        // Start grid generation
+        yield return StartCoroutine(tileManager.GenerateGridCoroutine());
+
+        // Wait until the grid is completely generated
+        while (!tileManager.isGridGenerated)
         {
-            _player = GameObject.FindWithTag("Player");
+            yield return null;
         }
-        if (_tractor == null)
-        {
-            _tractor = GameObject.FindWithTag("Tractor");
-        }
+
+        // Now that the grid is ready, spawn characters
+        SpawnTractor();
+        SpawnPlayer();
+
+        if (_player != null) _playerMovement = _player.GetComponent<PlayerMovement>();
+        if (_tractor != null) _tractorMovement = _tractor.GetComponent<TractorMovement>();
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.F)) No need for turn changing
-        //{
-
-        //    SwitchTurn();
-        //} 
+        CheckIfBothCharactersIdle();
+        if (_isHandlingMovement) HandleInput();
     }
 
-    public void SwitchTurn()
+    void CheckIfBothCharactersIdle()
     {
-        _currentTurnIsPlayer = !_currentTurnIsPlayer;
-        TurnChecker();
+        bool playerIdle = false;
+        bool tractorIdle = false;
+
+        if (_playerMovement == null || !_player.activeSelf || !_playerMovement.isMoving)
+        {
+            playerIdle = true;
+        }
+
+        if (_tractorMovement == null || !_tractor.activeSelf || !_tractorMovement.isMoving)
+        {
+            tractorIdle = true;
+        }
+
+        _bothCharactersIdle = playerIdle && tractorIdle;
     }
 
-    public void TurnChecker()
+    void HandleInput()
     {
+        if (!_bothCharactersIdle) return; // Prevent input if characters are moving
+
+        Vector2Int movementDirection = Vector2Int.zero;
+
+        if (Input.GetKey(KeyCode.W)) movementDirection = Vector2Int.up;
+        else if (Input.GetKey(KeyCode.A)) movementDirection = Vector2Int.left;
+        else if (Input.GetKey(KeyCode.S)) movementDirection = Vector2Int.down;
+        else if (Input.GetKey(KeyCode.D)) movementDirection = Vector2Int.right;
+
+        if (movementDirection != Vector2Int.zero)
+        {
+            // Rotate first (even if movement is blocked)
+            if (_playerMovement != null && _player.activeSelf)
+            {
+                _playerMovement.RotateToDirection(movementDirection);
+            }
+
+            if (_tractorMovement != null && _tractor.activeSelf)
+            {
+                _tractorMovement.RotateToDirection(movementDirection);
+            }
+
+            // After rotating, check if movement is possible
+            if (_playerMovement != null && _player.activeSelf && CanMoveToTile(_playerMovement, movementDirection))
+            {
+                MoveCharacter(_playerMovement, movementDirection);
+            }
+
+            if (_tractorMovement != null && _tractor.activeSelf && CanMoveToTile(_tractorMovement, movementDirection))
+            {
+                MoveCharacter(_tractorMovement, movementDirection);
+            }
+        }
     }
 
-    public bool TurnStatus()
+    bool CanMoveToTile(Movement character, Vector2Int direction)
     {
-        return _currentTurnIsPlayer;
+        Vector2Int targetPosition = character.GetGridPosition() + direction;
+
+        Tile targetTile = TileManager.Instance.GetTileAtPosition(targetPosition); // Assuming TileManager has this method
+
+        if (targetTile == null) return false; // Prevent moving into non-existent tiles
+
+        return targetTile.IsWalkable; // Only allow movement if walkable
+
     }
 
+
+
+    public void MoveCharacter(Movement character, Vector2Int direction)
+    {
+        if (character == null || !character.gameObject.activeSelf) return;
+        character.MoveOrTurn(direction);
+    }
+
+    public void ToggleGameManagerControl(bool state)
+    {
+        _isHandlingMovement = state;
+        Debug.Log($"GameManager control over movement is now: {_isHandlingMovement}");
+    }
 
     void SpawnPlayer()
     {
@@ -84,20 +136,23 @@ public class GameManager : MonoBehaviour
         {
             Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
-            //Debug.Log("(PLAYER): " +_player.transform.position);
+
+            if (_player != null) _playerMovement = _player.GetComponent<PlayerMovement>();
         }
         else
         {
             Debug.LogWarning("Invalid spawn position for player.");
         }
     }
+
     void SpawnTractor()
     {
         if (tileManager.IsTileAvailable(_tractorStartPosition))
         {
             Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _tractor = Instantiate(TractorPrefab, spawnPosition, Quaternion.identity);
-            //Debug.Log("(TRACTOR): " + _tractor.transform.position);
+
+            if (_tractor != null) _tractorMovement = _tractor.GetComponent<TractorMovement>();
         }
         else
         {
@@ -105,12 +160,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     public void RespawnCharacter(GameObject character, Vector3 targetPosition)
     {
         if (character != null)
         {
+            Debug.Log($"{character.name} BEFORE respawn: Active={character.activeSelf}, Position={character.transform.position}");
+
             character.SetActive(true); // Ensure the character is active
 
             // Reset movement state (prevents movement lock issues)
@@ -130,10 +185,11 @@ public class GameManager : MonoBehaviour
                 movementScript.currentPosition = new Vector2Int((int)targetPosition.x, (int)targetPosition.y);
             }
 
-            Debug.Log($"{character.name} has been respawned to {targetPosition} and is now active.");
+            Debug.Log($"{character.name} AFTER respawn: Active={character.activeSelf}, Position={character.transform.position}");
+        }
+        else
+        {
+            Debug.LogError("RespawnCharacter: Character reference is null!");
         }
     }
-
-
-
 }

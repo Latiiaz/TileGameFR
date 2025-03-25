@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7b52a668ac6ffc24aa46073923a41763
+guid: d0dd34df4b7e62b4b876d2ddb0722725
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 32
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -48,7 +48,7 @@ ScriptedImporter:
     flipbookColumns: 0
     ignorePngGamma: 0
     cookieMode: 0
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638778418613888245
+  platformSettingsDirtyTick: 638785643488287482
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,18 +117,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: ShineParticlesSpaceGame
+  - name: PlayerBase
     originalName: 
-    pivot: {x: 0.5, y: -0.3}
+    pivot: {x: 0.5, y: -0.125}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 58
-      height: 10
-    spriteID: ae888fc505d5d154a9de26d089162000
+      width: 20
+      height: 24
+    spriteID: 48f2850a8886d7945b309a3ac8a9efb0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,78 +138,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: ShineParticlesSpaceGame_0
+  - name: PlayerBase_0
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
+    pivot: {x: 0.5, y: 0.3}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 1
-      y: 1
-      width: 16
-      height: 16
-    spriteID: 11154e83e6414674f85ea3436c27f5d2
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ShineParticlesSpaceGame_1
-    originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 17
-      y: 1
-      width: 16
-      height: 16
-    spriteID: 461c5c1e27c9593458610d782bfbfbe5
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ShineParticlesSpaceGame_2
-    originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 33
-      y: 1
-      width: 16
-      height: 16
-    spriteID: 09a5a80118bbbea46ad7322f58851709
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ShineParticlesSpaceGame_3
-    originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 49
-      y: 1
-      width: 16
-      height: 16
-    spriteID: 1b1f60a5944ee844c89c082e8ca2bdfb
+      x: 4
+      y: 4
+      width: 20
+      height: 24
+    spriteID: 26415704c614cef4aa9f993e4d25d09b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -220,20 +160,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: -1601394528
-    name: ShineParticlesSpaceGame
+    guid: 550707878
+    name: PlayerBase
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: ShineParticlesSpaceGame
+    - name: PlayerBase
       frameIndex: 0
       cellRect:
-        x: 3
-        y: 3
-        width: 58
-        height: 10
-      spriteId: ae888fc505d5d154a9de26d089162000
+        x: 6
+        y: 4
+        width: 20
+        height: 24
+      spriteId: 48f2850a8886d7945b309a3ac8a9efb0
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -272,4 +212,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 16}
+  canvasSize: {x: 32, y: 32}

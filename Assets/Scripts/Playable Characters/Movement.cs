@@ -9,15 +9,14 @@ public abstract class Movement : MonoBehaviour
 
     [SerializeField] protected float moveSpeed = 0.2f;
     [SerializeField] protected float actionCooldown = 0.2f;
-
     [SerializeField] public bool isMoving = false;
     public bool isActionOnCooldown = false;
 
     protected TileManager tileManager;
     private BoxCollider2D boxCollider;
 
-
     [SerializeField] protected float KBmoveSpeed = 0f;
+
     protected virtual void Start()
     {
         tileManager = FindObjectOfType<TileManager>();
@@ -35,33 +34,27 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!isMoving && !isActionOnCooldown)
-        {
-            HandleInput();
-            KnockedBackwards();
-        }
+        KnockedBackwards(); // Always check for knockback, even while moving.
+
         if (!tileManager.IsTileAvailable(currentPosition))
         {
             Debug.LogWarning($"Player is in an occupied tile at position {currentPosition}!");
         }
     }
 
-    protected abstract void HandleInput(); // Implemented in derived classes
 
     public virtual void MoveOrTurn(Vector2Int direction)
-    { 
+    {
         if (isMoving || isActionOnCooldown) return;
 
-        if (currentDirection != direction)
-        {
-            currentDirection = direction;
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(direction.x, direction.y, 0));
-            StartCoroutine(ActionCooldown());
-        }
-        else
+        // Always rotate first
+        RotateToDirection(direction);
+
+        // If already facing the direction, attempt movement
+        if (currentDirection == direction)
         {
             Vector2Int newPosition = currentPosition + direction;
-            if (tileManager.IsTileAvailable(newPosition) && tileManager.IsTileWalkable(newPosition))
+            if (tileManager.IsTileAvailable(newPosition))
             {
                 StartCoroutine(MoveToPosition(newPosition));
                 StartCoroutine(ActionCooldown());
@@ -69,9 +62,19 @@ public abstract class Movement : MonoBehaviour
         }
     }
 
+    public void RotateToDirection(Vector2Int direction)
+    {
+        if (currentDirection != direction) // Only rotate if facing a new direction
+        {
+            currentDirection = direction;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        }
+    }
+
+
     protected IEnumerator MoveToPosition(Vector2Int newPosition)
     {
-        
         isMoving = true;
         isActionOnCooldown = true;
 
@@ -107,43 +110,40 @@ public abstract class Movement : MonoBehaviour
     {
         return transform.up;
     }
-
     private void KnockedBackwards()
     {
-        int tileLayerMask = LayerMask.GetMask("Tile"); // Only check for tiles
-        int counter = 0;
+        if (isMoving) return; // Prevent knockback while moving normally.
+
+        int tileLayerMask = LayerMask.GetMask("Tile");
 
         Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(0.5f, 0.5f), 0, tileLayerMask);
 
-        if (hit != null && hit.CompareTag("Door") && !isMoving) // Ensure player is not moving
+        if (hit != null && hit.CompareTag("Door"))
         {
             Debug.Log($"Knocked back from a Door tile at {currentPosition}");
 
             Vector2Int oppositeDirection = -currentDirection;
             Vector2Int newPosition = currentPosition + oppositeDirection;
 
-            // Keep moving backwards until a walkable tile is found
-            while (!tileManager.IsTileAvailable(newPosition) || !tileManager.IsTileWalkable(newPosition))
+            // Keep moving back **until a walkable tile is found**
+            while (!tileManager.IsTileAvailable(newPosition))
             {
-                counter++;
-                if (counter >= 20)
-                {
-                    newPosition = currentPosition;
-                }
-
-
-                //Debug log this and find out where the crash happens, add restart function when the thing happens
-                newPosition += oppositeDirection; // Move further back
-
+                newPosition += oppositeDirection; // Keep moving in the same direction
             }
 
-            // Move the player to the first available tile found
+            Debug.Log($"Knocking back to {newPosition}");
+
+            // Stop any movement and start knockback
+            StopCoroutine("MoveToPosition");
+            StopCoroutine("KnockBackMovement");
+
             StartCoroutine(KnockBackMovement(newPosition));
         }
     }
+
+
     protected IEnumerator KnockBackMovement(Vector2Int newPosition)
     {
-
         isMoving = true;
         isActionOnCooldown = true;
 
@@ -164,6 +164,11 @@ public abstract class Movement : MonoBehaviour
 
         isMoving = false;
         isActionOnCooldown = false;
+    }
+
+    public Vector2Int GetGridPosition()
+    {
+        return Vector2Int.RoundToInt(transform.position); 
     }
 
 }

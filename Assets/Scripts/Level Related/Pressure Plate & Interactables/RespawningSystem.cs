@@ -5,6 +5,7 @@ public class RespawningSystem : MonoBehaviour
 {
     public Transform plateA;
     public Transform plateB;
+    private GameManager gameManager;
 
     private Coroutine activeTimer; // Only one active timer at a time
     private GameObject currentObjectOnPlate; // Tracks who is standing on the plate
@@ -14,10 +15,16 @@ public class RespawningSystem : MonoBehaviour
     {
         plateA = GameObject.Find("RespawnPlateA")?.transform;
         plateB = GameObject.Find("RespawnPlateB")?.transform;
+        gameManager = FindObjectOfType<GameManager>(); // Get the GameManager instance
 
         if (plateA == null || plateB == null)
         {
             Debug.LogError("RespawningSystem: One or both plates are missing! Assign them in the Inspector or check their names.");
+        }
+
+        if (gameManager == null)
+        {
+            Debug.LogError("RespawningSystem: GameManager not found in the scene!");
         }
     }
 
@@ -53,20 +60,24 @@ public class RespawningSystem : MonoBehaviour
 
         yield return new WaitForSeconds(respawnTimer); // Wait for the set time
 
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager reference is missing in RespawningSystem!");
+            yield break;
+        }
+
         if (other.CompareTag("Tractor"))
         {
-            TractorMovement tractor = other.GetComponent<TractorMovement>();
-            tractor?.CheckRespawn(plateA, plateB);
+            Debug.Log("Tractor is on the plate. Respawning the player.");
+            gameManager.RespawnCharacter(gameManager._player, (plateA.position == other.transform.position) ? plateB.position : plateA.position);
         }
         else if (other.CompareTag("Player"))
         {
-            PlayerMovement player = other.GetComponent<PlayerMovement>();
-            player?.CheckRespawn(plateA, plateB);
+            Debug.Log("Player is on the plate. Respawning the tractor.");
+            gameManager.RespawnCharacter(gameManager._tractor, (plateA.position == other.transform.position) ? plateB.position : plateA.position);
         }
 
-        Debug.Log($"{other.name} has been respawned!");
-
-        // Reset after respawn
+        Debug.Log("Respawn sequence complete.");
         activeTimer = null;
         currentObjectOnPlate = null;
     }

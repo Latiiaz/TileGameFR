@@ -28,6 +28,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Sprite[] _tileSprites;
 
     [SerializeField] private BoxCollider2D _boxCollider;
+    [SerializeField] private ParticleSystem _spawnEffectPrefab; // Prefab, NOT an attached effect
 
 
 
@@ -59,8 +60,10 @@ public class Tile : MonoBehaviour
         tileType = type;
 
         ColorAssigning();
-        _originalColor = _spriteRenderer.color; 
+        _originalColor = _spriteRenderer.color;
         ResetTileMovability();
+
+        PlaySpawnEffect();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -78,11 +81,11 @@ public class Tile : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Pylon")||other.CompareTag("Door"))
+        if (other.CompareTag("Wall") || other.CompareTag("Physical") || other.CompareTag("Player") || other.CompareTag("Tractor") || other.CompareTag("Pylon") || other.CompareTag("Door"))
 
         {
             SetTileMovability(false, false);
-           
+
         }
         // Handle tile-specific logic based on tile type
         switch (tileType)
@@ -154,7 +157,7 @@ public class Tile : MonoBehaviour
 
             case TileType.Mud:
                 IsWalkable = true;
-                IsTraversable = false; 
+                IsTraversable = false;
                 break;
 
             case TileType.PlayerSpawn:
@@ -180,7 +183,7 @@ public class Tile : MonoBehaviour
         {
             //Debug.Log("Player entered a normal tile.");
         }
-    } 
+    }
 
     void HandleRiverTileInteraction(Collider2D other)
     {
@@ -228,7 +231,7 @@ public class Tile : MonoBehaviour
                 break;
 
             default:
-                assignedTileColor = new Color(0.8024783f, Random.Range(0.445194f, 0.545194f), 0.9811321f,1f);
+                assignedTileColor = new Color(0.8024783f, Random.Range(0.445194f, 0.545194f), 0.9811321f, 1f);
                 break;
         }
 
@@ -250,4 +253,20 @@ public class Tile : MonoBehaviour
 
         _spriteRenderer.color = targetColor; // Ensure final color is set
     }
+
+
+    private void PlaySpawnEffect()
+    {
+        if (_spawnEffectPrefab != null)
+        {
+            ParticleSystem effectInstance = Instantiate(_spawnEffectPrefab, transform.position, Quaternion.identity);
+            effectInstance.Play();
+            Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f); // Auto-destroy effect
+        }
+        else
+        {
+            Debug.LogWarning("No spawn effect assigned to the tile.");
+        }
+    }
+
 }

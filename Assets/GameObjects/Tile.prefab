@@ -74,6 +74,7 @@ MonoBehaviour:
   tileType: 0
   _tileSprites: []
   _boxCollider: {fileID: 0}
+  _spawnEffectPrefab: {fileID: 0}
 --- !u!1 &1476695887696553729
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,4 +287,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   _tileSprites: []
-  _boxCollider: {fileID: 0}
+  _boxCollider: {fileID: -6887380502084136401}
+  _spawnEffectPrefab: {fileID: 7445577097704170825, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}

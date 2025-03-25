@@ -1,30 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TileManager : MonoBehaviour
 {
-    // Script to spawn Tiles and handle Tile Dictionary
-    // Need to find a way to save levels probably will use grid coordinates/dictionary and scriptable objects
-
-
     [Header("Tile Spawning")]
-    public GameObject _tilePrefab; // Prefab for tiles
+    public GameObject _tilePrefab;
     [SerializeField] public int GridWidth = 10;
     [SerializeField] public int GridHeight = 10;
     [SerializeField] public float TileSize = 1f;
-
-    [SerializeField] public float PercentageRiverTiles;
-    [SerializeField] public float PercentageItemTiles;
-
-    [SerializeField] public float NumberOfItems;
-
-    [Header("River tiles Spawning")]
-    public int minX;
-    public int maxX;
-    public int minY;
-    public int maxY;
 
     [Header("Player Spawning")]
     public int playerX;
@@ -34,102 +18,78 @@ public class TileManager : MonoBehaviour
     public int robotX;
     public int robotY;
 
-    [Header("Breakable Tiles")]
-    public int breakabletileX;
-    public int breakabletileY;
+    public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>();
 
-    public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>(); // Take position and Tile type
+    public bool isGridGenerated { get; private set; } = false; // Flag to check if grid generation is complete
+    public static TileManager Instance { get; private set; }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject); // Ensure only one instance exists
     }
 
-    private void Update()
-    {
 
-    }
-
-    public void GenerateGrid()
+    public IEnumerator GenerateGridCoroutine()
     {
+        isGridGenerated = false;
+
+        List<Vector2Int> tilePositions = new List<Vector2Int>();
+
+        // Generate a list of all possible tile positions
         for (int x = 0; x < GridWidth; x++)
         {
             for (int y = 0; y < GridHeight; y++)
             {
-                Vector2Int position = new Vector2Int(x, y);
-                Vector2 worldPosition = new Vector2(x * TileSize, y * TileSize); 
-
-                GameObject tileObject = Instantiate(_tilePrefab, worldPosition, Quaternion.identity, transform);
-                Tile tile = tileObject.GetComponent<Tile>();
-
-                TileType type;
-
-                if (position.x == robotX && position.y == robotY) 
-                {
-                    type = TileType.TractorSpawn;
-                    //Debug.Log(position);
-                }
-                else if (position.x == playerX && position.y == playerY) 
-                {
-                    type = TileType.PlayerSpawn;
-                    //Debug.Log(position);
-                }
-                else if (position.x >= minX && position.x <= maxX)
-                {
-                    if (position.y >= minY && position.y <= maxY)
-                    {
-                        type = TileType.River;
-                    }
-                    else
-                    {
-                        type = TileType.Normal;
-                    }
-
-                }
-
-                else
-                    {
-                        type = TileType.Normal;
-                    }
-
-                    tile.Initialize(position, type); // Uses Initialize function in Tile.cs to spawn in the tiles
-                    tileDictionary[position] = tile;  // and then this keeps track of what tile is where 
-                
+                tilePositions.Add(new Vector2Int(x, y));
             }
-
-            LogAllTilesInDictionary();
         }
-    } 
-    public bool IsTileAvailable(Vector2Int position) // Check if tile exists at a vector 2 position
+
+        // Shuffle the tile positions randomly
+        System.Random rng = new System.Random();
+        int n = tilePositions.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            (tilePositions[n], tilePositions[k]) = (tilePositions[k], tilePositions[n]);
+        }
+
+        // Spawn tiles in a random order
+        foreach (Vector2Int position in tilePositions)
+        {
+            yield return new WaitForSeconds(0.015f); // Adds a delay for visual effect
+
+            Vector2 worldPosition = new Vector2(position.x * TileSize, position.y * TileSize);
+            GameObject tileObject = Instantiate(_tilePrefab, worldPosition, Quaternion.identity, transform);
+            Tile tile = tileObject.GetComponent<Tile>();
+
+            TileType type = TileType.Normal;
+            if (position.x == robotX && position.y == robotY) type = TileType.TractorSpawn;
+            else if (position.x == playerX && position.y == playerY) type = TileType.PlayerSpawn;
+
+            tile.Initialize(position, type);
+            tileDictionary[position] = tile;
+        }
+
+        isGridGenerated = true;
+        yield break;
+    }
+
+
+    public bool IsTileAvailable(Vector2Int position)
     {
         return tileDictionary.ContainsKey(position);
     }
-    public bool IsTileWalkable(Vector2Int position) // Walkable = Player
+    public Tile GetTileAtPosition(Vector2Int position)
     {
-        if (tileDictionary.ContainsKey(position))
+        if (tileDictionary.TryGetValue(position, out Tile tile))
         {
-            return tileDictionary[position].IsWalkable;
+            return tile;
         }
-        return false;
+        return null; // Return null if no tile exists at this position
     }
 
-    public bool IsTileTraversable(Vector2Int position) // Traversable = Tractor
-    {
-        if (tileDictionary.ContainsKey(position))
-        {
-            return tileDictionary[position].IsTraversable;
-        }
-        return false;
-    }
-
-    public void LogAllTilesInDictionary() // Debug Log to check if tiles are functioning as intended for bugs
-    {
-        foreach (var tileKey in tileDictionary)
-        {
-            Vector2Int position = tileKey.Key;
-            Tile tile = tileKey.Value;
-
-            //Debug.Log($"Tile Position? : {position}, Tile Type? : {tile.tileType}, Walkable? : {tile.IsWalkable}, Traversable? : {tile.IsTraversable}");
-        }
-    }
 }

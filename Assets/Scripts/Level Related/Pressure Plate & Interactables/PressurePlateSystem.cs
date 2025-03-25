@@ -107,7 +107,7 @@ public class PressurePlateSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Weight TextMeshPro is not assigned in the Inspector!");
+            //Debug.LogWarning("Weight TextMeshPro is not assigned in the Inspector!");
         }
     }
 

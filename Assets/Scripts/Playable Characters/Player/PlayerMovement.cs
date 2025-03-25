@@ -16,16 +16,6 @@ public class PlayerMovement : Movement, IWeightedObject
         SetPlayerSpawnPosition();
     }
 
-    protected override void HandleInput()
-    {
-        if (Input.GetKey(KeyCode.LeftShift)) return;
-
-        if (Input.GetKey(KeyCode.W)) MoveOrTurn(Vector2Int.up);
-        else if (Input.GetKey(KeyCode.A)) MoveOrTurn(Vector2Int.left);
-        else if (Input.GetKey(KeyCode.S)) MoveOrTurn(Vector2Int.down);
-        else if (Input.GetKey(KeyCode.D)) MoveOrTurn(Vector2Int.right);
-    }
-
     private void SetPlayerSpawnPosition()
     {
         foreach (var tileKey in tileManager.tileDictionary)

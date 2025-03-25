@@ -22,6 +22,10 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
+        // Center the camera based on spawn positions from TileManager
+        CenterOnSpawnPositions();
+
+        // Then find characters when they spawn
         FindCharacters();
     }
 
@@ -31,20 +35,13 @@ public class CameraManager : MonoBehaviour
 
         if (_playerPos != null && _tractorPos != null)
         {
-            if (_gameManager.TurnStatus()) // Player Is the main target
-            {
-                CenteredOnMidpointBoth();
-            }
-            else // Robot is the main target
-            {
-                CenteredOnRobot();
-            }
+            CenteredOnMidpointBoth();
         }
-        else if (_playerPos != null) // Only Player exists
+        else if (_playerPos != null)
         {
             CenteredOnPlayerInstant();
         }
-        else if (_tractorPos != null) // Only Tractor exists
+        else if (_tractorPos != null)
         {
             CenteredOnRobotInstant();
         }
@@ -53,6 +50,28 @@ public class CameraManager : MonoBehaviour
         {
             IsShaking = true;
             StartCoroutine(Shaking());
+        }
+    }
+
+    void CenterOnSpawnPositions()
+    {
+        if (_tileManager != null)
+        {
+            // Convert spawn grid positions to world positions
+            float playerX = _tileManager.playerX * _tileManager.TileSize;
+            float playerY = _tileManager.playerY * _tileManager.TileSize;
+            float robotX = _tileManager.robotX * _tileManager.TileSize;
+            float robotY = _tileManager.robotY * _tileManager.TileSize;
+
+            // Calculate midpoint
+            float centerX = (playerX + robotX) / 2f;
+            float centerY = (playerY + robotY) / 2f;
+
+            transform.position = new Vector3(centerX, centerY, -15f);
+        }
+        else
+        {
+            Debug.LogWarning("TileManager reference is missing in CameraManager!");
         }
     }
 
@@ -69,7 +88,7 @@ public class CameraManager : MonoBehaviour
     {
         if (_playerPos == null || _tractorPos == null)
         {
-            FindCharacters(); // Check if a character has respawned
+            FindCharacters();
         }
     }
 
