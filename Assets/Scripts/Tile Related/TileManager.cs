@@ -60,7 +60,7 @@ public class TileManager : MonoBehaviour
         // Spawn tiles in a random order
         foreach (Vector2Int position in tilePositions)
         {
-            yield return new WaitForSeconds(0.015f); // Adds a delay for visual effect
+            yield return new WaitForSeconds(Time.deltaTime); // Adds a delay for visual effect
 
             Vector2 worldPosition = new Vector2(position.x * TileSize, position.y * TileSize);
             GameObject tileObject = Instantiate(_tilePrefab, worldPosition, Quaternion.identity, transform);
