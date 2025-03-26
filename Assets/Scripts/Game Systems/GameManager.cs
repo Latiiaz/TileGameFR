@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private Vector2Int _tractorStartPosition = new Vector2Int(0, 0);
 
     public TileManager tileManager;
+    public FadeInChildren fadeInChildren;
+
     private bool _isHandlingMovement = true;
     private bool _bothCharactersIdle = false;
 
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SetupGame()
     {
+        yield return new WaitForSeconds(1f);
         // Start grid generation
         yield return StartCoroutine(tileManager.GenerateGridCoroutine());
 
@@ -34,7 +37,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-
+        yield return new WaitForSeconds(1f);
         // Now that the grid is ready, spawn characters
         SpawnTractor();
         SpawnPlayer();
