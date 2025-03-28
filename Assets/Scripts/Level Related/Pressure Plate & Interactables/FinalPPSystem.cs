@@ -140,4 +140,11 @@ public class FinalPPSystem : MonoBehaviour
     {
         return totalWeight;
     }
+
+
+    public Vector3 GetEndPosition()
+    {
+        return transform.position;
+    }
+
 }

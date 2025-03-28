@@ -16,7 +16,7 @@ public class ParticleLerp : MonoBehaviour
     {
         if (pressurePlateSystem == null)
         {
-            Debug.LogError("PressurePlateSystem reference is not set!");
+            //Debug.LogError("PressurePlateSystem reference is not set!");
             return;
         }
 

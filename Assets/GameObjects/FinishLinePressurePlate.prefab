@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_Sprite: {fileID: -5572443950738647148, guid: cbe4f677f96078f48a9c3b8e2b569a74, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.8334112, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -160,6 +160,8 @@ MonoBehaviour:
   pressurePlateSound: {fileID: 8300000, guid: ce7d23b9c96f0424497792df05b71380, type: 3}
   isLocked: 1
   spriteRenderer: {fileID: 7027926525101347934}
-  activeSprite: {fileID: 1360613544948684685, guid: cbe4f677f96078f48a9c3b8e2b569a74, type: 3}
-  defaultSprite: {fileID: -5572443950738647148, guid: cbe4f677f96078f48a9c3b8e2b569a74, type: 3}
+  Locked: {fileID: 0}
+  Unlocked: {fileID: 0}
+  SteppedLocked: {fileID: 0}
+  SteppedUnlocked: {fileID: 0}
   timerDuration: 1
