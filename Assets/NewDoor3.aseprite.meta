@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 415921052fedc0a408e7492f99880304
+guid: 4730c3fe5f274d54aa81d305758a0d97
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638791447725768019
+  platformSettingsDirtyTick: 638789005159113822
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,7 +117,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: newWallSprite
+  - name: NewDoor3
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -127,8 +127,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 64
-      height: 40
-    spriteID: 1c00271cb8185f44c97e5ccc9e94c25b
+      height: 35
+    spriteID: fd2cadd4722f96045a3c4b5ed0663319
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,7 +138,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: newWallSprite_0
+  - name: NewDoor3_0
     originalName: 
     pivot: {x: 0.5, y: 0.4}
     alignment: 9
@@ -149,7 +149,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 40
-    spriteID: aff94147ebaae884db59e66e48ef3aea
+    spriteID: dde5d48abbc486140a50acd829461c1a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -158,7 +158,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: newWallSprite_1
+  - name: NewDoor3_1
     originalName: 
     pivot: {x: 0.5, y: 0.4}
     alignment: 9
@@ -169,7 +169,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 40
-    spriteID: 5bd645edee91c194b8a642d36deadc3e
+    spriteID: 030f29e2de514fd48ad6d11c7f1f5c6e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -180,20 +180,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1381598999
-    name: newWallSprite
+    guid: -103111483
+    name: NewDoor3
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: newWallSprite
+    - name: NewDoor3
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
         width: 64
-        height: 40
-      spriteId: 1c00271cb8185f44c97e5ccc9e94c25b
+        height: 35
+      spriteId: fd2cadd4722f96045a3c4b5ed0663319
     linkedCells: []
     parentIndex: -1
   platformSettings:

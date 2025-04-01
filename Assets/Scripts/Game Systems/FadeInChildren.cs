@@ -4,51 +4,41 @@ using UnityEngine;
 
 public class FadeInChildren : MonoBehaviour
 {
-    public float fadeDuration = 1.5f; // Time it takes to fully fade in
+    public float fadeDuration = 1.5f; // Time it takes to reveal all children
 
     void Start()
     {
-        StartCoroutine(FadeInAllChildren());
+        StartCoroutine(RandomRevealAllChildren());
     }
 
-    IEnumerator FadeInAllChildren()
+    IEnumerator RandomRevealAllChildren()
     {
         List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
         GetAllChildSprites(transform, spriteRenderers);
 
-        float elapsedTime = 0f;
-
-        // Store the initial colors
-        Dictionary<SpriteRenderer, Color> originalColors = new Dictionary<SpriteRenderer, Color>();
+        // Hide all children initially
         foreach (SpriteRenderer sr in spriteRenderers)
         {
-            Color newColor = sr.color;
-            newColor.a = 0f; // Start completely transparent
-            sr.color = newColor;
-            originalColors[sr] = newColor;
+            sr.enabled = false;
         }
 
-        while (elapsedTime < fadeDuration)
+        // Shuffle list for randomness
+        yield return new WaitForSeconds(1f);
+
+        System.Random rng = new System.Random();
+        for (int i = spriteRenderers.Count - 1; i > 0; i--)
         {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Clamp01(elapsedTime / fadeDuration); // Normalize 0  1
-
-            foreach (var sr in spriteRenderers)
-            {
-                Color newColor = originalColors[sr];
-                newColor.a = alpha;
-                sr.color = newColor;
-            }
-
-            yield return null;
+            int randomIndex = rng.Next(i + 1);
+            (spriteRenderers[i], spriteRenderers[randomIndex]) = (spriteRenderers[randomIndex], spriteRenderers[i]);
         }
 
-        // Ensure full opacity at the end
-        foreach (var sr in spriteRenderers)
+        // Calculate the delay between each reveal
+        float delayBetweenReveals = fadeDuration / spriteRenderers.Count;
+
+        foreach (SpriteRenderer sr in spriteRenderers)
         {
-            Color newColor = originalColors[sr];
-            newColor.a = 1f;
-            sr.color = newColor;
+            yield return new WaitForSeconds(delayBetweenReveals);
+            sr.enabled = true; // Instantly appear
         }
     }
 

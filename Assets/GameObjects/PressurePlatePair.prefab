@@ -63,7 +63,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2869792618182168052, guid: 6cdb7142a2a52484483efc283d777526, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2869792618182168052, guid: 6cdb7142a2a52484483efc283d777526, type: 3}
       propertyPath: m_LocalPosition.y
@@ -129,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 1443022694348833746, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}
       propertyPath: pressurePlateSystem
       value: 
-      objectReference: {fileID: 1194210054956643281}
+      objectReference: {fileID: 0}
     - target: {fileID: 7445577097704170823, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}
       propertyPath: m_Name
       value: ExplosionEffect
@@ -229,11 +229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_LocalPosition.z
@@ -306,17 +306,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 329900533241749391, guid: 499266c41418b1340a535d7d80405e17, type: 3}
   m_PrefabInstance: {fileID: 1443022694423850147}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1194210054956643281 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
-  m_PrefabInstance: {fileID: 1443022694423850147}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8a11be9e81bbf7458c4ddc88bad21f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1616645717273544131 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 173916112164677984, guid: 499266c41418b1340a535d7d80405e17, type: 3}
@@ -366,7 +355,7 @@ PrefabInstance:
     - target: {fileID: 4398109549176217857, guid: 5966191c64768fd4ab71b778cd5a9b56, type: 3}
       propertyPath: pressurePlate
       value: 
-      objectReference: {fileID: 1194210054956643281}
+      objectReference: {fileID: 0}
     - target: {fileID: 4398109549176217859, guid: 5966191c64768fd4ab71b778cd5a9b56, type: 3}
       propertyPath: m_RootOrder
       value: 1

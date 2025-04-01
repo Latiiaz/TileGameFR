@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.034508705, b: 1, a: 1}
+  m_Sprite: {fileID: 7985684405241083126, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
+  m_Color: {r: 0.33490568, g: 0.35837957, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserRange: 10
-  laserOffset: 0.5
+  laserOffset: 0.7
   laserDirection: {x: 0, y: 1}
   lineRenderer: {fileID: 3748955734142690800}
   passThroughLayers:

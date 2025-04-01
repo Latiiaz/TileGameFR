@@ -28,10 +28,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SetupGame()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         // Start grid generation
         yield return StartCoroutine(tileManager.GenerateGridCoroutine());
-
+        yield return new WaitForSeconds(1f);
         // Wait until the grid is completely generated
         while (!tileManager.isGridGenerated)
         {

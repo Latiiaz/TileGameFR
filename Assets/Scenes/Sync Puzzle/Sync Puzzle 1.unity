@@ -2845,12 +2845,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 4442761854792123480, guid: ce7f21c748cd4174a87e08031850ae11, type: 3}
   TractorPrefab: {fileID: 5187807225899239704, guid: 2896290b5a08c7a4d86b2e4c3d2fe70c, type: 3}
-  CartPrefab: {fileID: 4820975119155359750, guid: 72f434a7f74db9340ad3214ec5228caf, type: 3}
-  ItemTestPrefab: {fileID: 7834234095770734990, guid: ed8e9e532d6f6df41a9781ee6b21da32, type: 3}
-  PylonPrefab: {fileID: 4820975119155359750, guid: 1af721d88a4904b49a0a9b49cda695be, type: 3}
-  levelManager: {fileID: 1816934809}
+  _player: {fileID: 0}
+  _tractor: {fileID: 0}
   tileManager: {fileID: 1777368966}
-  _currentTurnIsPlayer: 1
+  fadeInChildren: {fileID: 0}
 --- !u!4 &978403371
 Transform:
   m_ObjectHideFlags: 0
@@ -5434,19 +5432,10 @@ MonoBehaviour:
   GridWidth: 7
   GridHeight: 7
   TileSize: 1
-  PercentageRiverTiles: 5
-  PercentageItemTiles: 0.05
-  NumberOfItems: 0
-  minX: 0
-  maxX: -1
-  minY: 0
-  maxY: 0
   playerX: 1
   playerY: 1
   robotX: 3
   robotY: 3
-  breakabletileX: 0
-  breakabletileY: 0
 --- !u!4 &1777368967
 Transform:
   m_ObjectHideFlags: 0
@@ -6467,16 +6456,32 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2725324915724925858, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8760435237593369976, guid: 4730c3fe5f274d54aa81d305758a0d97, type: 3}
+    - target: {fileID: 2725324915724925858, guid: b772460e7406a35499e594179e932a62, type: 3}
       propertyPath: m_Color.b
-      value: 0.024608415
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2725324915724925858, guid: b772460e7406a35499e594179e932a62, type: 3}
       propertyPath: m_Color.g
-      value: 0.745283
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2725324915724925858, guid: b772460e7406a35499e594179e932a62, type: 3}
       propertyPath: m_Color.r
-      value: 0.733371
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725324915724925861, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725324915724925861, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725324915724925861, guid: b772460e7406a35499e594179e932a62, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7218201895064949095, guid: b772460e7406a35499e594179e932a62, type: 3}
       propertyPath: controlledDoors.Array.data[0]
