@@ -37,7 +37,7 @@ public class FadeInChildren : MonoBehaviour
 
         foreach (SpriteRenderer sr in spriteRenderers)
         {
-            yield return new WaitForSeconds(delayBetweenReveals);
+            yield return new WaitForSeconds(delayBetweenReveals/2);
             sr.enabled = true; // Instantly appear
         }
     }

@@ -184,6 +184,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_Name
       value: WALLFRONTBACK (14)
@@ -391,6 +395,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
@@ -1124,6 +1132,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
@@ -7987,6 +7999,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_Name
       value: WALLFRONTBACK (13)
@@ -8220,6 +8236,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
@@ -9051,7 +9071,7 @@ MonoBehaviour:
   requiredWeight: 100
   requiredTime: 0
   VictorySound: {fileID: 8300000, guid: 1dfa843a2b40a894eaca3bd460683963, type: 3}
-  nextLevel: Collection Scene
+  nextLevel: Teach - Breakable Tiles
 --- !u!212 &1581001762
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9244,6 +9264,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
@@ -9553,6 +9577,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
@@ -9992,6 +10020,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_Name
       value: WALLFRONTBACK (12)
@@ -10219,6 +10251,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220921, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869017846902220922, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7869017846902220925, guid: 63ef8d525fa1ea943a1d1bdf9043b580, type: 3}

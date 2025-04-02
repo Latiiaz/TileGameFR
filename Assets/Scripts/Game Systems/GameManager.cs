@@ -31,13 +31,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         // Start grid generation
         yield return StartCoroutine(tileManager.GenerateGridCoroutine());
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         // Wait until the grid is completely generated
         while (!tileManager.isGridGenerated)
         {
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         // Now that the grid is ready, spawn characters
         SpawnTractor();
         SpawnPlayer();
