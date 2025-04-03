@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FadeInChildren : MonoBehaviour
+public class SpawnChildren : MonoBehaviour
 {
     public float fadeDuration = 1.5f; // Time it takes to reveal all children
+    public GameObject particlePrefab; // Particle effect prefab
 
     void Start()
     {
@@ -37,8 +38,23 @@ public class FadeInChildren : MonoBehaviour
 
         foreach (SpriteRenderer sr in spriteRenderers)
         {
-            yield return new WaitForSeconds(delayBetweenReveals/2);
+            yield return new WaitForSeconds(delayBetweenReveals / 2);
             sr.enabled = true; // Instantly appear
+
+            // Spawn particle effect
+            if (particlePrefab != null)
+            {
+                GameObject particleEffect = Instantiate(particlePrefab, sr.transform.position, Quaternion.identity);
+                ParticleSystem ps = particleEffect.GetComponent<ParticleSystem>();
+                if (ps != null)
+                {
+                    Destroy(particleEffect, ps.main.duration); // Destroy when particle effect ends
+                }
+                else
+                {
+                    Destroy(particleEffect, 2f); // Fallback in case no ParticleSystem is attached
+                }
+            }
         }
     }
 

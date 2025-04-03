@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private Vector2Int _tractorStartPosition = new Vector2Int(0, 0);
 
     public TileManager tileManager;
-    public FadeInChildren fadeInChildren;
+    public SpawnChildren spawnChildren;
 
     private bool _isHandlingMovement = true;
     private bool _bothCharactersIdle = false;
