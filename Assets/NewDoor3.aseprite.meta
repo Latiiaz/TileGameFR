@@ -149,7 +149,7 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 40
-    spriteID: dde5d48abbc486140a50acd829461c1a
+    spriteID: e8e7ee5cb6bfc124c9ea5340e31246c9
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -169,7 +169,47 @@ ScriptedImporter:
       y: 4
       width: 32
       height: 40
-    spriteID: 030f29e2de514fd48ad6d11c7f1f5c6e
+    spriteID: aeca1391f015a3645b82304435493ce1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: NewDoor3_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.4}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 68
+      y: 4
+      width: 32
+      height: 40
+    spriteID: adf6c2872e6897240b6fb79342095305
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: NewDoor3_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.4}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 4
+      width: 32
+      height: 40
+    spriteID: 6e3099bd9001d47478adf8a361456bd1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -191,8 +231,8 @@ ScriptedImporter:
       cellRect:
         x: 0
         y: 0
-        width: 64
-        height: 35
+        width: 128
+        height: 40
       spriteId: fd2cadd4722f96045a3c4b5ed0663319
     linkedCells: []
     parentIndex: -1
@@ -232,4 +272,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 40}
+  canvasSize: {x: 128, y: 40}
