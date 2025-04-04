@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DoorSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject nonCodeObject;   // The door object
+    [SerializeField] private GameObject DoorIsUp;   // The door object
+    [SerializeField] private GameObject DoorIsDown;   // The door object
     private bool isDoorOpen = false;
     private float currentWeight;
 
@@ -28,7 +29,8 @@ public class DoorSystem : MonoBehaviour
         if (!isDoorOpen)
         {
             isDoorOpen = true;
-            nonCodeObject.SetActive(false); // Hide door to simulate opening
+            DoorIsUp.SetActive(false); // Hide door to simulate opening
+            DoorIsDown.SetActive(true);
         }
     }
 
@@ -37,7 +39,8 @@ public class DoorSystem : MonoBehaviour
         if (isDoorOpen)
         {
             isDoorOpen = false;
-            nonCodeObject.SetActive(true); // Show door to simulate closing
+            DoorIsUp.SetActive(true); // Show door to simulate closing
+            DoorIsDown.SetActive(false);
         }
     }
 }

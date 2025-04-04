@@ -52,7 +52,7 @@ public class SpawnChildren : MonoBehaviour
                 }
                 else
                 {
-                    Destroy(particleEffect, 2f); // Fallback in case no ParticleSystem is attached
+                    Destroy(particleEffect, 3f); // Fallback in case no ParticleSystem is attached
                 }
             }
         }
