@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5872da93ba4e34e41bd224e5b8ac729b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 1
+  fadeDuration: 3
+  particlePrefab: {fileID: 3913715427528078161, guid: 872508e2708a4c74c84122da918ea4a6, type: 3}

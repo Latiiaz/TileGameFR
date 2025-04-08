@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,9 +21,13 @@ public class GameManager : MonoBehaviour
 
     private bool _isHandlingMovement = true;
     private bool _bothCharactersIdle = false;
+    private bool _bothCharactersHidden = false;
+
+    private LevelManager _levelManager;
 
     void Start()
     {
+        _levelManager = FindObjectOfType<LevelManager>();  // Get LevelManager reference
         StartCoroutine(SetupGame());
     }
 
@@ -37,7 +42,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         // Now that the grid is ready, spawn characters
         SpawnTractor();
         SpawnPlayer();
@@ -49,6 +54,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         CheckIfBothCharactersIdle();
+        CheckIfBothCharactersHidden(); 
+
+        if (_bothCharactersHidden)
+        {
+            // Play some action before the level is reset, some animation that indicates that both players are dead etc :3
+            _levelManager.ReloadCurrentScene();  // Trigger scene reload if both characters are hidden
+        }
+
         if (_isHandlingMovement) HandleInput();
     }
 
@@ -68,6 +81,12 @@ public class GameManager : MonoBehaviour
         }
 
         _bothCharactersIdle = playerIdle && tractorIdle;
+    }
+
+    // Check if both characters are hidden (inactive in hierarchy)
+    void CheckIfBothCharactersHidden()
+    {
+        _bothCharactersHidden = !_player.activeInHierarchy && !_tractor.activeInHierarchy;
     }
 
     void HandleInput()
@@ -116,10 +135,7 @@ public class GameManager : MonoBehaviour
         if (targetTile == null) return false; // Prevent moving into non-existent tiles
 
         return targetTile.IsWalkable; // Only allow movement if walkable
-
     }
-
-
 
     public void MoveCharacter(Movement character, Vector2Int direction)
     {

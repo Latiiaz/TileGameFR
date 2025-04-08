@@ -66,15 +66,36 @@ public class RespawningSystem : MonoBehaviour
             yield break;
         }
 
+        // Determine target character and destination
         if (other.CompareTag("Tractor"))
         {
-            Debug.Log("Tractor is on the plate. Respawning the player.");
-            gameManager.RespawnCharacter(gameManager._player, (plateA.position == other.transform.position) ? plateB.position : plateA.position);
+            Debug.Log("Tractor is on the plate. Attempting to respawn the player.");
+
+            if (gameManager._player != null && !gameManager._player.activeInHierarchy)
+            {
+                Vector3 destination = (plateA.position == other.transform.position) ? plateB.position : plateA.position;
+                gameManager.RespawnCharacter(gameManager._player, destination);
+                Debug.Log("Player respawned successfully.");
+            }
+            else
+            {
+                Debug.Log("Player is not hidden. Respawn canceled.");
+            }
         }
         else if (other.CompareTag("Player"))
         {
-            Debug.Log("Player is on the plate. Respawning the tractor.");
-            gameManager.RespawnCharacter(gameManager._tractor, (plateA.position == other.transform.position) ? plateB.position : plateA.position);
+            Debug.Log("Player is on the plate. Attempting to respawn the tractor.");
+
+            if (gameManager._tractor != null && !gameManager._tractor.activeInHierarchy)
+            {
+                Vector3 destination = (plateA.position == other.transform.position) ? plateB.position : plateA.position;
+                gameManager.RespawnCharacter(gameManager._tractor, destination);
+                Debug.Log("Tractor respawned successfully.");
+            }
+            else
+            {
+                Debug.Log("Tractor is not hidden. Respawn canceled.");
+            }
         }
 
         Debug.Log("Respawn sequence complete.");

@@ -93,10 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3748955734142690767}
+  - component: {fileID: 3748955734142690766}
   - component: {fileID: 3748955734142690800}
   - component: {fileID: 3748955734142690801}
   - component: {fileID: 3748955734142690802}
-  - component: {fileID: 3748955734142690766}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Wall
@@ -120,6 +120,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3748955734142690766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3748955734142690803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c73a811106768a4ca6fd84c247ad152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserRange: 11
+  laserOffset: 0.7
+  laserDirection: {x: 0, y: 1}
+  lineRenderer: {fileID: 3748955734142690800}
+  passThroughLayers:
+    serializedVersion: 2
+    m_Bits: 318
+  stopLayers:
+    serializedVersion: 2
+    m_Bits: 8388736
+  hideLayers:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!120 &3748955734142690800
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -284,28 +309,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3748955734142690766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3748955734142690803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c73a811106768a4ca6fd84c247ad152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserRange: 10
-  laserOffset: 0.7
-  laserDirection: {x: 0, y: 1}
-  lineRenderer: {fileID: 3748955734142690800}
-  passThroughLayers:
-    serializedVersion: 2
-    m_Bits: 318
-  stopLayers:
-    serializedVersion: 2
-    m_Bits: 8388736
-  hideLayers:
-    serializedVersion: 2
-    m_Bits: 768

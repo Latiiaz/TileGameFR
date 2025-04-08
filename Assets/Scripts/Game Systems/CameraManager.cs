@@ -18,6 +18,9 @@ public class CameraManager : MonoBehaviour
     private Transform _playerPos;
     private Transform _tractorPos;
 
+    private Vector3 _levelMidpoint = Vector3.zero;
+
+
     [SerializeField] private GameManager _gameManager;
 
     void Start()
@@ -57,23 +60,20 @@ public class CameraManager : MonoBehaviour
     {
         if (_tileManager != null)
         {
-            // Convert spawn grid positions to world positions
-            float playerX = _tileManager.playerX * _tileManager.TileSize;
-            float playerY = _tileManager.playerY * _tileManager.TileSize;
-            float robotX = _tileManager.robotX * _tileManager.TileSize;
-            float robotY = _tileManager.robotY * _tileManager.TileSize;
+            float levelCenterX = (_tileManager.GridWidth * _tileManager.TileSize) / 2f;
+            float levelCenterY = (_tileManager.GridHeight * _tileManager.TileSize) / 2f;
+            _levelMidpoint = new Vector3(levelCenterX, levelCenterY, -15f);
 
-            // Calculate midpoint
-            float centerX = (playerX + robotX) / 2f;
-            float centerY = (playerY + robotY) / 2f;
-
-            transform.position = new Vector3(centerX, centerY, -15f);
+            // Optional: snap to this on Start
+            transform.position = _levelMidpoint;
         }
         else
         {
             Debug.LogWarning("TileManager reference is missing in CameraManager!");
         }
     }
+
+
 
     void FindCharacters()
     {
@@ -111,10 +111,18 @@ public class CameraManager : MonoBehaviour
         Vector3 playerPos = _playerPos.position;
         Vector3 tractorPos = _tractorPos.position;
 
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, (playerPos + tractorPos) / 2, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
+        // Midpoint between player and tractor
+        Vector3 charMid = (playerPos + tractorPos) / 2f;
+
+        // Midpoint between level center and charMid
+        Vector3 trueMidpoint = (_levelMidpoint + charMid) / 2f;
+
+        // Lerp to this position
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, trueMidpoint, LerpSpeed * Time.deltaTime);
+        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15f);
     }
 
+    
     void CenteredOnPlayerInstant()
     {
         transform.position = new Vector3(_playerPos.position.x, _playerPos.position.y, -15);
