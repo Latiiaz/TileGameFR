@@ -56,4 +56,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial Scenes/Teach - Step On Plate.unity
     guid: d00893e8e78068147a521f55535876c5
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 1.unity
+    guid: 63c2a32a06966144ab25b209caa5c84c
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 2.unity
+    guid: 3b125519b381805478de9f193fb75ac2
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 3.unity
+    guid: 5b1b7a9789c1e974c8081344d2fcb6a0
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 4.unity
+    guid: f55dbb5fde8c59440b91fb796497dfe9
   m_configObjects: {}
