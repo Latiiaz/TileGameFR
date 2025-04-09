@@ -8,21 +8,20 @@ public class FinalPPSystem : MonoBehaviour
     [SerializeField] public AudioClip pressurePlateSound;
     private AudioSource audioSource;
 
-    [SerializeField] private bool isLocked = true; // Locked by default
+    [SerializeField] private bool isLocked = true;
     private ObjectiveSystem _objectiveSystem;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    // Sprites for different states
-    [SerializeField] private Sprite Locked;          // Sprite when Locked
-    [SerializeField] private Sprite Unlocked;        // Sprite when Unlocked
-    [SerializeField] private Sprite SteppedLocked;   // Sprite when Stepped + Locked
-    [SerializeField] private Sprite SteppedUnlocked; // Sprite when Stepped + Unlocked
+    [SerializeField] private Sprite Locked;
+    [SerializeField] private Sprite Unlocked;
+    [SerializeField] private Sprite SteppedLocked;
+    [SerializeField] private Sprite SteppedUnlocked;
 
-    [SerializeField] private float timerDuration = 3f; // Time before weight is added
+    [SerializeField] private float timerDuration = 3f;
     private float timer = 0f;
     private bool isTimerRunning = false;
-    private bool objectOnPlate = false; // Tracks if an object is on the plate
-    private IWeightedObject currentWeightedObject; // Store the object that triggered the timer
+    private bool objectOnPlate = false;
+    private IWeightedObject currentWeightedObject;
 
     private void Start()
     {
@@ -35,8 +34,7 @@ public class FinalPPSystem : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        // **Instantly check and apply correct state when spawned**
-        isLocked = !_objectiveSystem._objectiveEnabled; // Set locked state based on objective
+        isLocked = !_objectiveSystem._objectiveEnabled;
         UpdateSprite();
     }
 
@@ -49,9 +47,17 @@ public class FinalPPSystem : MonoBehaviour
             isLocked = false;
             PlayPressurePlateSound();
             UpdateSprite();
+            return; // Optional: stop here if you only want unlock logic this frame
         }
 
-        // Timer logic (runs while an object is on the plate)
+        // If still locked, skip the rest
+        if (isLocked)
+        {
+            UpdateSprite(); // Show locked sprite if needed
+            return;
+        }
+
+        // Timer logic (runs only when unlocked)
         if (isTimerRunning)
         {
             timer -= Time.deltaTime;
@@ -63,20 +69,22 @@ public class FinalPPSystem : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isLocked) return;
+
         if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
             objectOnPlate = true;
-            UpdateSprite(); // Update sprite when stepped on
+            UpdateSprite();
 
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null && !isTimerRunning)
             {
-                // Start timer only once
                 timer = timerDuration;
                 isTimerRunning = true;
-                currentWeightedObject = weightedObject; // Store the object for weight addition
+                currentWeightedObject = weightedObject;
             }
         }
     }
@@ -86,7 +94,7 @@ public class FinalPPSystem : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
             objectOnPlate = false;
-            UpdateSprite(); // Update sprite when stepped off
+            UpdateSprite();
 
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
@@ -100,6 +108,8 @@ public class FinalPPSystem : MonoBehaviour
 
     private void AddWeight()
     {
+        if (isLocked) return;
+
         if (currentWeightedObject != null)
         {
             totalWeight += currentWeightedObject.GetWeight();
@@ -126,12 +136,10 @@ public class FinalPPSystem : MonoBehaviour
 
         if (objectOnPlate)
         {
-            // If stepped on, use the corresponding stepped sprite
             spriteRenderer.sprite = isLocked ? SteppedLocked : SteppedUnlocked;
         }
         else
         {
-            // If not stepped on, use the normal locked/unlocked sprite
             spriteRenderer.sprite = isLocked ? Locked : Unlocked;
         }
     }
@@ -141,10 +149,8 @@ public class FinalPPSystem : MonoBehaviour
         return totalWeight;
     }
 
-
     public Vector3 GetEndPosition()
     {
         return transform.position;
     }
-
 }

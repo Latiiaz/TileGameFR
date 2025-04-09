@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -17,26 +18,33 @@ public class MainMenuSystem : MonoBehaviour
     private TextMeshProUGUI S_Text;
     private TextMeshProUGUI D_Text;
 
+    [Header("Transform References for Particles")]
+    [SerializeField] private Transform W_Transform;
+    [SerializeField] private Transform A_Transform;
+    [SerializeField] private Transform S_Transform;
+    [SerializeField] private Transform D_Transform;
+
     [Header("Image Colors")]
     public Color defaultColor = Color.white;
     public Color pressedColor = Color.green;
-
-    [Header("Shared Particle Effect")]
-    public ParticleSystem sharedParticle;
-    public Camera uiCamera; // Camera rendering the UI
 
     [Header("Key Press States")]
     private bool wPressed = false;
     private bool aPressed = false;
     private bool sPressed = false;
     private bool dPressed = false;
+    private bool sceneLoadStarted = false;
 
     [Header("Scene Manager")]
     public LevelManager levelManager;
-    [SerializeField] string sceneName;
+    [SerializeField] private string sceneName;
+
+    [Header("Particle Growing")]
+    [SerializeField] private ParticleSystem RingExpanding;
 
     void Start()
     {
+        // Set all images and text to their default color
         W_Image.color = defaultColor;
         A_Image.color = defaultColor;
         S_Image.color = defaultColor;
@@ -60,7 +68,7 @@ public class MainMenuSystem : MonoBehaviour
             wPressed = true;
             W_Image.color = pressedColor;
             W_Text.color = pressedColor;
-            PlayParticleAtUI(W_Image.rectTransform);
+            Instantiate(RingExpanding, W_Transform.position, Quaternion.identity);
         }
 
         if (Input.GetKeyDown(KeyCode.A) && !aPressed)
@@ -68,7 +76,7 @@ public class MainMenuSystem : MonoBehaviour
             aPressed = true;
             A_Image.color = pressedColor;
             A_Text.color = pressedColor;
-            PlayParticleAtUI(A_Image.rectTransform);
+            Instantiate(RingExpanding, A_Transform.position, Quaternion.identity);
         }
 
         if (Input.GetKeyDown(KeyCode.S) && !sPressed)
@@ -76,7 +84,7 @@ public class MainMenuSystem : MonoBehaviour
             sPressed = true;
             S_Image.color = pressedColor;
             S_Text.color = pressedColor;
-            PlayParticleAtUI(S_Image.rectTransform);
+            Instantiate(RingExpanding, S_Transform.position, Quaternion.identity);
         }
 
         if (Input.GetKeyDown(KeyCode.D) && !dPressed)
@@ -84,25 +92,19 @@ public class MainMenuSystem : MonoBehaviour
             dPressed = true;
             D_Image.color = pressedColor;
             D_Text.color = pressedColor;
-            PlayParticleAtUI(D_Image.rectTransform);
+            Instantiate(RingExpanding, D_Transform.position, Quaternion.identity);
         }
 
-        if (wPressed && aPressed && sPressed && dPressed)
+        if (wPressed && aPressed && sPressed && dPressed && !sceneLoadStarted)
         {
-            levelManager.LoadSceneByName(sceneName);
+            sceneLoadStarted = true;
+            StartCoroutine(LoadSceneWithDelay(2.3f));
         }
     }
 
-    void PlayParticleAtUI(RectTransform targetUI)
+    IEnumerator LoadSceneWithDelay(float delay)
     {
-        if (sharedParticle == null || uiCamera == null) return;
-
-        // Convert UI position to world position
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(uiCamera, targetUI.position);
-        Ray ray = uiCamera.ScreenPointToRay(screenPoint);
-        Vector3 spawnPosition = ray.origin + ray.direction * 5f; // Adjust depth as needed
-
-        sharedParticle.transform.position = spawnPosition;
-        sharedParticle.Play();
+        yield return new WaitForSeconds(delay);
+        levelManager.LoadSceneByName(sceneName);
     }
 }

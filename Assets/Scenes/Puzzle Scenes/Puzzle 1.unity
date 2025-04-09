@@ -287,18 +287,18 @@ PrefabInstance:
     - target: {fileID: 6677549833018073141, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -9203451242465723183, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
+      objectReference: {fileID: 2583003727304645782, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
     - target: {fileID: 6677549833069148822, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6677549833069148822, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6677549833069148822, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6677549833069148822, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_LocalPosition.z
@@ -337,8 +337,12 @@ PrefabInstance:
       value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: 6677549833069148823, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
+      propertyPath: laserDirection.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677549833069148823, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: laserDirection.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6677549833069148842, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_Name
@@ -10453,7 +10457,7 @@ PrefabInstance:
     - target: {fileID: 2328276591949645547, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2583003727304645782, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
+      objectReference: {fileID: -9203451242465723183, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
     - target: {fileID: 2856803850371095399, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_Name
       value: Laser Tractor
@@ -10464,11 +10468,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4091120330367282735, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4091120330367282735, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4091120330367282735, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10504,11 +10508,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5291854227833774868, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: laserDirection.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5291854227833774868, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: laserDirection.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
