@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plateA: {fileID: 531070812579903062}
   plateB: {fileID: 531070813094630550}
-  respawnTimer: 0.3
+  respawnTimer: 0.6
 --- !u!1 &531070812861815130
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,4 +350,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plateA: {fileID: 531070812579903062}
   plateB: {fileID: 531070813094630550}
-  respawnTimer: 0.3
+  respawnTimer: 0.6
