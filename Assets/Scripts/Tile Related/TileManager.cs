@@ -23,6 +23,13 @@ public class TileManager : MonoBehaviour
     public bool isGridGenerated { get; private set; } = false; // Flag to check if grid generation is complete
     public static TileManager Instance { get; private set; }
 
+    public Vector3 LevelMidpoint()
+    {
+        float levelCenterX = (GridWidth * TileSize) / 2f;
+        float levelCenterY = (GridHeight * TileSize) / 2f;
+        return new Vector3(levelCenterX, levelCenterY, -15f);
+    }
+
     private void Awake()
     {
         if (Instance == null)
