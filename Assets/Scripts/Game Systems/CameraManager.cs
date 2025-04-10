@@ -1,177 +1,198 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
 public class CameraManager : MonoBehaviour
 {
-    [Header("Tile Manager")]
+    [Header("References")]
     [SerializeField] private TileManager _tileManager;
-
-    [Header("Camera Shake")]
-    public bool IsShaking = false;
-    public AnimationCurve animationCurve;
-    public float ShakeDuration = 0.3f;
-    public float ShakeMultiplier = 1.5f;
-
-    [Header("Camera Lerping")]
-    [SerializeField] public float LerpSpeed = 5f;
-    private Transform _playerPos;
-    private Transform _tractorPos;
-
-    [Header("Pixel Perfect Camera Stuff")]
     [SerializeField] private PixelPerfectCamera _pixelPerfectCamera;
     [SerializeField] private GameManager _gameManager;
 
-    private Vector3 _levelMidpoint = Vector3.zero;
+    [Header("Camera Targets")]
+    [SerializeField] private float lerpSpeed = 5f;
+    private Transform _playerTransform;
+    private Transform _tractorTransform;
+
+    [Header("Shake Settings")]
+    public AnimationCurve shakeCurve;
+    public float shakeDuration = 0.3f;
+    public float shakeStrength = 1.5f;
+    private bool _isShaking = false;
+
+    [Header("Zoom Settings")]
     private bool _hasStartedPPULerp = false;
+    [SerializeField] private float finalFOV = 60f; // Perspective camera FOV instead
+
+    private Vector3 _levelMidpoint = Vector3.zero;
 
     void Start()
     {
         _tileManager = FindObjectOfType<TileManager>();
-        Debug.Log("CameraManager: Start");
-
-        CenterOnSpawnPositions();
+        CenterOnLevelMidpoint();
         FindCharacters();
-
-        // Optional: simulate a higher starting value for visual effect
-        //_pixelPerfectCamera.assetsPPU = 128;
-        //StartCoroutine(LerpPPU(64, 2f));
     }
 
-    void FixedUpdate()
+    void Update()
     {
         CheckForRespawn();
 
-        if (_playerPos != null && _tractorPos != null)
+        if (_playerTransform != null && _tractorTransform != null)
         {
-            CenteredOnMidpointBoth();
+            CenterOnBothCharacters();
         }
-        else if (_playerPos != null)
+        else if (_playerTransform != null)
         {
-            CenteredOnPlayerInstant();
+            // Lerp to midpoint between level center and player if only player exists
+            LerpToMidpointAndCharacter(_playerTransform);
         }
-        else if (_tractorPos != null)
+        else if (_tractorTransform != null)
         {
-            CenteredOnRobotInstant();
+            // Lerp to midpoint between level center and tractor if only tractor exists
+            LerpToMidpointAndCharacter(_tractorTransform);
         }
 
-        if (Input.GetKeyDown(KeyCode.G) && !IsShaking)
+        if (Input.GetKeyDown(KeyCode.G) && !_isShaking)
         {
-            IsShaking = true;
-            StartCoroutine(Shaking());
+            StartCoroutine(ShakeCamera());
         }
     }
 
-    void CenterOnSpawnPositions()
+    private void CenterOnLevelMidpoint()
     {
         if (_tileManager != null)
         {
-            float levelCenterX = (_tileManager.GridWidth * _tileManager.TileSize) / 2f;
-            float levelCenterY = (_tileManager.GridHeight * _tileManager.TileSize) / 2f;
-            _levelMidpoint = new Vector3(levelCenterX, levelCenterY, -15f);
-
+            float centerX = (_tileManager.GridWidth * _tileManager.TileSize) / 2f;
+            float centerY = (_tileManager.GridHeight * _tileManager.TileSize) / 2f;
+            _levelMidpoint = new Vector3(centerX, centerY, -15f);
             transform.position = _levelMidpoint;
-            Debug.Log("Camera centered on level midpoint.");
         }
         else
         {
-            Debug.LogWarning("TileManager reference is missing in CameraManager!");
+            Debug.LogWarning("TileManager is missing!");
         }
     }
 
-    void FindCharacters()
+    private void FindCharacters()
     {
-        GameObject _newPlayer = GameObject.FindWithTag("Player");
-        if (_newPlayer != null) _playerPos = _newPlayer.transform;
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null) _playerTransform = player.transform;
 
-        GameObject _newTractor = GameObject.FindWithTag("Tractor");
-        if (_newTractor != null) _tractorPos = _newTractor.transform;
+        GameObject tractor = GameObject.FindWithTag("Tractor");
+        if (tractor != null) _tractorTransform = tractor.transform;
     }
 
-    void CheckForRespawn()
+    private void CheckForRespawn()
     {
-        if (_playerPos == null || _tractorPos == null)
+        if (_playerTransform == null || _tractorTransform == null)
         {
             FindCharacters();
         }
     }
 
-    void CenteredOnPlayer()
+    private void CenterOnBothCharacters()
     {
-        Vector3 targetPosition = _playerPos.position;
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
-    }
-
-    void CenteredOnRobot()
-    {
-        Vector3 targetPosition = _tractorPos.position;
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, targetPosition, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15);
-    }
-
-    void CenteredOnMidpointBoth()
-    {
-        Vector3 playerPos = _playerPos.position;
-        Vector3 tractorPos = _tractorPos.position;
-
-        Vector3 charMid = (playerPos + tractorPos) / 2f;
-        Vector3 trueMidpoint = (_levelMidpoint + charMid) / 2f;
-
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, trueMidpoint, LerpSpeed * Time.deltaTime);
-        transform.position = new Vector3(lerpPosition.x, lerpPosition.y, -15f);
+        Vector3 midCharacterPos = (_playerTransform.position + _tractorTransform.position) / 2f;
+        Vector3 target = (_levelMidpoint + midCharacterPos) / 2f;
+        Vector3 lerped = Vector3.Lerp(transform.position, target, lerpSpeed * Time.deltaTime);
+        transform.position = SnapToPixelGrid(new Vector3(lerped.x, lerped.y, -15f));
 
         if (!_hasStartedPPULerp)
         {
-            StartCoroutine(LerpPPU(64, 1.5f)); // Lerp PPU to 64 over 1.5 seconds
+            StartCoroutine(LerpFOV(finalFOV, 1f));
             _hasStartedPPULerp = true;
         }
     }
 
-    void CenteredOnPlayerInstant()
+    private void LerpToMidpointAndCharacter(Transform target)
     {
-        transform.position = new Vector3(_playerPos.position.x, _playerPos.position.y, -15);
+        // Lerp between the level midpoint and the character's position
+        Vector3 targetPosition = (_levelMidpoint + target.position) / 2f;
+        Vector3 lerpedPosition = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
+        transform.position = SnapToPixelGrid(new Vector3(lerpedPosition.x, lerpedPosition.y, -15f));
     }
 
-    void CenteredOnRobotInstant()
+    public IEnumerator ShakeCamera()
     {
-        transform.position = new Vector3(_tractorPos.position.x, _tractorPos.position.y, -15);
-    }
+        _isShaking = true;
+        Vector3 originalPos = transform.position;
+        float elapsed = 0f;
 
-    public IEnumerator Shaking()
-    {
-        Vector3 startPosition = transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < ShakeDuration)
+        while (elapsed < shakeDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float strength = animationCurve.Evaluate(elapsedTime / ShakeDuration);
-            transform.position = startPosition + Random.insideUnitSphere * strength * ShakeMultiplier;
+            float strength = shakeCurve.Evaluate(elapsed / shakeDuration);
+            transform.position = originalPos + Random.insideUnitSphere * strength * shakeStrength;
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = startPosition;
-        IsShaking = false;
+        transform.position = originalPos;
+        _isShaking = false;
+    }
+
+    private Vector3 SnapToPixelGrid(Vector3 worldPosition)
+    {
+        float unitsPerPixel = 1f / _pixelPerfectCamera.assetsPPU;
+
+        float snappedX = Mathf.Round(worldPosition.x / unitsPerPixel) * unitsPerPixel;
+        float snappedY = Mathf.Round(worldPosition.y / unitsPerPixel) * unitsPerPixel;
+
+        return new Vector3(snappedX, snappedY, worldPosition.z);
+    }
+
+    public IEnumerator LerpZoom(float targetSize, float duration)
+    {
+        float startSize = Camera.main.orthographicSize;
+        float elapsed = 0f;
+
+        _pixelPerfectCamera.pixelSnapping = false;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            Camera.main.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
+            yield return null;
+        }
+
+        Camera.main.orthographicSize = targetSize;
+        _pixelPerfectCamera.pixelSnapping = true;
     }
 
     public IEnumerator LerpPPU(int targetPPU, float duration)
     {
-        float timeElapsed = 0f;
         float startPPU = _pixelPerfectCamera.assetsPPU;
+        float elapsed = 0f;
+
+        _pixelPerfectCamera.pixelSnapping = false;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float interpolated = Mathf.Lerp(startPPU, targetPPU, t);
+            _pixelPerfectCamera.assetsPPU = Mathf.RoundToInt(interpolated);
+            yield return null;
+        }
+
+        _pixelPerfectCamera.assetsPPU = targetPPU;
+        _pixelPerfectCamera.pixelSnapping = true;
+    }
+
+    public IEnumerator LerpFOV(float targetFOV, float duration)
+    {
+        float startFOV = Camera.main.fieldOfView;
+        float timeElapsed = 0f;
 
         while (timeElapsed < duration)
         {
             timeElapsed += Time.deltaTime;
             float t = timeElapsed / duration;
 
-            float newPPU = Mathf.Lerp(startPPU, targetPPU, t);
-            _pixelPerfectCamera.assetsPPU = Mathf.RoundToInt(newPPU);
-
+            Camera.main.fieldOfView = Mathf.Lerp(startFOV, targetFOV, t);
             yield return null;
         }
 
-        _pixelPerfectCamera.assetsPPU = targetPPU;
+        Camera.main.fieldOfView = targetFOV;
     }
 }

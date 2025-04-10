@@ -24,10 +24,12 @@ public class GameManager : MonoBehaviour
     private bool _bothCharactersHidden = false;
 
     private LevelManager _levelManager;
+    private CameraManager cameraManager; // Reference to CameraManager
 
     void Start()
     {
         _levelManager = FindObjectOfType<LevelManager>();  // Get LevelManager reference
+        cameraManager = FindObjectOfType<CameraManager>();  // Get CameraManager reference
         StartCoroutine(SetupGame());
     }
 
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         CheckIfBothCharactersIdle();
-        CheckIfBothCharactersHidden(); 
+        CheckIfBothCharactersHidden();
 
         if (_bothCharactersHidden)
         {
@@ -183,7 +185,13 @@ public class GameManager : MonoBehaviour
     {
         if (character != null)
         {
-            Debug.Log($"{character.name} BEFORE respawn: Active={character.activeSelf}, Position={character.transform.position}");
+            //Debug.Log($"{character.name} BEFORE respawn: Active={character.activeSelf}, Position={character.transform.position}");
+
+            // Trigger camera shake before respawn
+            if (cameraManager != null)
+            {
+                StartCoroutine(cameraManager.ShakeCamera());  // Start camera shake before respawn
+            }
 
             character.SetActive(true); // Ensure the character is active
 

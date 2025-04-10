@@ -7,8 +7,23 @@ public class BackgroundParticleSystem : MonoBehaviour
     [SerializeField] private Transform downPosition;
     [SerializeField] private Transform rightPosition;
 
+    private TileManager _tileManager = FindObjectOfType<TileManager>();
+    private Vector3 _levelMidpoint = Vector3.zero;
+
     void Update()
     {
+        // Update level midpoint based on tile manager's grid size
+        if (_tileManager != null)
+        {
+            float centerX = (_tileManager.GridWidth * _tileManager.TileSize) / 2f;
+            float centerY = (_tileManager.GridHeight * _tileManager.TileSize) / 2f;
+            _levelMidpoint = new Vector3(centerX, centerY, -15f);
+        }
+
+        // Constantly set the position to the level midpoint
+        transform.position = _levelMidpoint;
+
+        // Handle user input for movement (optional)
         if (Input.GetKeyDown(KeyCode.W))
         {
             MoveAndRotate(upPosition);
