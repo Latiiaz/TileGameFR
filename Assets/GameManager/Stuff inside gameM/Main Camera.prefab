@@ -216,7 +216,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 8
   m_Depth: -1
   m_CullingMask:
@@ -254,33 +254,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileManager: {fileID: 0}
-  IsShaking: 0
-  animationCurve:
+  _pixelPerfectCamera: {fileID: 5659174370058719794}
+  _gameManager: {fileID: 0}
+  lerpSpeed: 5
+  shakeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2.2243686
-      outSlope: 2.2243686
+      time: 0.0011062622
+      value: 0.19464111
+      inSlope: 0.004060497
+      outSlope: 0.004060497
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.09716488
-      value: 0.2161305
-      inSlope: -0.5649348
-      outSlope: -0.5649348
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.17851372
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -0.23939088
-      outSlope: -0.23939088
+      time: 1.0044556
+      value: 0.19871521
+      inSlope: 0.004060497
+      outSlope: 0.004060497
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -288,11 +281,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ShakeDuration: 0.3
-  ShakeMultiplier: 1.5
-  LerpSpeed: 5
-  _pixelPerfectCamera: {fileID: 5659174370058719794}
-  _gameManager: {fileID: 0}
+  shakeDuration: 0.3
+  shakeStrength: 1.5
+  finalFOV: 45
 --- !u!114 &5659174370058719794
 MonoBehaviour:
   m_ObjectHideFlags: 0

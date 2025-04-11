@@ -7,8 +7,13 @@ public class BackgroundParticleSystem : MonoBehaviour
     [SerializeField] private Transform downPosition;
     [SerializeField] private Transform rightPosition;
 
-    private TileManager _tileManager = FindObjectOfType<TileManager>();
+    private TileManager _tileManager;
     private Vector3 _levelMidpoint = Vector3.zero;
+
+    private void Start()
+    {
+        _tileManager = GetComponent<TileManager>();
+    }
 
     void Update()
     {

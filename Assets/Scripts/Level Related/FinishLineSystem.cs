@@ -75,7 +75,7 @@ public class FinishLineSystem : MonoBehaviour
         audioSource.clip = VictorySound;
         audioSource.Play();
         yield return new WaitForSeconds(seconds);
-        levelManager.LoadSceneByName(nextLevel);
+        levelManager.LoadNextScene();
     }
     private IEnumerator VictoryCoroutine(float seconds)
     {
