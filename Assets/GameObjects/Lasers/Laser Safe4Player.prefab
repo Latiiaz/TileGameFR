@@ -309,3 +309,5 @@ MonoBehaviour:
   hideLayers:
     serializedVersion: 2
     m_Bits: 256
+  playerHitEffect: {fileID: 8376436130519880594, guid: d93b9b5735517f84ab00966d6cfd632e, type: 3}
+  tractorHitEffect: {fileID: 1499138701250118363, guid: a1d7063361e493e4496a6736149b5612, type: 3}

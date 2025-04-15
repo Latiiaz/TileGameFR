@@ -75,6 +75,7 @@ MonoBehaviour:
   _tileSprites: []
   _boxCollider: {fileID: 0}
   _spawnEffectPrefab: {fileID: 0}
+  _stepOnEffectPrefab: {fileID: 0}
 --- !u!1 &1476695887696553729
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,3 +290,4 @@ MonoBehaviour:
   _tileSprites: []
   _boxCollider: {fileID: -6887380502084136401}
   _spawnEffectPrefab: {fileID: 7445577097704170825, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}
+  _stepOnEffectPrefab: {fileID: 3055028311021591233, guid: 07b5bff485f2519449ae2b9d46a10b77, type: 3}

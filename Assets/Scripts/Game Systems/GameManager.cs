@@ -49,8 +49,8 @@ public class GameManager : MonoBehaviour
         SpawnTractor();
         SpawnPlayer();
 
-        if (_player != null) _playerMovement = _player.GetComponent<PlayerMovement>();
-        if (_tractor != null) _tractorMovement = _tractor.GetComponent<TractorMovement>();
+        if (_player != null) _playerMovement = _player.GetComponentInChildren<PlayerMovement>();
+        if (_tractor != null) _tractorMovement = _tractor.GetComponentInChildren<TractorMovement>();
     }
 
     void Update()
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     void HandleInput()
     {
-        if (!_bothCharactersIdle) return; // Prevent input if characters are moving
+        if (!_bothCharactersIdle) return;
 
         Vector2Int movementDirection = Vector2Int.zero;
 
@@ -104,29 +104,18 @@ public class GameManager : MonoBehaviour
 
         if (movementDirection != Vector2Int.zero)
         {
-            // Rotate first (even if movement is blocked)
-            if (_playerMovement != null && _player.activeSelf)
-            {
-                _playerMovement.RotateToDirection(movementDirection);
-            }
-
-            if (_tractorMovement != null && _tractor.activeSelf)
-            {
-                _tractorMovement.RotateToDirection(movementDirection);
-            }
-
-            // After rotating, check if movement is possible
             if (_playerMovement != null && _player.activeSelf && CanMoveToTile(_playerMovement, movementDirection))
             {
-                MoveCharacter(_playerMovement, movementDirection);
+                _playerMovement.MoveInDirection(movementDirection);
             }
 
             if (_tractorMovement != null && _tractor.activeSelf && CanMoveToTile(_tractorMovement, movementDirection))
             {
-                MoveCharacter(_tractorMovement, movementDirection);
+                _tractorMovement.MoveInDirection(movementDirection);
             }
         }
     }
+
 
     bool CanMoveToTile(Movement character, Vector2Int direction)
     {

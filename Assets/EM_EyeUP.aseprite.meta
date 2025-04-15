@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 415921052fedc0a408e7492f99880304
+guid: 528497e838ef29d4188858cf2163e5f8
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 32
+    spritePixelsToUnits: 16
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638791447725768019
+  platformSettingsDirtyTick: 638802749819482110
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,18 +117,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: newWallSprite
+  - name: EM_EyeUP
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: -0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 64
-      height: 40
-    spriteID: 1c00271cb8185f44c97e5ccc9e94c25b
+      width: 8
+      height: 8
+    spriteID: 8989beb3f6d496146ad2f4a2ed71e7a1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,58 +138,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: newWallSprite_0
+  - name: EM_EyeUP_0
     originalName: 
-    pivot: {x: 0.5, y: 0.4}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 32
-      height: 40
-    spriteID: aff94147ebaae884db59e66e48ef3aea
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: newWallSprite_1
-    originalName: 
-    pivot: {x: 0.5, y: 0.4}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 36
-      y: 4
-      width: 32
-      height: 40
-    spriteID: b8140972e6d06ab4b99d7ed4241e8d8e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: newWallSprite_2
-    originalName: 
-    pivot: {x: 0.5, y: 0.4}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 68
-      y: 4
-      width: 32
-      height: 40
-    spriteID: c91e03ba36b5ccf45a15981b66446aef
+      width: 6
+      height: 6
+    spriteID: d4976ddb82a81184d800240b360e05d2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -200,20 +160,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1381598999
-    name: newWallSprite
+    guid: 582387535
+    name: EM_EyeUP
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: newWallSprite
+    - name: EM_EyeUP
       frameIndex: 0
       cellRect:
-        x: 0
-        y: 0
-        width: 96
-        height: 40
-      spriteId: 1c00271cb8185f44c97e5ccc9e94c25b
+        x: 5
+        y: 5
+        width: 6
+        height: 6
+      spriteId: 8989beb3f6d496146ad2f4a2ed71e7a1
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -252,4 +212,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 96, y: 40}
+  canvasSize: {x: 16, y: 16}

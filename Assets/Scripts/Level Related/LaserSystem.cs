@@ -1,20 +1,25 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserSystem : MonoBehaviour
 {
     public float laserRange = 10f;
-    public float laserOffset = 0.1f; // Adjustable offset
+    public float laserOffset = 0.1f;
     public Vector2 laserDirection = Vector2.right;
     public LineRenderer lineRenderer;
 
     [Header("Layer Masks")]
-    public LayerMask passThroughLayers; // Layers the laser can pass through
-    public LayerMask stopLayers; // Layers that stop the laser
-    public LayerMask hideLayers; // Layers that the laser will hide
+    public LayerMask passThroughLayers;
+    public LayerMask stopLayers;
+    public LayerMask hideLayers;
 
-    private List<Transform> hitObjects = new List<Transform>(); // Objects hit by the laser
-    private List<Vector2> hitPoints = new List<Vector2>(); // Points where laser hits
+    [Header("Particle Effects")]
+    public GameObject playerHitEffect;
+    public GameObject tractorHitEffect;
+
+    private List<Transform> hitObjects = new List<Transform>();
+    private List<Vector2> hitPoints = new List<Vector2>();
 
     void Start()
     {
@@ -41,14 +46,13 @@ public class LaserSystem : MonoBehaviour
         hitObjects.Clear();
         hitPoints.Clear();
 
-        Vector2 startPosition = (Vector2)transform.position + laserDirection.normalized * laserOffset; // Uses offset
+        Vector2 startPosition = (Vector2)transform.position + laserDirection.normalized * laserOffset;
         Vector2 direction = transform.TransformDirection(laserDirection).normalized;
         Vector2 currentPosition = startPosition;
 
-        hitPoints.Add(currentPosition); // Start point of the laser
-
+        hitPoints.Add(currentPosition);
         float remainingDistance = laserRange;
-        int maxBounces = 10; // Prevent infinite loops
+        int maxBounces = 10;
         int bounces = 0;
 
         while (remainingDistance > 0 && bounces < maxBounces)
@@ -64,37 +68,51 @@ public class LaserSystem : MonoBehaviour
                 remainingDistance -= distanceToHit;
                 currentPosition = hit.point;
 
-                // Check if the object is in the hideLayers and disable it
+                // Check tag and spawn corresponding particle effect
+                // Only play particle if object is on hideLayers
+                if (((1 << hit.collider.gameObject.layer) & hideLayers) != 0)
+                {
+                    // Play specific particle depending on tag
+                    if (hit.collider.CompareTag("Player") && playerHitEffect != null)
+                    {
+                        Instantiate(playerHitEffect, hit.point, Quaternion.identity);
+                    }
+                    else if (hit.collider.CompareTag("Tractor") && tractorHitEffect != null)
+                    {
+                        Instantiate(tractorHitEffect, hit.point, Quaternion.identity);
+                    }
+
+                    // Hide the object
+                    hit.collider.gameObject.SetActive(false);
+                }
+
+
+                // Hide logic
                 if (((1 << hit.collider.gameObject.layer) & hideLayers) != 0)
                 {
                     hit.collider.gameObject.SetActive(false);
-                    //Debug.Log($"Laser hit and disabled {hit.collider.gameObject.name} at {hit.point}");
                 }
 
-                // If the object is in the stopLayers, stop the laser
+                // Stop logic
                 if (((1 << hit.collider.gameObject.layer) & stopLayers) != 0)
                 {
-                    //Debug.Log($"Laser stopped by {hit.collider.gameObject.name}");
                     break;
                 }
 
-                // If the object is in passThroughLayers, continue the laser
+                // Continue if passthrough
                 if (((1 << hit.collider.gameObject.layer) & passThroughLayers) != 0)
                 {
-                    //Debug.Log($"Laser passed through {hit.collider.gameObject.name}");
-                    bounces++; // Prevent infinite loop
+                    bounces++;
                     continue;
                 }
             }
             else
             {
-                // No hit, extend to max range
                 hitPoints.Add(currentPosition + direction * remainingDistance);
                 break;
             }
         }
 
-        // Update LineRenderer
         if (lineRenderer != null)
         {
             lineRenderer.positionCount = hitPoints.Count;

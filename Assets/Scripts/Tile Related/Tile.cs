@@ -30,6 +30,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private BoxCollider2D _boxCollider;
     [SerializeField] private ParticleSystem _spawnEffectPrefab; // Prefab, NOT an attached effect
 
+    [SerializeField] private ParticleSystem _stepOnEffectPrefab; // Effect when player/tractor steps on tile
 
 
     private Color _originalColor;
@@ -129,9 +130,10 @@ public class Tile : MonoBehaviour
 
         if (other.CompareTag("Player") || other.CompareTag("Tractor"))
         {
-            StopAllCoroutines(); // Stop any ongoing color transition
-            _spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
-            StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
+            PlayStepOnEffect();
+            //StopAllCoroutines(); // Stop any ongoing color transition
+            //_spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
+            //StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
         }
     }
 
@@ -266,6 +268,15 @@ public class Tile : MonoBehaviour
         else
         {
             Debug.LogWarning("No spawn effect assigned to the tile.");
+        }
+    }
+    private void PlayStepOnEffect()
+    {
+        if (_stepOnEffectPrefab != null)
+        {
+            ParticleSystem effectInstance = Instantiate(_stepOnEffectPrefab, transform.position, Quaternion.identity);
+            effectInstance.Play();
+            Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f);
         }
     }
 
