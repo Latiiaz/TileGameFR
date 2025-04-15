@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,14 +12,15 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] GameObject MainMenuBox;
     [SerializeField] private bool _mainMenuSelected;
 
-
     [SerializeField] GameObject ResumeBox;
     [SerializeField] private bool _resumeSelected;
 
-
+    private LevelManager _levelManager;
 
     void Start()
     {
+        // Get LevelManager instance
+        _levelManager = FindObjectOfType<LevelManager>();
         // Set initial values for the sliders based on the current settings
         masterVolumeSlider.value = SoundManager.Instance.masterVolume;
         SFXVolumeSlider.value = SoundManager.Instance.sfxVolume;
@@ -50,8 +49,8 @@ public class OptionsMenu : MonoBehaviour
             _resumeSelected = false;
             MainMenuBox.SetActive(true);
             ResumeBox.SetActive(false);
-
         }
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             _resumeSelected = true;
@@ -60,6 +59,7 @@ public class OptionsMenu : MonoBehaviour
             ResumeBox.SetActive(true);
         }
     }
+
     void EnterSelected()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -67,10 +67,13 @@ public class OptionsMenu : MonoBehaviour
             if (_mainMenuSelected)
             {
                 Debug.Log("Main Menu Button Selected");
+                _levelManager.LoadMainMenu(); // Load Main Menu
             }
+
             if (_resumeSelected)
             {
                 Debug.Log("Resume Button Selected");
+                // You can add resume logic here if needed
             }
         }
     }

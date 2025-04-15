@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         if (_bothCharactersHidden)
         {
             // Play some action before the level is reset, some animation that indicates that both players are dead etc :3
-            _levelManager.ReloadCurrentScene();  // Trigger scene reload if both characters are hidden
+            StartCoroutine(LevelRestart(1.5f));
         }
 
         if (_isHandlingMovement) HandleInput();
@@ -207,5 +207,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("RespawnCharacter: Character reference is null!");
         }
+    }
+    IEnumerator LevelRestart(float BasicCooldown)
+    {
+        yield return new WaitForSeconds(BasicCooldown);
+        _levelManager.ReloadCurrentScene();
     }
 }

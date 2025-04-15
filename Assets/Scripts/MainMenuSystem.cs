@@ -44,12 +44,23 @@ public class MainMenuSystem : MonoBehaviour
 
     void Start()
     {
-        // Set all images and text to their default color
+        ResetMenuState();
+    }
+
+    void OnEnable()
+    {
+        ResetMenuState();
+    }
+
+    void ResetMenuState()
+    {
+        // Reset key image colors
         W_Image.color = defaultColor;
         A_Image.color = defaultColor;
         S_Image.color = defaultColor;
         D_Image.color = defaultColor;
 
+        // Get text components and reset their colors
         W_Text = W_Image.GetComponentInChildren<TextMeshProUGUI>();
         A_Text = A_Image.GetComponentInChildren<TextMeshProUGUI>();
         S_Text = S_Image.GetComponentInChildren<TextMeshProUGUI>();
@@ -59,10 +70,20 @@ public class MainMenuSystem : MonoBehaviour
         A_Text.color = defaultColor;
         S_Text.color = defaultColor;
         D_Text.color = defaultColor;
+
+        // Reset key press states
+        wPressed = false;
+        aPressed = false;
+        sPressed = false;
+        dPressed = false;
+        sceneLoadStarted = false;
     }
 
     void Update()
     {
+        if (levelManager == null)
+            levelManager = FindObjectOfType<LevelManager>();
+
         if (Input.GetKeyDown(KeyCode.W) && !wPressed)
         {
             wPressed = true;

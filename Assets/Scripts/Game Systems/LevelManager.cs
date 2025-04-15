@@ -8,25 +8,23 @@ public class LevelManager : MonoBehaviour
 {
     //Might need to add some sort of cooldown between each restart so holding R doesnt immediately refresh it over and over again only for testing
 
-    private static LevelManager _instance;
-
+    public static LevelManager Instance;
     public float RestartTime = 1f;
     bool rKeyDown = false;
     float timeRKeyDown = 0f;
     public float RestartCooldown = 0f; // Add cooldown
 
-    //public void Awake()
-    //{
-    //    if (_instance == null)
-    //    {
-    //        _instance = this;
-    //        DontDestroyOnLoad(gameObject);
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Prevent duplicate instances
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Update()
     {
@@ -69,7 +67,11 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Quit game");
         Application.Quit();
     }
-    
+    public void LoadMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu"); // Replace with your actual scene name
+    }
+
     public void ReloadCurrentScene() 
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
