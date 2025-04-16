@@ -18,6 +18,9 @@ public class TileManager : MonoBehaviour
     public int robotX;
     public int robotY;
 
+    [Header("SFX Clips")]
+    [SerializeField] public AudioSource tileSpawningSFX;
+
     public Dictionary<Vector2Int, Tile> tileDictionary = new Dictionary<Vector2Int, Tile>();
 
     public bool isGridGenerated { get; private set; } = false; // Flag to check if grid generation is complete
@@ -79,6 +82,7 @@ public class TileManager : MonoBehaviour
 
             tile.Initialize(position, type);
             tileDictionary[position] = tile;
+            //tileSpawningSFX.Play();
         }
 
         isGridGenerated = true;
