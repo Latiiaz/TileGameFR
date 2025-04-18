@@ -294,7 +294,7 @@ MonoBehaviour:
   _boxCollider: {fileID: -6887380502084136401}
   _spawnEffectPrefab: {fileID: 7445577097704170825, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}
   _stepOnEffectPrefab: {fileID: 3055028311021591233, guid: 07b5bff485f2519449ae2b9d46a10b77, type: 3}
-  _spawnSound: {fileID: 8300000, guid: bb9bf162e58029d49915ba27602bcf81, type: 3}
+  _spawnSound: {fileID: 8300000, guid: 733b057f95868a74ca38fd51eb889b1e, type: 3}
   _audioSourcePrefab: {fileID: 4162643639062587817}
 --- !u!82 &4162643639062587817
 AudioSource:
@@ -306,9 +306,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bb9bf162e58029d49915ba27602bcf81, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.186
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

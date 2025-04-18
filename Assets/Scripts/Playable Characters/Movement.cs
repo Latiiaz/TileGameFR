@@ -20,11 +20,24 @@ public abstract class Movement : MonoBehaviour
 
     [SerializeField] protected float KBmoveSpeed = 0f;
 
+
+    [SerializeField] protected AudioClip moveSound;
+    protected AudioSource audioSource;
+
+
     protected virtual void Start()
     {
         tileManager = FindObjectOfType<TileManager>();
         boxCollider = GetComponent<BoxCollider2D>();
         objectTransform = GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && moveSound != null)
+        {
+            audioSource.pitch = UnityEngine.Random.Range(0.85f, 1.15f);
+            audioSource.PlayOneShot(moveSound);
+        }
+
 
         if (boxCollider == null)
         {
@@ -94,13 +107,19 @@ public abstract class Movement : MonoBehaviour
         Vector2Int direction = newPosition - currentPosition;
 
         // Apply squash/stretch based on direction
-        if (Mathf.Abs(direction.y) > 0) // Moving up or down
+        if (Mathf.Abs(direction.y) > 0)
         {
-            transform.localScale = new Vector3(0.9f, 1.1f, 1);
+            transform.localScale = new Vector3(0.8f, 1.2f, 1);
         }
-        else if (Mathf.Abs(direction.x) > 0) // Moving left or right
+        else if (Mathf.Abs(direction.x) > 0)
         {
-            transform.localScale = new Vector3(1.1f, 0.9f, 1);
+            transform.localScale = new Vector3(1.2f, 0.8f, 1);
+        }
+
+        // Play move sound
+        if (audioSource != null && moveSound != null)
+        {
+            audioSource.PlayOneShot(moveSound);
         }
 
         float elapsedTime = 0f;
@@ -118,6 +137,7 @@ public abstract class Movement : MonoBehaviour
         isMoving = false;
         isActionOnCooldown = false;
     }
+
 
 
     protected IEnumerator ActionCooldown()

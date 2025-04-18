@@ -80,6 +80,7 @@ MonoBehaviour:
   CollectedPos: {x: 1.5, y: 0, z: 0}
   _minScale: {x: 0.3, y: 0.2, z: 0}
   _keyPickUp: {fileID: 3524053143704572431, guid: 610430d03d939844cac4db5a684ccf66, type: 3}
+  _pickUpSound: {fileID: 8300000, guid: 1246fcfdea23bce4d9765faaace14ee8, type: 3}
 --- !u!1 &1660098839191437421
 GameObject:
   m_ObjectHideFlags: 0

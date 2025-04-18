@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     private LevelManager _levelManager;
     private CameraManager cameraManager; // Reference to CameraManager
 
+    [SerializeField] private float _scaleTime = 0.5f;
+
+
     void Start()
     {
         _levelManager = FindObjectOfType<LevelManager>();  // Get LevelManager reference
@@ -147,6 +150,9 @@ public class GameManager : MonoBehaviour
             Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
 
+            _player.transform.localScale = Vector3.one * 0.1f; // Start small
+            StartCoroutine(LerpScale(_player.transform, Vector3.one, _scaleTime)); // Grow over time
+
             if (_player != null) _playerMovement = _player.GetComponent<PlayerMovement>();
         }
         else
@@ -155,12 +161,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     void SpawnTractor()
     {
         if (tileManager.IsTileAvailable(_tractorStartPosition))
         {
             Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _tractor = Instantiate(TractorPrefab, spawnPosition, Quaternion.identity);
+
+            _tractor.transform.localScale = Vector3.one * 0.1f; // Start small
+            StartCoroutine(LerpScale(_tractor.transform, Vector3.one, _scaleTime)); // Scale up
 
             if (_tractor != null) _tractorMovement = _tractor.GetComponent<TractorMovement>();
         }
@@ -169,6 +179,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Invalid spawn position for tractor.");
         }
     }
+
 
     public void RespawnCharacter(GameObject character, Vector3 targetPosition)
     {
@@ -213,4 +224,19 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(BasicCooldown);
         _levelManager.ReloadCurrentScene();
     }
+    private IEnumerator LerpScale(Transform target, Vector3 endScale, float duration)
+    {
+        Vector3 startScale = target.localScale;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            target.localScale = Vector3.Lerp(startScale, endScale, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        target.localScale = endScale;
+    }
+
 }

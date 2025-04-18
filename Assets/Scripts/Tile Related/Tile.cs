@@ -271,10 +271,16 @@ public class Tile : MonoBehaviour
         }
         if (_spawnSound != null && _audioSourcePrefab != null)
         {
-            AudioSource audioInstance = Instantiate(_audioSourcePrefab, transform.position, Quaternion.identity);
-            audioInstance.clip = _spawnSound;
-            audioInstance.Play();
-            Destroy(audioInstance.gameObject, _spawnSound.length + 0.5f); 
+            float randomVar = 0.4f;
+
+            if (Random.Range(0f, 1f) < randomVar)
+            {
+                AudioSource audioInstance = Instantiate(_audioSourcePrefab, transform.position, Quaternion.identity);
+                audioInstance.clip = _spawnSound;
+                audioInstance.PlayOneShot(_spawnSound);
+                Destroy(audioInstance.gameObject, _spawnSound.length + 0.5f);
+            }
+            
         }
         else
         {
