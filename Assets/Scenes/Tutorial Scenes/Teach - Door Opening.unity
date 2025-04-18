@@ -8251,6 +8251,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1275097992688200325, guid: 2996aa6d868da774daa0255f69edc53f, type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6862188155309927244, guid: 2996aa6d868da774daa0255f69edc53f, type: 3}
       propertyPath: PressurePlates.Array.data[0]
       value: 

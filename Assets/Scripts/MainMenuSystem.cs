@@ -39,8 +39,11 @@ public class MainMenuSystem : MonoBehaviour
     public LevelManager levelManager;
     [SerializeField] private string sceneName;
 
-    [Header("Particle Growing")]
+    [Header("Button Pressed")]
     [SerializeField] private ParticleSystem RingExpanding;
+    [SerializeField] private AudioClip sceneStartSound;
+    [SerializeField] private AudioSource sceneStartAudioSource;
+
 
     void Start()
     {
@@ -98,6 +101,7 @@ public class MainMenuSystem : MonoBehaviour
             A_Image.color = pressedColor;
             A_Text.color = pressedColor;
             Instantiate(RingExpanding, A_Transform.position, Quaternion.identity);
+
         }
 
         if (Input.GetKeyDown(KeyCode.S) && !sPressed)
@@ -106,6 +110,7 @@ public class MainMenuSystem : MonoBehaviour
             S_Image.color = pressedColor;
             S_Text.color = pressedColor;
             Instantiate(RingExpanding, S_Transform.position, Quaternion.identity);
+
         }
 
         if (Input.GetKeyDown(KeyCode.D) && !dPressed)
@@ -114,6 +119,7 @@ public class MainMenuSystem : MonoBehaviour
             D_Image.color = pressedColor;
             D_Text.color = pressedColor;
             Instantiate(RingExpanding, D_Transform.position, Quaternion.identity);
+
         }
 
         if (wPressed && aPressed && sPressed && dPressed && !sceneLoadStarted)
@@ -123,9 +129,15 @@ public class MainMenuSystem : MonoBehaviour
         }
     }
 
+
     IEnumerator LoadSceneWithDelay(float delay)
     {
+        yield return new WaitForSeconds(1f);
+
+        sceneStartAudioSource.PlayOneShot(sceneStartSound);
+
         yield return new WaitForSeconds(delay);
         levelManager.LoadSceneByName(sceneName);
     }
+
 }

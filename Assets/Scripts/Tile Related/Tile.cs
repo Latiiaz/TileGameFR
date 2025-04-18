@@ -32,6 +32,10 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private ParticleSystem _stepOnEffectPrefab; // Effect when player/tractor steps on tile
 
+    [SerializeField] private AudioClip _spawnSound;
+    [SerializeField] private AudioSource _audioSourcePrefab;
+
+
 
     private Color _originalColor;
     void Awake()
@@ -265,6 +269,13 @@ public class Tile : MonoBehaviour
             effectInstance.Play();
             Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f); // Auto-destroy effect
         }
+        if (_spawnSound != null && _audioSourcePrefab != null)
+        {
+            AudioSource audioInstance = Instantiate(_audioSourcePrefab, transform.position, Quaternion.identity);
+            audioInstance.clip = _spawnSound;
+            audioInstance.Play();
+            Destroy(audioInstance.gameObject, _spawnSound.length + 0.5f); 
+        }
         else
         {
             Debug.LogWarning("No spawn effect assigned to the tile.");
@@ -279,5 +290,4 @@ public class Tile : MonoBehaviour
             Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f);
         }
     }
-
 }
