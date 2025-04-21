@@ -78,5 +78,8 @@ public class PlayerMovement : Movement, IWeightedObject
         CurrentDirection = direction;
         // Trigger any visual rotation/flip here
     }
+    public void PlayVictoryParticles(Transform character)
+    {
 
+    }
 }

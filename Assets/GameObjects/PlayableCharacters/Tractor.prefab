@@ -700,6 +700,7 @@ MonoBehaviour:
   playerTransform: {fileID: 5187807225899239708}
   _leftEyeObject: {fileID: 5203356754509763019}
   _rightEyeObject: {fileID: 500096297298986678}
+  _eyeLerpSpeed: 10
 --- !u!1 &7860192182474986641
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,8 +727,8 @@ Transform:
   m_GameObject: {fileID: 7860192182474986641}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4189971798165037131}
   m_RootOrder: 2

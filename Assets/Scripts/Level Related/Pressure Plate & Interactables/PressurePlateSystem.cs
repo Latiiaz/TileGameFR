@@ -74,6 +74,7 @@ public class PressurePlateSystem : MonoBehaviour
                 totalWeight -= weightedObject.GetWeight();
                 UpdateAllDoors();
                 UpdateWeightText();
+                PlayPressurePlateSound();
             }
         }
     }

@@ -78,7 +78,7 @@ public class FinalPPSystem : MonoBehaviour
         {
             objectOnPlate = true;
             UpdateSprite();
-
+            PlayPressurePlateSound();
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null && !isTimerRunning)
             {
@@ -95,7 +95,7 @@ public class FinalPPSystem : MonoBehaviour
         {
             objectOnPlate = false;
             UpdateSprite();
-
+            PlayPressurePlateSound();
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
@@ -113,7 +113,6 @@ public class FinalPPSystem : MonoBehaviour
         if (currentWeightedObject != null)
         {
             totalWeight += currentWeightedObject.GetWeight();
-            PlayPressurePlateSound();
         }
     }
 
@@ -122,7 +121,7 @@ public class FinalPPSystem : MonoBehaviour
         if (pressurePlateSound != null)
         {
             audioSource.clip = pressurePlateSound;
-            audioSource.Play();
+            audioSource.PlayOneShot(pressurePlateSound);
         }
         else
         {
