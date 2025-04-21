@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         if (_playerMovement != null && _player.activeSelf)
         {
-            _playerMovement.RotateToDirection(inputDirection);
+            //_playerMovement.RotateToDirection(inputDirection);
             if (CanMoveToTile(_playerMovement, inputDirection))
             {
                 _playerMovement.MoveInDirection(inputDirection);
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 
         if (_tractorMovement != null && _tractor.activeSelf)
         {
-            _tractorMovement.RotateToDirection(inputDirection);
+            //_tractorMovement.RotateToDirection(inputDirection);
             if (CanMoveToTile(_tractorMovement, inputDirection))
             {
                 _tractorMovement.MoveInDirection(inputDirection);

@@ -23,22 +23,59 @@ public class ExpressionsManager : MonoBehaviour
     [Header("Player Reference")]
     [SerializeField] private Transform playerTransform;
 
+    [SerializeField] private GameObject _leftEyeObject;
+    [SerializeField] private GameObject _rightEyeObject;
+
     private Vector3 _lastPosition;
     private GameManager _gameManager;
 
-    // New: cache the true original default eyes
     private Sprite _originalDefaultLeftEye;
     private Sprite _originalDefaultRightEye;
 
+    private Vector3 _leftEyeDefaultPosition;
+    private Vector3 _rightEyeDefaultPosition;
+    private Quaternion _leftEyeDefaultRotation;
+    private Quaternion _rightEyeDefaultRotation;
+
+    private Vector3 _leftEyeTargetPos;
+    private Vector3 _rightEyeTargetPos;
+    private Quaternion _leftEyeTargetRot;
+    private Quaternion _rightEyeTargetRot;
+
+    [SerializeField] private float _eyeLerpSpeed = 10f;
+    private bool _isMoving = false;
+
     void Start()
     {
-        // Cache original defaults
+        if (_leftEyeObject != null)
+        {
+            _leftEyeDefaultPosition = _leftEyeObject.transform.localPosition;
+            _leftEyeDefaultRotation = _leftEyeObject.transform.localRotation;
+        }
+
+        if (_rightEyeObject != null)
+        {
+            _rightEyeDefaultPosition = _rightEyeObject.transform.localPosition;
+            _rightEyeDefaultRotation = _rightEyeObject.transform.localRotation;
+        }
+
+        _leftEyeTargetPos = _leftEyeDefaultPosition;
+        _rightEyeTargetPos = _rightEyeDefaultPosition;
+        _leftEyeTargetRot = _leftEyeDefaultRotation;
+        _rightEyeTargetRot = _rightEyeDefaultRotation;
+
         _originalDefaultLeftEye = _defaultLeftEye;
         _originalDefaultRightEye = _defaultRightEye;
 
-        // Initialize expressions
-        if (_leftEyeRenderer != null) _leftEyeRenderer.sprite = _defaultLeftEye;
-        if (_rightEyeRenderer != null) _rightEyeRenderer.sprite = _defaultRightEye;
+        if (_leftEyeRenderer != null)
+        {
+            _leftEyeRenderer.sprite = _defaultLeftEye;
+        }
+
+        if (_rightEyeRenderer != null)
+        {
+            _rightEyeRenderer.sprite = _defaultRightEye;
+        }
 
         if (playerTransform == null)
             Debug.LogWarning("Player Transform not assigned in ExpressionsManager.");
@@ -50,13 +87,12 @@ public class ExpressionsManager : MonoBehaviour
 
     void Update()
     {
-        if (_gameManager == null) return;
+        if (_gameManager == null || playerTransform == null) return;
 
         bool bothAlive = _gameManager._player.activeInHierarchy && _gameManager._tractor.activeInHierarchy;
 
         if (bothAlive)
         {
-            // Restore original defaults if not already set
             if (_defaultLeftEye != _originalDefaultLeftEye || _defaultRightEye != _originalDefaultRightEye)
             {
                 Debug.Log("Both alive again — restoring original default expressions.");
@@ -67,7 +103,6 @@ public class ExpressionsManager : MonoBehaviour
         }
         else
         {
-            // Switch default to teary if not already set
             if (_defaultLeftEye != _tearyEye || _defaultRightEye != _tearyEye)
             {
                 Debug.Log("A character is dead — setting teary eyes as default.");
@@ -77,7 +112,67 @@ public class ExpressionsManager : MonoBehaviour
             }
         }
 
+        Vector3 direction = playerTransform.position - _lastPosition;
+        _isMoving = direction.magnitude > 0.01f;
+
+        if (_isMoving)
+        {
+            TiltEyes(direction);
+        }
+        else
+        {
+            ResetEyeTargetsToDefault();
+        }
+
+        LerpEyes();
         _lastPosition = playerTransform.position;
+    }
+
+    private void TiltEyes(Vector2 direction)
+    {
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            // LEFT or RIGHT — rotate Z
+            float tilt = direction.x > 0 ? -40f : 40f;
+            _leftEyeTargetRot = Quaternion.Euler(0, 0, tilt);
+            _rightEyeTargetRot = Quaternion.Euler(0, 0, tilt);
+            _leftEyeTargetPos = _leftEyeDefaultPosition;
+            _rightEyeTargetPos = _rightEyeDefaultPosition;
+        }
+        else
+        {
+            // UP or DOWN — vertical shift
+            float offset = direction.y > 0 ? 0.1f : -0.1f;
+            Quaternion verticalRotation = direction.y > 0 ? Quaternion.identity : Quaternion.Euler(0, 0, 180);
+
+            _leftEyeTargetRot = verticalRotation;
+            _rightEyeTargetRot = verticalRotation;
+            _leftEyeTargetPos = _leftEyeDefaultPosition + new Vector3(0, offset, 0);
+            _rightEyeTargetPos = _rightEyeDefaultPosition + new Vector3(0, offset, 0);
+        }
+    }
+
+    private void ResetEyeTargetsToDefault()
+    {
+        _leftEyeTargetPos = _leftEyeDefaultPosition;
+        _rightEyeTargetPos = _rightEyeDefaultPosition;
+        _leftEyeTargetRot = _leftEyeDefaultRotation;
+        _rightEyeTargetRot = _rightEyeDefaultRotation;
+    }
+
+    private void LerpEyes()
+    {
+        if (_leftEyeObject != null)
+        {
+            _leftEyeObject.transform.localPosition = Vector3.Lerp(_leftEyeObject.transform.localPosition, _leftEyeTargetPos, Time.deltaTime * _eyeLerpSpeed);
+            _leftEyeObject.transform.localRotation = Quaternion.Lerp(_leftEyeObject.transform.localRotation, _leftEyeTargetRot, Time.deltaTime * _eyeLerpSpeed);
+        }
+
+        if (_rightEyeObject != null)
+        {
+            _rightEyeObject.transform.localPosition = Vector3.Lerp(_rightEyeObject.transform.localPosition, _rightEyeTargetPos, Time.deltaTime * _eyeLerpSpeed);
+            _rightEyeObject.transform.localRotation = Quaternion.Lerp(_rightEyeObject.transform.localRotation, _rightEyeTargetRot, Time.deltaTime * _eyeLerpSpeed);
+        }
     }
 
     public void ExpressionPlayerDeath(float duration)
@@ -115,11 +210,8 @@ public class ExpressionsManager : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-        // Manually reset to whatever the current default is (either teary or original)
         ResetToDefaultExpression();
     }
-
-
 
     public static void TriggerDeathExpressionAll(float duration)
     {
@@ -132,8 +224,50 @@ public class ExpressionsManager : MonoBehaviour
 
     public void ResetToDefaultExpression()
     {
-        if (_leftEyeRenderer != null) _leftEyeRenderer.sprite = _defaultLeftEye;
-        if (_rightEyeRenderer != null) _rightEyeRenderer.sprite = _defaultRightEye;
-        // You can add mouth or other parts here if needed
+        if (_leftEyeRenderer != null)
+        {
+            _leftEyeRenderer.sprite = _defaultLeftEye;
+        }
+
+        if (_rightEyeRenderer != null)
+        {
+            _rightEyeRenderer.sprite = _defaultRightEye;
+        }
+
+        ResetEyeTargetsToDefault();
+
+        if (_defaultLeftEye == _tearyEye || _defaultLeftEye == _cryEye ||
+            _defaultRightEye == _tearyEye || _defaultRightEye == _cryEye)
+        {
+            FlipMouth();
+        }
+        else
+        {
+            ResetMouth();
+        }
+    }
+
+    public void FlipMouth()
+    {
+        if (_mouthObject != null)
+        {
+            _mouthObject.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+        }
+        else
+        {
+            Debug.LogWarning("Mouth object not assigned in ExpressionsManager.");
+        }
+    }
+
+    public void ResetMouth()
+    {
+        if (_mouthObject != null)
+        {
+            _mouthObject.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogWarning("Mouth object not assigned in ExpressionsManager.");
+        }
     }
 }

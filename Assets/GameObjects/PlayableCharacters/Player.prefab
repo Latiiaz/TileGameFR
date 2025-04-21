@@ -735,8 +735,10 @@ MonoBehaviour:
   _tearyEye: {fileID: -8101312194114151454, guid: ccca315de1823054b9f958308de84874, type: 3}
   _cryEye: {fileID: 8262123178656000008, guid: a72496a5143805a48baa3af898999b94, type: 3}
   _mouthObject: {fileID: 7190377757250935265}
-  _defaultMouth: {fileID: 0}
+  _defaultMouth: {fileID: -7828664781516577237, guid: 0893fe793a74d24449eec2d041475d31, type: 3}
   playerTransform: {fileID: 4442761854792123486}
+  _leftEyeObject: {fileID: 4299578091950402690}
+  _rightEyeObject: {fileID: 3105728753794506728}
 --- !u!1 &7190377757250935265
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,9 +763,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7190377757250935265}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.2, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 375527747968190661}
