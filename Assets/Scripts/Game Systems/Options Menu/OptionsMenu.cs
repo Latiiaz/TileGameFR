@@ -1,91 +1,130 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OptionsMenu : MonoBehaviour
 {
-    [Header("Unused Currently")]
-    public Slider masterVolumeSlider;
-    public Slider SFXVolumeSlider;
-    public Slider BGMVolumeSlider;
 
-    [Header("Selection")]
-    [SerializeField] GameObject MainMenuBox;
+    [Header("Menu Root")]
+    [SerializeField] private GameObject MenuRoot;
+    [SerializeField] private bool _isActivated = false;
+
+    [Header("Selection Boxes")]
+    [SerializeField] private GameObject MainMenuBox;
+    [SerializeField] private GameObject ResumeBox;
+
+    [Header("Selection Text Labels")]
+    [SerializeField] private TextMeshProUGUI MainMenuText;
+    [SerializeField] private TextMeshProUGUI ResumeText;
+
     [SerializeField] private bool _mainMenuSelected;
-
-    [SerializeField] GameObject ResumeBox;
     [SerializeField] private bool _resumeSelected;
 
     private LevelManager _levelManager;
 
+    private float escapeCooldown = 0.2f;
+    private float lastEscapeTime = -Mathf.Infinity;
+
     void Start()
     {
-        // Get LevelManager instance
         _levelManager = FindObjectOfType<LevelManager>();
-        // Set initial values for the sliders based on the current settings
-        masterVolumeSlider.value = SoundManager.Instance.masterVolume;
-        SFXVolumeSlider.value = SoundManager.Instance.sfxVolume;
-        BGMVolumeSlider.value = SoundManager.Instance.bgmVolume;
-
-        // Add listeners to the sliders to update values in SoundManager
-        masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
-        SFXVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
-        BGMVolumeSlider.onValueChanged.AddListener(SetBGMVolume);
 
         MainMenuBox.SetActive(false);
-        ResumeBox.SetActive(false);
+        ResumeBox.SetActive(true);
+        MainMenuText.gameObject.SetActive(false);
+        ResumeText.gameObject.SetActive(true);
+        MenuRoot.SetActive(false);
+
+        // Set default selection
+        _resumeSelected = true;
+        _mainMenuSelected = false;
     }
 
-    private void Update()
+    void Update()
     {
         CheckStatus();
         EnterSelected();
     }
 
+    void ToggleMenu()
+    {
+        if (_isActivated)
+        {
+            MenuRoot.SetActive(true);
+            _isActivated = false;
+
+            // Default to resume selection on open
+            SelectResume();
+        }
+        else
+        {
+            MenuRoot.SetActive(false);
+            _isActivated = true;
+        }
+    }
+
     void CheckStatus()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            _mainMenuSelected = true;
-            _resumeSelected = false;
-            MainMenuBox.SetActive(true);
-            ResumeBox.SetActive(false);
+            SelectMainMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            _resumeSelected = true;
-            _mainMenuSelected = false;
-            MainMenuBox.SetActive(false);
-            ResumeBox.SetActive(true);
+            SelectResume();
         }
+    }
+
+    void SelectMainMenu()
+    {
+        _mainMenuSelected = true;
+        _resumeSelected = false;
+        UpdateSelectionVisuals();
+    }
+
+    void SelectResume()
+    {
+        _resumeSelected = true;
+        _mainMenuSelected = false;
+        UpdateSelectionVisuals();
     }
 
     void EnterSelected()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("Spacebar pressed");
+
             if (_mainMenuSelected)
             {
                 Debug.Log("Main Menu Button Selected");
-                _levelManager.LoadMainMenu(); // Load Main Menu
-            }
+                Time.timeScale = 1f;
 
-            if (_resumeSelected)
+                if (_levelManager != null)
+                    _levelManager.LoadMainMenu();
+                else
+                    Debug.LogWarning("LevelManager is null!");
+            }
+            else if (_resumeSelected)
             {
                 Debug.Log("Resume Button Selected");
-                // You can add resume logic here if needed
+                ToggleMenu();
+            }
+            else
+            {
+                Debug.Log("Nothing is selected!");
             }
         }
     }
 
-    public void SetMasterVolume(float volume)
+    void UpdateSelectionVisuals()
     {
-        SoundManager.Instance.SetMasterVolume(volume);
-    }
+        MainMenuBox.SetActive(_mainMenuSelected);
+        ResumeBox.SetActive(_resumeSelected);
 
-    public void SetSFXVolume(float volume)
-    {
-        SoundManager.Instance.SetSFXVolume(volume);
+        MainMenuText.gameObject.SetActive(_mainMenuSelected);
+        ResumeText.gameObject.SetActive(_resumeSelected);
     }
 
     public void SetBGMVolume(float volume)

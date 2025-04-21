@@ -9070,6 +9070,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5291854227833774868, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
+      propertyPath: laserRange
+      value: 3.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291854227833774868, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: laserDirection.y
       value: -1
       objectReference: {fileID: 0}
@@ -10041,15 +10045,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.b
-      value: 0.8334112
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.6784314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}

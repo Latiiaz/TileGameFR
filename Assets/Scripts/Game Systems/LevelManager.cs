@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    //Might need to add some sort of cooldown between each restart so holding R doesnt immediately refresh it over and over again only for testing
-
     public static LevelManager Instance;
-    public float RestartTime = 1f;
-    bool rKeyDown = false;
-    float timeRKeyDown = 0f;
-    public float RestartCooldown = 0f; // Add cooldown
+
+    public float RestartTime = 1f; // Time after full fade-in to restart
+    public float FadeInDuration = 0.3f;
+
+    private bool rKeyDown = false;
+    private float timeRKeyHeld = 0f;
+
+    public CanvasGroup restartOverlay;
+    private Coroutine fadeCoroutine;
+
+    public bool IsRestarting => rKeyDown;
+
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Prevent duplicate instances
+            Destroy(gameObject);
             return;
         }
 
@@ -28,14 +34,30 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        // Fallback: Try to find overlay if not already assigned
+        if (restartOverlay == null)
+        {
+            GameObject obj = GameObject.Find("Restart Button ");
+            if (obj != null)
+            {
+                restartOverlay = obj.GetComponent<CanvasGroup>();
+            }
+        }
+
         RestartScene();
 
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            LoadMainMenu();
+        }
     }
+
     public void LoadSceneByName(string sceneName)
     {
         Debug.Log($"Load {sceneName}");
         SceneManager.LoadScene(sceneName);
     }
+
     public void LoadNextScene()
     {
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
@@ -49,57 +71,88 @@ public class LevelManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Next scene index is out of range!");
-            // Optional: Reload current scene or go back to main menu
         }
     }
-    public void LoadVictoryScene()
-    {
 
-        SceneManager.LoadScene("VictoryScene");
-    }
+    public void LoadVictoryScene() => SceneManager.LoadScene("VictoryScene");
+    public void LoadDefeatScene() => SceneManager.LoadScene("DefeatScene");
+    public void LoadMainMenu() => SceneManager.LoadScene("MainMenu");
 
-    public void LoadDefeatScene()
-    {
-        SceneManager.LoadScene("DefeatScene");
-    }
-    public void Quitgame() // remove Appliaction.Quit when the game is built otherwise just stick with Debug Log
+    public void Quitgame()
     {
         Debug.Log("Quit game");
         Application.Quit();
     }
-    public void LoadMainMenu()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu"); // Replace with your actual scene name
-    }
 
-    public void ReloadCurrentScene() 
+    public void ReloadCurrentScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void RestartScene() // Can change to other keys but for now
+    public void RestartScene()
     {
         if (Input.GetKey(KeyCode.R))
         {
-            if(!rKeyDown)
+            if (!rKeyDown)
             {
                 rKeyDown = true;
-                timeRKeyDown = 0f; 
-            }
-            if (rKeyDown)
-            {
-                timeRKeyDown += Time.deltaTime;
+                timeRKeyHeld = 0f;
 
-                if (timeRKeyDown >= RestartTime)
+                if (restartOverlay != null)
                 {
-                    ReloadCurrentScene();
+                    if (fadeCoroutine != null)
+                        StopCoroutine(fadeCoroutine);
+
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 1f, FadeInDuration));
                 }
             }
-            else // restart counter if doesnt reach req  time
+
+            timeRKeyHeld += Time.deltaTime;
+
+            if (timeRKeyHeld >= FadeInDuration + RestartTime)
             {
+                ReloadCurrentScene();
                 rKeyDown = false;
-                timeRKeyDown = 0f;
+                timeRKeyHeld = 0f;
+
+                if (restartOverlay != null)
+                {
+                    if (fadeCoroutine != null)
+                        StopCoroutine(fadeCoroutine);
+
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 0f, 0.2f));
+                }
             }
         }
+        else
+        {
+            if (rKeyDown)
+            {
+                rKeyDown = false;
+                timeRKeyHeld = 0f;
+
+                if (restartOverlay != null)
+                {
+                    if (fadeCoroutine != null)
+                        StopCoroutine(fadeCoroutine);
+
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 0f, 0.2f));
+                }
+            }
+        }
+    }
+
+    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float start, float end, float duration)
+    {
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            cg.alpha = Mathf.Lerp(start, end, time / duration);
+            yield return null;
+        }
+
+        cg.alpha = end;
     }
 }

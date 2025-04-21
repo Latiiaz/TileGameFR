@@ -7451,6 +7451,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6923021731244412573, guid: 2996aa6d868da774daa0255f69edc53f, type: 3}
+      propertyPath: m_text
+      value: 'Tutorial Level:
+
+        3/5
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2996aa6d868da774daa0255f69edc53f, type: 3}
 --- !u!4 &2035426144 stripped
@@ -7693,6 +7701,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinalPPPair
       objectReference: {fileID: 0}
+    - target: {fileID: 3350058690430607608, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350058690430607608, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350058690430607608, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6784314
+      objectReference: {fileID: 0}
     - target: {fileID: 3356138517849943468, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -7711,15 +7731,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.b
-      value: 0.8334112
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5378105420091288103, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.6745283
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b28033befd63c4686d564bbd2eaa1f, type: 3}

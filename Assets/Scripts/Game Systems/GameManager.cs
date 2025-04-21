@@ -24,31 +24,34 @@ public class GameManager : MonoBehaviour
     private bool _bothCharactersHidden = false;
 
     private LevelManager _levelManager;
-    private CameraManager cameraManager; // Reference to CameraManager
+    private CameraManager cameraManager;
 
     [SerializeField] private float _scaleTime = 0.5f;
 
+    [Header("Sound Related")]
+    public AudioClip respawnSound;
+    public AudioSource audioSource;
 
     void Start()
     {
-        _levelManager = FindObjectOfType<LevelManager>();  // Get LevelManager reference
-        cameraManager = FindObjectOfType<CameraManager>();  // Get CameraManager reference
+        _levelManager = FindObjectOfType<LevelManager>();
+        cameraManager = FindObjectOfType<CameraManager>();
         StartCoroutine(SetupGame());
     }
 
     private IEnumerator SetupGame()
     {
+        DisableInputTemporarily(2);
         yield return new WaitForSeconds(0.3f);
-        // Start grid generation
         yield return StartCoroutine(tileManager.GenerateGridCoroutine());
         yield return new WaitForSeconds(0.3f);
-        // Wait until the grid is completely generated
+
         while (!tileManager.isGridGenerated)
         {
             yield return null;
         }
+
         yield return new WaitForSeconds(0.5f);
-        // Now that the grid is ready, spawn characters
         SpawnTractor();
         SpawnPlayer();
 
@@ -58,12 +61,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CheckIfBothCharactersIdle();
-        CheckIfBothCharactersHidden();
+        if (OptionsMenuSystem.IsOptionsMenuOpen) return;
+        if (_player != null || _tractor != null)
+        {
+            CheckIfBothCharactersIdle();
+            CheckIfBothCharactersHidden();
+        }
 
         if (_bothCharactersHidden)
         {
-            // Play some action before the level is reset, some animation that indicates that both players are dead etc :3
             StartCoroutine(LevelRestart(1.5f));
         }
 
@@ -72,23 +78,11 @@ public class GameManager : MonoBehaviour
 
     void CheckIfBothCharactersIdle()
     {
-        bool playerIdle = false;
-        bool tractorIdle = false;
-
-        if (_playerMovement == null || !_player.activeSelf || !_playerMovement.isMoving)
-        {
-            playerIdle = true;
-        }
-
-        if (_tractorMovement == null || !_tractor.activeSelf || !_tractorMovement.isMoving)
-        {
-            tractorIdle = true;
-        }
-
+        bool playerIdle = _playerMovement == null || !_player.activeSelf || !_playerMovement.isMoving;
+        bool tractorIdle = _tractorMovement == null || !_tractor.activeSelf || !_tractorMovement.isMoving;
         _bothCharactersIdle = playerIdle && tractorIdle;
     }
 
-    // Check if both characters are hidden (inactive in hierarchy)
     void CheckIfBothCharactersHidden()
     {
         _bothCharactersHidden = !_player.activeInHierarchy && !_tractor.activeInHierarchy;
@@ -98,49 +92,48 @@ public class GameManager : MonoBehaviour
     {
         if (!_bothCharactersIdle) return;
 
-        Vector2Int movementDirection = Vector2Int.zero;
+        Vector2Int inputDirection = Vector2Int.zero;
 
-        if (Input.GetKey(KeyCode.W)) movementDirection = Vector2Int.up;
-        else if (Input.GetKey(KeyCode.A)) movementDirection = Vector2Int.left;
-        else if (Input.GetKey(KeyCode.S)) movementDirection = Vector2Int.down;
-        else if (Input.GetKey(KeyCode.D)) movementDirection = Vector2Int.right;
+        if (Input.GetKey(KeyCode.W)) inputDirection = Vector2Int.up;
+        else if (Input.GetKey(KeyCode.A)) inputDirection = Vector2Int.left;
+        else if (Input.GetKey(KeyCode.S)) inputDirection = Vector2Int.down;
+        else if (Input.GetKey(KeyCode.D)) inputDirection = Vector2Int.right;
 
-        if (movementDirection != Vector2Int.zero)
+        if (inputDirection == Vector2Int.zero) return;
+
+        if (_playerMovement != null && _player.activeSelf)
         {
-            if (_playerMovement != null && _player.activeSelf && CanMoveToTile(_playerMovement, movementDirection))
+            _playerMovement.RotateToDirection(inputDirection);
+            if (CanMoveToTile(_playerMovement, inputDirection))
             {
-                _playerMovement.MoveInDirection(movementDirection);
+                _playerMovement.MoveInDirection(inputDirection);
             }
+        }
 
-            if (_tractorMovement != null && _tractor.activeSelf && CanMoveToTile(_tractorMovement, movementDirection))
+        if (_tractorMovement != null && _tractor.activeSelf)
+        {
+            _tractorMovement.RotateToDirection(inputDirection);
+            if (CanMoveToTile(_tractorMovement, inputDirection))
             {
-                _tractorMovement.MoveInDirection(movementDirection);
+                _tractorMovement.MoveInDirection(inputDirection);
             }
         }
     }
 
-
     bool CanMoveToTile(Movement character, Vector2Int direction)
     {
         Vector2Int targetPosition = character.GetGridPosition() + direction;
+        Tile targetTile = TileManager.Instance.GetTileAtPosition(targetPosition);
 
-        Tile targetTile = TileManager.Instance.GetTileAtPosition(targetPosition); // Assuming TileManager has this method
+        if (targetTile == null) return false;
 
-        if (targetTile == null) return false; // Prevent moving into non-existent tiles
-
-        return targetTile.IsWalkable; // Only allow movement if walkable
+        return targetTile.IsWalkable;
     }
 
     public void MoveCharacter(Movement character, Vector2Int direction)
     {
         if (character == null || !character.gameObject.activeSelf) return;
         character.MoveOrTurn(direction);
-    }
-
-    public void ToggleGameManagerControl(bool state)
-    {
-        _isHandlingMovement = state;
-        Debug.Log($"GameManager control over movement is now: {_isHandlingMovement}");
     }
 
     void SpawnPlayer()
@@ -150,17 +143,15 @@ public class GameManager : MonoBehaviour
             Vector2 spawnPosition = new Vector2(_playerStartPosition.x * tileManager.TileSize, _playerStartPosition.y * tileManager.TileSize);
             _player = Instantiate(PlayerPrefab, spawnPosition, Quaternion.identity);
 
-            _player.transform.localScale = Vector3.one * 0.1f; // Start small
-            StartCoroutine(LerpScale(_player.transform, Vector3.one, _scaleTime)); // Grow over time
+            _player.transform.localScale = Vector3.one * 0.1f;
+            StartCoroutine(LerpScale(_player.transform, Vector3.one, _scaleTime));
 
             if (_player != null) _playerMovement = _player.GetComponent<PlayerMovement>();
         }
         else
         {
-            Debug.LogWarning("Invalid spawn position for player.");
         }
     }
-
 
     void SpawnTractor()
     {
@@ -169,33 +160,35 @@ public class GameManager : MonoBehaviour
             Vector2 spawnPosition = new Vector2(_tractorStartPosition.x * tileManager.TileSize, _tractorStartPosition.y * tileManager.TileSize);
             _tractor = Instantiate(TractorPrefab, spawnPosition, Quaternion.identity);
 
-            _tractor.transform.localScale = Vector3.one * 0.1f; // Start small
-            StartCoroutine(LerpScale(_tractor.transform, Vector3.one, _scaleTime)); // Scale up
+            _tractor.transform.localScale = Vector3.one * 0.1f;
+            StartCoroutine(LerpScale(_tractor.transform, Vector3.one, _scaleTime));
 
             if (_tractor != null) _tractorMovement = _tractor.GetComponent<TractorMovement>();
         }
         else
         {
-            Debug.LogWarning("Invalid spawn position for tractor.");
         }
     }
-
 
     public void RespawnCharacter(GameObject character, Vector3 targetPosition)
     {
         if (character != null)
         {
-            //Debug.Log($"{character.name} BEFORE respawn: Active={character.activeSelf}, Position={character.transform.position}");
+            character.transform.localScale = Vector3.one;
 
-            // Trigger camera shake before respawn
             if (cameraManager != null)
             {
-                StartCoroutine(cameraManager.ShakeCamera());  // Start camera shake before respawn
+                StartCoroutine(cameraManager.ShakeCamera(0.5f, 1.5f));
             }
 
-            character.SetActive(true); // Ensure the character is active
+            if (PPManager.Instance != null)
+            {
+                PPManager.Instance.PulseBloom(15f, 1f);
+            }
 
-            // Reset movement state (prevents movement lock issues)
+            StartCoroutine(CharacterSpawning(character));
+
+            // Reset movement state
             Movement movementScript = character.GetComponent<Movement>();
             if (movementScript != null)
             {
@@ -203,7 +196,7 @@ public class GameManager : MonoBehaviour
                 movementScript.isActionOnCooldown = false;
             }
 
-            // Move character to the new position
+            // Move character to new position
             character.transform.position = targetPosition;
 
             // Update movement script's position tracking
@@ -212,18 +205,32 @@ public class GameManager : MonoBehaviour
                 movementScript.currentPosition = new Vector2Int((int)targetPosition.x, (int)targetPosition.y);
             }
 
-            Debug.Log($"{character.name} AFTER respawn: Active={character.activeSelf}, Position={character.transform.position}");
+            ResetCharacterExpression(character); // Reset expression to default
+
         }
         else
         {
-            Debug.LogError("RespawnCharacter: Character reference is null!");
         }
     }
+
+    private void ResetCharacterExpression(GameObject character)
+    {
+        var expressionManager = character.GetComponentInChildren<ExpressionsManager>();
+        if (expressionManager != null)
+        {
+            expressionManager.ResetToDefaultExpression(); // Assumes the default sprite is set in the editor
+        }
+        else
+        {
+        }
+    }
+
     IEnumerator LevelRestart(float BasicCooldown)
     {
         yield return new WaitForSeconds(BasicCooldown);
         _levelManager.ReloadCurrentScene();
     }
+
     private IEnumerator LerpScale(Transform target, Vector3 endScale, float duration)
     {
         Vector3 startScale = target.localScale;
@@ -235,8 +242,43 @@ public class GameManager : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         target.localScale = endScale;
     }
 
+    private IEnumerator CharacterSpawning(GameObject character)
+    {
+        Debug.Log($"[Respawn] Coroutine started for {character.name}");
+
+        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log($"[Respawn] Activating {character.name}");
+        character.SetActive(true);
+
+        if (audioSource != null && respawnSound != null)
+        {
+            Debug.Log($"[Respawn] Playing respawn sound for {character.name}");
+            audioSource.PlayOneShot(respawnSound);
+        }
+        else
+        {
+            Debug.LogWarning("[Respawn] Missing audio source or respawn clip!");
+        }
+
+        Debug.Log($"[Respawn] Coroutine completed for {character.name}");
+
+        yield return null;
+    }
+
+    public void DisableInputTemporarily(float duration)
+    {
+        if (!gameObject.activeInHierarchy) return;
+        StartCoroutine(DisableInputCoroutine(duration));
+    }
+
+    private IEnumerator DisableInputCoroutine(float duration)
+    {
+        _isHandlingMovement = false;
+        yield return new WaitForSeconds(duration);
+        _isHandlingMovement = true;
+    }
 }

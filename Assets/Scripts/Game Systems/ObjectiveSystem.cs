@@ -14,6 +14,8 @@ public class ObjectiveSystem : MonoBehaviour
 
     public bool _objectiveEnabled = false;
 
+    public UIManager uiManager;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -192,7 +192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7134267511615713986}
   - component: {fileID: 417293960670017688}
-  - component: {fileID: 559539878408151126}
   m_Layer: 8
   m_Name: Tractor Sprite (1)
   m_TagString: Untagged
@@ -267,26 +266,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &559539878408151126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3909450247205706727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32937ce486c6af3478fd4a2a19769c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leftEyeObject: {fileID: 0}
-  _defaultLeftEye: {fileID: 0}
-  _rightEyeObject: {fileID: 0}
-  _defaultRightEye: {fileID: 0}
-  _defaultSharedEye: {fileID: 0}
-  _mouthObject: {fileID: 0}
-  _defaultMouth: {fileID: 0}
-  playerTransform: {fileID: 5187807225899239708}
 --- !u!1 &5187807225899239704
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +280,7 @@ GameObject:
   - component: {fileID: 5848793290081709536}
   - component: {fileID: -2943562665673140762}
   - component: {fileID: 155433471350873358}
+  - component: {fileID: -3278306345534380489}
   m_Layer: 8
   m_Name: Tractor
   m_TagString: Tractor
@@ -339,11 +319,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPosition: {x: 0, y: 0}
-  moveSpeed: 0.18
+  moveSpeed: 0.2
   actionCooldown: 0.6
   isMoving: 0
   isActionOnCooldown: 0
   KBmoveSpeed: 0.1
+  moveSound: {fileID: 8300000, guid: 0325f8cb7ecd5f34488fefd5a12a5511, type: 3}
+  spriteTransform: {fileID: 4189971798165037131}
   tetherSystem: {fileID: 0}
   gameManager: {fileID: 0}
   weight: 50
@@ -372,7 +354,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.6}
+  m_Size: {x: 0.4, y: 0.3}
   m_EdgeRadius: 0
 --- !u!50 &5848793290081709536
 Rigidbody2D:
@@ -426,6 +408,102 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   raycastStartOffset: 0.5
+--- !u!82 &-3278306345534380489
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187807225899239704}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.15
+  m_Pitch: 0.9
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5203356754509763019
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,11 +687,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32937ce486c6af3478fd4a2a19769c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftEyeObject: {fileID: 7597692404186718670}
-  _defaultLeftEye: {fileID: 0}
-  _rightEyeObject: {fileID: 7597692404186718670}
-  _defaultRightEye: {fileID: 0}
-  _defaultSharedEye: {fileID: 0}
+  _leftEyeRenderer: {fileID: 8465969860897463446}
+  _defaultLeftEye: {fileID: 543704798095764593, guid: 528497e838ef29d4188858cf2163e5f8, type: 3}
+  _rightEyeRenderer: {fileID: 296478724376473815}
+  _defaultRightEye: {fileID: 543704798095764593, guid: 528497e838ef29d4188858cf2163e5f8, type: 3}
+  _defaultSharedEye: {fileID: 543704798095764593, guid: 528497e838ef29d4188858cf2163e5f8, type: 3}
+  _tearyEye: {fileID: -8101312194114151454, guid: ccca315de1823054b9f958308de84874, type: 3}
+  _cryEye: {fileID: 8262123178656000008, guid: a72496a5143805a48baa3af898999b94, type: 3}
   _mouthObject: {fileID: 0}
   _defaultMouth: {fileID: 0}
   playerTransform: {fileID: 5187807225899239708}

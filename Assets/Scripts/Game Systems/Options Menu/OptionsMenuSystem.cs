@@ -7,17 +7,22 @@ public class OptionsMenuSystem : MonoBehaviour
     public GameObject optionsMenu;
 
     private bool isGamePaused = false;
+    public static bool IsOptionsMenuOpen { get; private set; } = false;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
+            Debug.Log("dwnuajid");
+
             ToggleOptionsMenu();
         }
     }
 
     void ToggleOptionsMenu()
     {
+        Debug.Log("dwnuajiddn23qhyijuod231n");
+
         bool isActive = !optionsMenu.activeSelf;
         optionsMenu.SetActive(isActive);
 
@@ -33,13 +38,17 @@ public class OptionsMenuSystem : MonoBehaviour
 
     void PauseGame()
     {
-        Time.timeScale = 0f; 
         isGamePaused = true;
+        IsOptionsMenuOpen = true;
+        Time.timeScale = 0f; 
+
     }
 
     void ResumeGame()
     {
-        Time.timeScale = 1f; 
         isGamePaused = false;
+        IsOptionsMenuOpen = false;
+        Time.timeScale = 1f; 
+       
     }
 }

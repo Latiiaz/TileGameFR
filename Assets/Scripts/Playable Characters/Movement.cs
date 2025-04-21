@@ -23,6 +23,7 @@ public abstract class Movement : MonoBehaviour
 
     [SerializeField] protected AudioClip moveSound;
     protected AudioSource audioSource;
+    [SerializeField] private Transform spriteTransform;
 
 
     protected virtual void Start()
@@ -31,13 +32,6 @@ public abstract class Movement : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         objectTransform = GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
-
-        if (audioSource != null && moveSound != null)
-        {
-            audioSource.pitch = UnityEngine.Random.Range(0.85f, 1.15f);
-            audioSource.PlayOneShot(moveSound);
-        }
-
 
         if (boxCollider == null)
         {
@@ -76,12 +70,33 @@ public abstract class Movement : MonoBehaviour
         }
     }
 
-    // No longer used for GameManager input — feel free to remove if not needed elsewhere
     public void RotateToDirection(Vector2Int direction)
     {
         currentDirection = direction;
-        // Intentionally left out rotation logic
+
+        if (spriteTransform == null) return;
+
+        if (direction == Vector2Int.up)
+        {
+            spriteTransform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (direction == Vector2Int.down)
+        {
+            spriteTransform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else if (direction == Vector2Int.left)
+        {
+            spriteTransform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else if (direction == Vector2Int.right)
+        {
+            spriteTransform.rotation = Quaternion.Euler(0, 0, -90);
+        }
     }
+
+
+
+
 
     // NEW: No-rotation version used by GameManager
     public void MoveInDirection(Vector2Int direction)
@@ -100,7 +115,11 @@ public abstract class Movement : MonoBehaviour
     {
         isMoving = true;
         isActionOnCooldown = true;
-
+        if (audioSource != null && moveSound != null)
+        {
+            audioSource.pitch = UnityEngine.Random.Range(0.8f, 1f);
+            audioSource.PlayOneShot(moveSound);
+        }
         Vector2 start = transform.position;
         Vector2 end = new Vector2(newPosition.x * tileManager.TileSize, newPosition.y * tileManager.TileSize);
 

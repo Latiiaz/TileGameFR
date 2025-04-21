@@ -232,7 +232,7 @@ ScriptedImporter:
         x: 0
         y: 0
         width: 32
-        height: 31
+        height: 32
       spriteId: 8c3fdb6888d99bc4193b2ce1ce078c79
     linkedCells: []
     parentIndex: -1

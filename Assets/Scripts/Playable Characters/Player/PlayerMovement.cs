@@ -7,6 +7,10 @@ public class PlayerMovement : Movement, IWeightedObject
     [SerializeField] private float weight;
     [SerializeField] private float respawnCooldown = 2f; // Cooldown in seconds
     private float lastRespawnTime = -Mathf.Infinity; // Initialize to allow respawning immediately
+    public Vector2Int CurrentDirection { get; private set; }
+
+   
+
 
     protected override void Start()
     {
@@ -68,4 +72,11 @@ public class PlayerMovement : Movement, IWeightedObject
     {
         return weight;
     }
+
+    public void SetFacingDirection(Vector2Int direction)
+    {
+        CurrentDirection = direction;
+        // Trigger any visual rotation/flip here
+    }
+
 }

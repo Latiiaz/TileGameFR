@@ -21,6 +21,17 @@ public class LaserSystem : MonoBehaviour
     private List<Transform> hitObjects = new List<Transform>();
     private List<Vector2> hitPoints = new List<Vector2>();
 
+    [Header("Audio")]
+    public AudioSource laserLoopSource;
+    public AudioClip hideSoundEffect;
+
+    [Header("Laser Pitch Oscillation")]
+    public float minPitch = 0.9f;
+    public float maxPitch = 1.1f;
+    public float pitchLerpDuration = 2f;
+
+    private bool laserPaused = false;
+
     void Start()
     {
         if (lineRenderer == null)
@@ -34,6 +45,14 @@ public class LaserSystem : MonoBehaviour
             lineRenderer.sortingOrder = 10;
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         }
+
+        if (laserLoopSource != null && !laserLoopSource.isPlaying)
+        {
+            laserLoopSource.loop = true;
+            laserLoopSource.Play();
+        }
+
+        StartCoroutine(PitchLerpLoop());
     }
 
     void Update()
@@ -68,38 +87,32 @@ public class LaserSystem : MonoBehaviour
                 remainingDistance -= distanceToHit;
                 currentPosition = hit.point;
 
-                // Check tag and spawn corresponding particle effect
-                // Only play particle if object is on hideLayers
                 if (((1 << hit.collider.gameObject.layer) & hideLayers) != 0)
                 {
-                    // Play specific particle depending on tag
                     if (hit.collider.CompareTag("Player") && playerHitEffect != null)
                     {
+                        ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(playerHitEffect, hit.point, Quaternion.identity);
                     }
                     else if (hit.collider.CompareTag("Tractor") && tractorHitEffect != null)
                     {
+                        ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(tractorHitEffect, hit.point, Quaternion.identity);
                     }
 
-                    // Hide the object
+                    if (hideSoundEffect != null && !laserPaused)
+                    {
+                        StartCoroutine(PlayHideSFXAndPauseLaser(hit.point));
+                    }
+
                     hit.collider.gameObject.SetActive(false);
                 }
 
-
-                // Hide logic
-                if (((1 << hit.collider.gameObject.layer) & hideLayers) != 0)
-                {
-                    hit.collider.gameObject.SetActive(false);
-                }
-
-                // Stop logic
                 if (((1 << hit.collider.gameObject.layer) & stopLayers) != 0)
                 {
                     break;
                 }
 
-                // Continue if passthrough
                 if (((1 << hit.collider.gameObject.layer) & passThroughLayers) != 0)
                 {
                     bounces++;
@@ -119,6 +132,69 @@ public class LaserSystem : MonoBehaviour
             for (int i = 0; i < hitPoints.Count; i++)
             {
                 lineRenderer.SetPosition(i, new Vector3(hitPoints[i].x, hitPoints[i].y, -0.1f));
+            }
+        }
+    }
+
+    private IEnumerator PlayHideSFXAndPauseLaser(Vector2 position)
+    {
+        laserPaused = true;
+
+        if (laserLoopSource != null && laserLoopSource.isPlaying)
+        {
+            laserLoopSource.Pause();
+        }
+
+        GameObject tempAudio = new GameObject("TempHideSFX");
+        tempAudio.transform.position = position;
+        AudioSource tempSource = tempAudio.AddComponent<AudioSource>();
+        tempSource.clip = hideSoundEffect;
+        tempSource.Play();
+
+        yield return new WaitForSeconds(hideSoundEffect.length);
+
+        Destroy(tempAudio);
+
+        if (laserLoopSource != null && !laserLoopSource.isPlaying)
+        {
+            laserLoopSource.UnPause();
+        }
+
+        laserPaused = false;
+    }
+
+    private IEnumerator PitchLerpLoop()
+    {
+        while (true)
+        {
+            float timer = 0f;
+            float startPitch = minPitch;
+            float endPitch = maxPitch;
+
+            while (timer < pitchLerpDuration)
+            {
+                timer += Time.deltaTime;
+                if (laserLoopSource != null)
+                {
+                    float t = timer / pitchLerpDuration;
+                    laserLoopSource.pitch = Mathf.Lerp(startPitch, endPitch, t);
+                }
+                yield return null;
+            }
+
+            timer = 0f;
+            startPitch = maxPitch;
+            endPitch = minPitch;
+
+            while (timer < pitchLerpDuration)
+            {
+                timer += Time.deltaTime;
+                if (laserLoopSource != null)
+                {
+                    float t = timer / pitchLerpDuration;
+                    laserLoopSource.pitch = Mathf.Lerp(startPitch, endPitch, t);
+                }
+                yield return null;
             }
         }
     }

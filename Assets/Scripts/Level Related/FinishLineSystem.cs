@@ -9,7 +9,6 @@ public class FinishLineSystem : MonoBehaviour
     public LevelManager levelManager;
 
     [SerializeField] private float requiredWeight = 100f; // Total weight required to trigger victory
-    private float _victoryDelay = 3f;
     [SerializeField] private float requiredTime = 1f;
 
     [SerializeField] private AudioClip VictorySound;
@@ -57,39 +56,19 @@ public class FinishLineSystem : MonoBehaviour
         if (totalWeight >= requiredWeight && !isVictoryTriggered)
         {
             isVictoryTriggered = true; // Ensure this block runs only once
+            FindObjectOfType<GameManager>().DisableInputTemporarily(3f); 
             NextLevelSequence();
         }
     }
-
-    void VictorySequence()
-    {
-        //Add delay where the player cant move, get from the movement script and turn canMove to false for all game objects
-        StartCoroutine(VictoryCoroutine(_victoryDelay));
-    }
     void NextLevelSequence()
     {
-        StartCoroutine(NextLevelCoroutine(_victoryDelay));
+        StartCoroutine(NextLevelCoroutine());
     }
-    private IEnumerator NextLevelCoroutine(float seconds)
+    private IEnumerator NextLevelCoroutine()
     {
         audioSource.clip = VictorySound;
         audioSource.Play();
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(3);
         levelManager.LoadNextScene();
-    }
-    private IEnumerator VictoryCoroutine(float seconds)
-    {
-        audioSource.clip = VictorySound;
-        audioSource.Play();
-        yield return new WaitForSeconds(seconds);
-        levelManager.LoadVictoryScene();
-    }
-
-    private IEnumerator DelayCheck(float seconds)
-    {
-        audioSource.clip = VictorySound;
-        audioSource.Play();
-        yield return new WaitForSeconds(seconds);
-        levelManager.LoadVictoryScene();
     }
 }

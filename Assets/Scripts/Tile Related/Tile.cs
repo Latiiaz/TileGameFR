@@ -30,7 +30,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private BoxCollider2D _boxCollider;
     [SerializeField] private ParticleSystem _spawnEffectPrefab; // Prefab, NOT an attached effect
 
-    [SerializeField] private ParticleSystem _stepOnEffectPrefab; // Effect when player/tractor steps on tile
+    [SerializeField] private ParticleSystem _playerStepOnEffectPrefab;
+    [SerializeField] private ParticleSystem _tractorStepOnEffectPrefab;
+
 
     [SerializeField] private AudioClip _spawnSound;
     [SerializeField] private AudioSource _audioSourcePrefab;
@@ -132,13 +134,18 @@ public class Tile : MonoBehaviour
 
         ResetTileMovability();
 
-        if (other.CompareTag("Player") || other.CompareTag("Tractor"))
+        if (other.CompareTag("Player"))
         {
-            PlayStepOnEffect();
-            //StopAllCoroutines(); // Stop any ongoing color transition
+            PlayerStepOnEffect();            //StopAllCoroutines(); // Stop any ongoing color transition
             //_spriteRenderer.color = new Color(_originalColor.r * 2f, _originalColor.g * 2f, _originalColor.b * 2f);
             //StartCoroutine(LerpColorBack(_originalColor, 0.5f)); // Lerp back
         }
+        else if (other.CompareTag("Tractor"))
+        {
+            TractorStepOnEffect();
+        }
+
+
     }
 
     private void SetTileMovability(bool walkable, bool traversable)
@@ -287,11 +294,20 @@ public class Tile : MonoBehaviour
             Debug.LogWarning("No spawn effect assigned to the tile.");
         }
     }
-    private void PlayStepOnEffect()
+    private void PlayerStepOnEffect()
     {
-        if (_stepOnEffectPrefab != null)
+        if (_playerStepOnEffectPrefab != null)
         {
-            ParticleSystem effectInstance = Instantiate(_stepOnEffectPrefab, transform.position, Quaternion.identity);
+            ParticleSystem effectInstance = Instantiate(_playerStepOnEffectPrefab, transform.position, Quaternion.identity);
+            effectInstance.Play();
+            Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f);
+        }
+    }
+    private void TractorStepOnEffect()
+    {
+        if (_tractorStepOnEffectPrefab != null)
+        {
+            ParticleSystem effectInstance = Instantiate(_tractorStepOnEffectPrefab, transform.position, Quaternion.identity);
             effectInstance.Play();
             Destroy(effectInstance.gameObject, effectInstance.main.duration + 0.5f);
         }

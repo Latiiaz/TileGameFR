@@ -12,6 +12,7 @@ public class DoorSystem : MonoBehaviour
     public void UpdateDoorState(float totalWeight)
     {
         currentWeight = totalWeight;
+        FindObjectOfType<GameManager>().DisableInputTemporarily(0.2f);
 
         // Open the door if the weight is NOT divisible by 100
         if (currentWeight % 100 == 0)

@@ -20,11 +20,15 @@ public class KeyPickUpSystem : MonoBehaviour
     [SerializeField] private AudioClip _pickUpSound;
     private AudioSource _audioSource;
 
+
+    public KeyCollection _keyCollection;
+
+
     void Start()
     {
         _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
         _audioSource = GetComponent<AudioSource>();
-
+        _keyCollection = FindObjectOfType<KeyCollection>();
         if (_audioSource == null && _pickUpSound != null)
         {
             // If no AudioSource is attached, create one on the fly
@@ -44,6 +48,7 @@ public class KeyPickUpSystem : MonoBehaviour
                 // Play pickup animation/effects
                 StartCoroutine(ScaleTo(ShadowObject, Vector3.zero, 1));
                 ActualObject.SetActive(false);
+                _keyCollection.KeyCollected();
 
                 PlaySpawnEffect();
                 PlayPickUpSound(); // ? Play sound when key is picked up
@@ -59,21 +64,6 @@ public class KeyPickUpSystem : MonoBehaviour
         }
     }
 
-    void KeyCollected()
-    {
-        if (_moveSprite != null) _moveSprite.StopAllCoroutines();
-        if (_scaleSprite != null) _scaleSprite.StopAllCoroutines();
-
-        if (ActualObject != null && _moveSprite != null)
-        {
-            StartCoroutine(MoveToPosition(ActualObject, ActualObject.transform.position + CollectedPos, _moveSprite._timeTaken));
-        }
-
-        if (ShadowObject != null && _scaleSprite != null)
-        {
-            StartCoroutine(ScaleTo(ShadowObject, _minScale, _moveSprite._timeTaken / 5));
-        }
-    }
 
     public IEnumerator MoveToPosition(GameObject targetObject, Vector3 targetPos, float duration)
     {

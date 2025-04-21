@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeDuration: 3
   particlePrefab: {fileID: 3913715427528078161, guid: 872508e2708a4c74c84122da918ea4a6, type: 3}
+  spawnSound: {fileID: 8300000, guid: 733b057f95868a74ca38fd51eb889b1e, type: 3}
+  soundVolume: 1
+  spawnSoundChance: 0.25

@@ -75,7 +75,8 @@ MonoBehaviour:
   _tileSprites: []
   _boxCollider: {fileID: 0}
   _spawnEffectPrefab: {fileID: 0}
-  _stepOnEffectPrefab: {fileID: 0}
+  _playerStepOnEffectPrefab: {fileID: 0}
+  _tractorStepOnEffectPrefab: {fileID: 0}
   _spawnSound: {fileID: 0}
   _audioSourcePrefab: {fileID: 0}
 --- !u!1 &1476695887696553729
@@ -293,7 +294,8 @@ MonoBehaviour:
   _tileSprites: []
   _boxCollider: {fileID: -6887380502084136401}
   _spawnEffectPrefab: {fileID: 7445577097704170825, guid: d6bc739e729ce7a42a2c1b11b2a09076, type: 3}
-  _stepOnEffectPrefab: {fileID: 3055028311021591233, guid: 07b5bff485f2519449ae2b9d46a10b77, type: 3}
+  _playerStepOnEffectPrefab: {fileID: 3055028311021591233, guid: 07b5bff485f2519449ae2b9d46a10b77, type: 3}
+  _tractorStepOnEffectPrefab: {fileID: 6428405738238271014, guid: fe0c40125b72bd149b3a3f43a07cd611, type: 3}
   _spawnSound: {fileID: 8300000, guid: 733b057f95868a74ca38fd51eb889b1e, type: 3}
   _audioSourcePrefab: {fileID: 4162643639062587817}
 --- !u!82 &4162643639062587817

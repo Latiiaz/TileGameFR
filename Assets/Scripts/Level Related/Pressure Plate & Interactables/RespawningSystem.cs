@@ -11,11 +11,21 @@ public class RespawningSystem : MonoBehaviour
     private GameObject currentObjectOnPlate; // Tracks who is standing on the plate
     public float respawnTimer = 2.0f; // Time needed to trigger the respawn
 
+    private SpriteRenderer spriteRenderer;
+    private Coroutine pulseCoroutine;
+    private Color originalColor;
+
     private void Awake()
     {
         plateA = GameObject.Find("RespawnPlateA")?.transform;
         plateB = GameObject.Find("RespawnPlateB")?.transform;
-        gameManager = FindObjectOfType<GameManager>(); // Get the GameManager instance
+        gameManager = FindObjectOfType<GameManager>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
 
         if (plateA == null || plateB == null)
         {
@@ -25,6 +35,50 @@ public class RespawningSystem : MonoBehaviour
         if (gameManager == null)
         {
             Debug.LogError("RespawningSystem: GameManager not found in the scene!");
+        }
+    }
+
+    private void Update()
+    {
+        bool shouldPulse = false;
+
+        if (gameManager != null)
+        {
+            shouldPulse = !gameManager._player.activeInHierarchy || !gameManager._tractor.activeInHierarchy;
+        }
+
+        if (shouldPulse && pulseCoroutine == null)
+        {
+            pulseCoroutine = StartCoroutine(PulseColor());
+        }
+        else if (!shouldPulse && pulseCoroutine != null)
+        {
+            StopCoroutine(pulseCoroutine);
+            pulseCoroutine = null;
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = originalColor;
+            }
+        }
+    }
+
+    private IEnumerator PulseColor()
+    {
+        float pulseSpeed = 2f;
+        float t = 0f;
+
+        while (true)
+        {
+            t += Time.deltaTime * pulseSpeed;
+            float lerpValue = Mathf.PingPong(t, 1f);
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = Color.Lerp(originalColor, Color.white, lerpValue);
+            }
+
+            yield return null;
         }
     }
 

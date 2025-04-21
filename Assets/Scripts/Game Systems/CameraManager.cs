@@ -54,7 +54,7 @@ public class CameraManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G) && !_isShaking)
         {
-            StartCoroutine(ShakeCamera());
+            StartCoroutine(ShakeCamera(0,1.5f));
         }
     }
 
@@ -112,12 +112,13 @@ public class CameraManager : MonoBehaviour
         transform.position = SnapToPixelGrid(new Vector3(lerpedPosition.x, lerpedPosition.y, -15f));
     }
 
-    public IEnumerator ShakeCamera()
+    public IEnumerator ShakeCamera(float optionalDelay, float shakestrength)
     {
         _isShaking = true;
         Vector3 originalPos = transform.position;
         float elapsed = 0f;
 
+        yield return new WaitForSeconds(optionalDelay);
         while (elapsed < shakeDuration)
         {
             float strength = shakeCurve.Evaluate(elapsed / shakeDuration);
