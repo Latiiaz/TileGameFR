@@ -186,17 +186,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1443022694540017885}
     m_Modifications:
+    - target: {fileID: -1140939988967342652, guid: 499266c41418b1340a535d7d80405e17, type: 3}
+      propertyPath: controlledDoors.Array.data[0]
+      value: 
+      objectReference: {fileID: 2725324914883015530}
     - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Color.b
-      value: 0.5832681
+      value: 0.5254902
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Color.g
-      value: 0.6037736
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749360, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: m_Color.r
-      value: 0.6034347
+      value: 0.99215686
       objectReference: {fileID: 0}
     - target: {fileID: 329900533241749362, guid: 499266c41418b1340a535d7d80405e17, type: 3}
       propertyPath: weightText

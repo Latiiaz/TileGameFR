@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 4838332487380082054}
   - component: {fileID: 4838332487380082055}
   - component: {fileID: 4838332487380082052}
+  - component: {fileID: 4029318025819761227}
   m_Layer: 5
   m_Name: Canvas Escape Menu
   m_TagString: Untagged
@@ -390,6 +391,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4029318025819761227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838332487380082058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4858127cb4045d34fa0985ccebd47985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MenuRoot: {fileID: 4838332487814531922}
+  _isActivated: 0
+  MainMenuBox: {fileID: 2700092488183460026}
+  ResumeBox: {fileID: 2362692369372857851}
+  MainMenuText: {fileID: 2356810907560627251}
+  ResumeText: {fileID: 6444521434107920260}
+  _mainMenuSelected: 0
+  _resumeSelected: 0
 --- !u!1 &4838332487814531922
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +422,6 @@ GameObject:
   - component: {fileID: 4838332487814531917}
   - component: {fileID: 4838332487814531918}
   - component: {fileID: 4838332487814531919}
-  - component: {fileID: 748135167676975153}
   m_Layer: 5
   m_Name: Escape Menu
   m_TagString: Untagged
@@ -470,25 +490,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &748135167676975153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4838332487814531922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4858127cb4045d34fa0985ccebd47985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MenuRoot: {fileID: 4838332487814531922}
-  MainMenuBox: {fileID: 2700092488183460026}
-  ResumeBox: {fileID: 2362692369372857851}
-  MainMenuText: {fileID: 2356810907560627251}
-  ResumeText: {fileID: 6444521434107920260}
-  _mainMenuSelected: 0
-  _resumeSelected: 0
 --- !u!1 &4838332487829613192
 GameObject:
   m_ObjectHideFlags: 0

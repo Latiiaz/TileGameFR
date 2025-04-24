@@ -8,6 +8,7 @@ public class LaserSystem : MonoBehaviour
     public float laserOffset = 0.1f;
     public Vector2 laserDirection = Vector2.right;
     public LineRenderer lineRenderer;
+    public CameraManager cameraManager;
 
     [Header("Layer Masks")]
     public LayerMask passThroughLayers;
@@ -53,6 +54,8 @@ public class LaserSystem : MonoBehaviour
         }
 
         StartCoroutine(PitchLerpLoop());
+        cameraManager = FindObjectOfType<CameraManager>();
+
     }
 
     void Update()
@@ -93,11 +96,21 @@ public class LaserSystem : MonoBehaviour
                     {
                         ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(playerHitEffect, hit.point, Quaternion.identity);
+
+                        // Trigger camera shake here
+                        CameraManager cam = FindObjectOfType<CameraManager>();
+                        if (cam != null)
+                            StartCoroutine(cam.ShakeCamera(0f, 1.2f)); // Customize delay/strength
                     }
                     else if (hit.collider.CompareTag("Tractor") && tractorHitEffect != null)
                     {
                         ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(tractorHitEffect, hit.point, Quaternion.identity);
+
+                        // Trigger camera shake here
+                        CameraManager cam = FindObjectOfType<CameraManager>();
+                        if (cam != null)
+                            StartCoroutine(cam.ShakeCamera(0f, 1.2f));
                     }
 
                     if (hideSoundEffect != null && !laserPaused)
@@ -107,6 +120,7 @@ public class LaserSystem : MonoBehaviour
 
                     hit.collider.gameObject.SetActive(false);
                 }
+
 
                 if (((1 << hit.collider.gameObject.layer) & stopLayers) != 0)
                 {

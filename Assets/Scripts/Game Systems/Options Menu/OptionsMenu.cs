@@ -27,8 +27,7 @@ public class OptionsMenu : MonoBehaviour
 
     void Start()
     {
-        _levelManager = FindObjectOfType<LevelManager>();
-
+        _levelManager = LevelManager.Instance;
         MainMenuBox.SetActive(false);
         ResumeBox.SetActive(true);
         MainMenuText.gameObject.SetActive(false);
@@ -43,10 +42,13 @@ public class OptionsMenu : MonoBehaviour
     void Update()
     {
         CheckStatus();
-        EnterSelected();
-    }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EnterSelected();
+        }
+        }
 
-    void ToggleMenu()
+        void ToggleMenu()
     {
         if (_isActivated)
         {
@@ -92,30 +94,34 @@ public class OptionsMenu : MonoBehaviour
 
     void EnterSelected()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        Debug.Log("Spacebar pressed");
+
+        if (_mainMenuSelected)
         {
-            Debug.Log("Spacebar pressed");
+            Debug.Log("Main Menu Button Selected");
+            Time.timeScale = 1f;
 
-            if (_mainMenuSelected)
+            if (_levelManager != null)
             {
-                Debug.Log("Main Menu Button Selected");
-                Time.timeScale = 1f;
-
-                if (_levelManager != null)
-                    _levelManager.LoadMainMenu();
-                else
-                    Debug.LogWarning("LevelManager is null!");
-            }
-            else if (_resumeSelected)
-            {
-                Debug.Log("Resume Button Selected");
                 ToggleMenu();
+
+                _levelManager.LoadMainMenu();
             }
+
             else
-            {
-                Debug.Log("Nothing is selected!");
-            }
+                Debug.LogWarning("LevelManager is null!");
         }
+        else if (_resumeSelected)
+        {
+            Debug.Log("Resume Button Selected");
+            ToggleMenu();
+        }
+        else
+        {
+            Debug.Log("Nothing is selected!");
+        }
+
     }
 
     void UpdateSelectionVisuals()

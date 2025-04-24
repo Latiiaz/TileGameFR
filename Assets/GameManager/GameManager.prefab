@@ -79,6 +79,7 @@ MonoBehaviour:
   _objectiveCount: 0
   _neededObjectives: 2
   _objectiveEnabled: 0
+  uiManager: {fileID: 0}
 --- !u!114 &6862188156990080832
 MonoBehaviour:
   m_ObjectHideFlags: 0

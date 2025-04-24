@@ -7,6 +7,7 @@ public abstract class Movement : MonoBehaviour
 {
     public Vector2Int currentPosition;
     protected Vector2Int currentDirection = Vector2Int.up;
+    protected Vector2Int lastMoveDirection = Vector2Int.zero; //  NEW
 
     [SerializeField] protected float moveSpeed = 0.2f;
     [SerializeField] protected float actionCooldown = 0.2f;
@@ -20,11 +21,12 @@ public abstract class Movement : MonoBehaviour
 
     [SerializeField] protected float KBmoveSpeed = 0f;
 
-
     [SerializeField] protected AudioClip moveSound;
     protected AudioSource audioSource;
     [SerializeField] private Transform spriteTransform;
 
+    private Coroutine knockbackCoroutine;
+    private bool knockbackCooldown = false;
 
     protected virtual void Start()
     {
@@ -35,7 +37,7 @@ public abstract class Movement : MonoBehaviour
 
         if (boxCollider == null)
         {
-            Debug.LogError("BoxCollider2D missing on Movement object!");
+          //  Debug.LogError("BoxCollider2D missing on Movement object!");
         }
         else
         {
@@ -49,7 +51,7 @@ public abstract class Movement : MonoBehaviour
 
         if (!tileManager.IsTileAvailable(currentPosition))
         {
-            Debug.LogWarning($"Player is in an occupied tile at position {currentPosition}!");
+           // Debug.LogWarning($"[Movement] Occupied tile at position {currentPosition}!");
         }
     }
 
@@ -57,7 +59,7 @@ public abstract class Movement : MonoBehaviour
     {
         if (isMoving || isActionOnCooldown) return;
 
-        RotateToDirection(direction); // Still here, in case others use this version
+        RotateToDirection(direction);
 
         if (currentDirection == direction)
         {
@@ -94,11 +96,6 @@ public abstract class Movement : MonoBehaviour
         }
     }
 
-
-
-
-
-    // NEW: No-rotation version used by GameManager
     public void MoveInDirection(Vector2Int direction)
     {
         if (isMoving || isActionOnCooldown) return;
@@ -115,17 +112,20 @@ public abstract class Movement : MonoBehaviour
     {
         isMoving = true;
         isActionOnCooldown = true;
+
         if (audioSource != null && moveSound != null)
         {
             audioSource.pitch = UnityEngine.Random.Range(0.8f, 1f);
             audioSource.PlayOneShot(moveSound);
         }
+
         Vector2 start = transform.position;
         Vector2 end = new Vector2(newPosition.x * tileManager.TileSize, newPosition.y * tileManager.TileSize);
-
         Vector2Int direction = newPosition - currentPosition;
 
-        // Apply squash/stretch based on direction
+        lastMoveDirection = direction; //  NEW
+
+        // Squash/stretch
         if (Mathf.Abs(direction.y) > 0)
         {
             transform.localScale = new Vector3(0.8f, 1.2f, 1);
@@ -133,12 +133,6 @@ public abstract class Movement : MonoBehaviour
         else if (Mathf.Abs(direction.x) > 0)
         {
             transform.localScale = new Vector3(1.2f, 0.8f, 1);
-        }
-
-        // Play move sound
-        if (audioSource != null && moveSound != null)
-        {
-            audioSource.PlayOneShot(moveSound);
         }
 
         float elapsedTime = 0f;
@@ -157,8 +151,6 @@ public abstract class Movement : MonoBehaviour
         isActionOnCooldown = false;
     }
 
-
-
     protected IEnumerator ActionCooldown()
     {
         if (isActionOnCooldown) yield break;
@@ -175,33 +167,53 @@ public abstract class Movement : MonoBehaviour
 
     private void KnockedBackwards()
     {
-        if (isMoving) return;
-
-        int tileLayerMask = LayerMask.GetMask("Tile");
-        Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(0.5f, 0.5f), 0, tileLayerMask);
-
-        if (hit != null && hit.CompareTag("Door"))
+        if (isMoving || knockbackCooldown)
         {
-            Debug.Log($"Knocked back from a Door tile at {currentPosition}");
+           // Debug.Log("[Knockback] Skipping: already moving or on cooldown.");
+            return;
+        }
 
-            Vector2Int oppositeDirection = -currentDirection;
-            Vector2Int newPosition = currentPosition + oppositeDirection;
+        if (lastMoveDirection == Vector2Int.zero)
+        {
+            //Debug.LogWarning("[Knockback] Cannot knock back: lastMoveDirection is zero.");
+            return;
+        }
 
-            while (!tileManager.IsTileAvailable(newPosition))
+        int tileLayerMask = LayerMask.GetMask("Wall");
+        Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(0.9f, 0.9f), 0f, tileLayerMask);
+
+        if (hit == null)
+        {
+            //Debug.Log("[Knockback] No collider detected in OverlapBox.");
+            return;
+        }
+
+       // Debug.Log($"[Knockback] OverlapBox hit: {hit.name}, Tag: {hit.tag}");
+
+        if (hit.CompareTag("Door"))
+        {
+            Vector2Int knockbackPosition = currentPosition - lastMoveDirection;
+            //Debug.Log($"[Knockback] Attempting knockback from {currentPosition} to {knockbackPosition} (opposite of {lastMoveDirection})");
+
+            if (tileManager.IsTileAvailable(knockbackPosition))
             {
-                newPosition += oppositeDirection;
+                //Debug.Log($"[Knockback] Tile {knockbackPosition} is available. Starting knockback.");
+                if (knockbackCoroutine != null) StopCoroutine(knockbackCoroutine);
+                knockbackCoroutine = StartCoroutine(KnockBackMovement(knockbackPosition));
+                StartCoroutine(KnockbackCooldownRoutine());
             }
-
-            Debug.Log($"Knocking back to {newPosition}");
-
-            StopCoroutine("MoveToPosition");
-            StopCoroutine("KnockBackMovement");
-
-            StartCoroutine(KnockBackMovement(newPosition));
+            else
+            {
+               // Debug.LogWarning($"[Knockback] Tile {knockbackPosition} is not available!");
+            }
+        }
+        else
+        {
+           // Debug.Log("[Knockback] Hit object is not tagged as 'Door'.");
         }
     }
 
-    protected IEnumerator KnockBackMovement(Vector2Int newPosition)
+    private IEnumerator KnockBackMovement(Vector2Int newPosition)
     {
         isMoving = true;
         isActionOnCooldown = true;
@@ -210,7 +222,6 @@ public abstract class Movement : MonoBehaviour
         Vector2 end = new Vector2(newPosition.x * tileManager.TileSize, newPosition.y * tileManager.TileSize);
 
         float elapsedTime = 0f;
-
         while (elapsedTime < KBmoveSpeed)
         {
             transform.position = Vector2.Lerp(start, end, elapsedTime / KBmoveSpeed);
@@ -223,6 +234,13 @@ public abstract class Movement : MonoBehaviour
 
         isMoving = false;
         isActionOnCooldown = false;
+    }
+
+    private IEnumerator KnockbackCooldownRoutine()
+    {
+        knockbackCooldown = true;
+        yield return new WaitForSeconds(0.25f); // adjust as needed
+        knockbackCooldown = false;
     }
 
     public Vector2Int GetGridPosition()
