@@ -8184,7 +8184,7 @@ PrefabInstance:
     - target: {fileID: 6677549833018073141, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2583003727304645782, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
+      objectReference: {fileID: 7985684405241083126, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
     - target: {fileID: 6677549833069148822, guid: 2c7af7e847a801242a1f9c13ddfa1864, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -9020,7 +9020,7 @@ PrefabInstance:
     - target: {fileID: 2328276591949645547, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -9203451242465723183, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
+      objectReference: {fileID: 7985684405241083126, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
     - target: {fileID: 2856803850371095399, guid: c659b839ed6896b43a43ebe38e872475, type: 3}
       propertyPath: m_Name
       value: Laser Safe4Tractor

@@ -739,6 +739,7 @@ MonoBehaviour:
   playerTransform: {fileID: 4442761854792123486}
   _leftEyeObject: {fileID: 4299578091950402690}
   _rightEyeObject: {fileID: 3105728753794506728}
+  _eyeLerpSpeed: 10
 --- !u!1 &7190377757250935265
 GameObject:
   m_ObjectHideFlags: 0
