@@ -50,6 +50,11 @@ public class LevelManager : MonoBehaviour
         {
             LoadMainMenu();
         }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextScene();
+        }
+
     }
 
     public void LoadSceneByName(string sceneName)
