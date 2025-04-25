@@ -32,6 +32,7 @@ public class LaserSystem : MonoBehaviour
     public float pitchLerpDuration = 2f;
 
     private bool laserPaused = false;
+    [SerializeField] private GameObject laserEndEffect;
 
     void Start()
     {
@@ -97,17 +98,15 @@ public class LaserSystem : MonoBehaviour
                         ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(playerHitEffect, hit.point, Quaternion.identity);
 
-                        // Trigger camera shake here
                         CameraManager cam = FindObjectOfType<CameraManager>();
                         if (cam != null)
-                            StartCoroutine(cam.ShakeCamera(0f, 1.2f)); // Customize delay/strength
+                            StartCoroutine(cam.ShakeCamera(0f, 1.2f));
                     }
                     else if (hit.collider.CompareTag("Tractor") && tractorHitEffect != null)
                     {
                         ExpressionsManager.TriggerDeathExpressionAll(1f);
                         Instantiate(tractorHitEffect, hit.point, Quaternion.identity);
 
-                        // Trigger camera shake here
                         CameraManager cam = FindObjectOfType<CameraManager>();
                         if (cam != null)
                             StartCoroutine(cam.ShakeCamera(0f, 1.2f));
@@ -120,7 +119,6 @@ public class LaserSystem : MonoBehaviour
 
                     hit.collider.gameObject.SetActive(false);
                 }
-
 
                 if (((1 << hit.collider.gameObject.layer) & stopLayers) != 0)
                 {
@@ -140,6 +138,24 @@ public class LaserSystem : MonoBehaviour
             }
         }
 
+        // Spawn particle at the final point and set it as child of laser object
+        if (laserEndEffect != null && hitPoints.Count > 0)
+        {
+            Vector2 finalPoint = hitPoints[hitPoints.Count - 1];
+            GameObject effect = Instantiate(laserEndEffect, finalPoint, Quaternion.identity, transform); // Make laser object the parent
+
+            ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                float duration = ps.main.duration + ps.main.startLifetime.constantMax;
+                Destroy(effect, duration);
+            }
+            else
+            {
+                Destroy(effect, 2f); // fallback if no ParticleSystem
+            }
+        }
+
         if (lineRenderer != null)
         {
             lineRenderer.positionCount = hitPoints.Count;
@@ -149,6 +165,9 @@ public class LaserSystem : MonoBehaviour
             }
         }
     }
+
+
+
 
     private IEnumerator PlayHideSFXAndPauseLaser(Vector2 position)
     {

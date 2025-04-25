@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalPPSystem : MonoBehaviour
@@ -23,6 +22,9 @@ public class FinalPPSystem : MonoBehaviour
     private bool objectOnPlate = false;
     private IWeightedObject currentWeightedObject;
 
+    [Header("Particles")]
+    [SerializeField] private GameObject completionParticlesPrefab; // Prefab reference
+
     private void Start()
     {
         _objectiveSystem = FindObjectOfType<ObjectiveSystem>();
@@ -41,23 +43,18 @@ public class FinalPPSystem : MonoBehaviour
     void Update()
     {
         UpdateSprite();
-        // Check if objective is enabled and unlock if necessary
+
         if (_objectiveSystem._objectiveEnabled && isLocked)
         {
             isLocked = false;
             PlayPressurePlateSound();
+            PlayCompletionParticles(); // Trigger particles here
             UpdateSprite();
-            return; // Optional: stop here if you only want unlock logic this frame
-        }
-
-        // If still locked, skip the rest
-        if (isLocked)
-        {
-            UpdateSprite(); // Show locked sprite if needed
             return;
         }
 
-        // Timer logic (runs only when unlocked)
+        if (isLocked) return;
+
         if (isTimerRunning)
         {
             timer -= Time.deltaTime;
@@ -69,7 +66,6 @@ public class FinalPPSystem : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isLocked) return;
@@ -79,6 +75,7 @@ public class FinalPPSystem : MonoBehaviour
             objectOnPlate = true;
             UpdateSprite();
             PlayPressurePlateSound();
+
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null && !isTimerRunning)
             {
@@ -96,6 +93,7 @@ public class FinalPPSystem : MonoBehaviour
             objectOnPlate = false;
             UpdateSprite();
             PlayPressurePlateSound();
+
             IWeightedObject weightedObject = other.GetComponent<IWeightedObject>();
             if (weightedObject != null)
             {
@@ -126,6 +124,28 @@ public class FinalPPSystem : MonoBehaviour
         else
         {
             Debug.LogError("Pressure Plate Sound not assigned!");
+        }
+    }
+
+    private void PlayCompletionParticles()
+    {
+        if (completionParticlesPrefab != null)
+        {
+            GameObject particles = Instantiate(completionParticlesPrefab, transform.position, Quaternion.identity);
+            ParticleSystem ps = particles.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Play();
+                Destroy(particles, ps.main.duration + ps.main.startLifetime.constantMax); // clean up after playing
+            }
+            else
+            {
+                Debug.LogWarning("The prefab does not contain a ParticleSystem component.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Completion particle prefab not assigned!");
         }
     }
 

@@ -72,6 +72,14 @@ PrefabInstance:
       propertyPath: SteppedUnlocked
       value: 
       objectReference: {fileID: 6292335590010357444, guid: bf4de90836f531841960d653233a80d0, type: 3}
+    - target: {fileID: 2134072207539809197, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
+      propertyPath: completionParticles
+      value: 
+      objectReference: {fileID: 5934277172787407244, guid: c69e131b91ca77b4d97ef81e218d9aa7, type: 3}
+    - target: {fileID: 2134072207539809197, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
+      propertyPath: completionParticlesPrefab
+      value: 
+      objectReference: {fileID: 5934277172787407234, guid: c69e131b91ca77b4d97ef81e218d9aa7, type: 3}
     - target: {fileID: 4451445355718101118, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Name
       value: Player Plate
@@ -126,15 +134,15 @@ PrefabInstance:
       objectReference: {fileID: -2052688219306599283, guid: bf4de90836f531841960d653233a80d0, type: 3}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0.92305726
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.5330188
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.r
-      value: 0.6784314
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_SortingOrder
@@ -160,7 +168,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 2
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -287,6 +295,14 @@ PrefabInstance:
       propertyPath: SteppedUnlocked
       value: 
       objectReference: {fileID: 6292335590010357444, guid: bf4de90836f531841960d653233a80d0, type: 3}
+    - target: {fileID: 2134072207539809197, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
+      propertyPath: completionParticles
+      value: 
+      objectReference: {fileID: 5934277172787407244, guid: c69e131b91ca77b4d97ef81e218d9aa7, type: 3}
+    - target: {fileID: 2134072207539809197, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
+      propertyPath: completionParticlesPrefab
+      value: 
+      objectReference: {fileID: 5934277172787407234, guid: c69e131b91ca77b4d97ef81e218d9aa7, type: 3}
     - target: {fileID: 4451445355718101118, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Name
       value: Clone Plate
@@ -341,15 +357,15 @@ PrefabInstance:
       objectReference: {fileID: -2052688219306599283, guid: bf4de90836f531841960d653233a80d0, type: 3}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0.9254902
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.53333336
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_Color.r
-      value: 0.6784314
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7027926525101347934, guid: 02a5ae38b1949ad4b98dea1083b8f2db, type: 3}
       propertyPath: m_SortingOrder
@@ -380,7 +396,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 2
   Loop: 0
   Mute: 0
   Spatialize: 0

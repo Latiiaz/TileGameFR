@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
 
     private Coroutine fadeCoroutine;
     private Coroutine timedGlowCoroutine;
+    private Coroutine pulseGlowCoroutine;
 
     private float elapsedTime = 0f;
     private float nextGlowTime = 20f; // start glow at 20 seconds
@@ -84,7 +85,6 @@ public class LevelManager : MonoBehaviour
     public void LoadVictoryScene() => SceneManager.LoadScene("VictoryScene");
     public void LoadDefeatScene() => SceneManager.LoadScene("DefeatScene");
     public void LoadMainMenu() => SceneManager.LoadScene("MainMenu");
-
     public void Quitgame() => Application.Quit();
 
     public void ReloadCurrentScene()
@@ -101,11 +101,11 @@ public class LevelManager : MonoBehaviour
                 rKeyDown = true;
                 timeRKeyHeld = 0f;
 
-                CanvasGroup restartOverlay = GetRestartOverlay();  // Store the reference here
+                CanvasGroup restartOverlay = GetRestartOverlay();
                 if (restartOverlay != null)
                 {
                     if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 0f, 1f, FadeInDuration));  // Use the stored reference
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 0f, 1f, FadeInDuration));
                 }
                 else
                 {
@@ -121,11 +121,11 @@ public class LevelManager : MonoBehaviour
                 rKeyDown = false;
                 timeRKeyHeld = 0f;
 
-                CanvasGroup restartOverlay = GetRestartOverlay();  // Store the reference here
+                CanvasGroup restartOverlay = GetRestartOverlay();
                 if (restartOverlay != null)
                 {
                     if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 1f, 0f, 0.2f));  // Use the stored reference
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 1f, 0f, 0.2f));
                 }
                 else
                 {
@@ -140,11 +140,11 @@ public class LevelManager : MonoBehaviour
                 rKeyDown = false;
                 timeRKeyHeld = 0f;
 
-                CanvasGroup restartOverlay = GetRestartOverlay();  // Store the reference here
+                CanvasGroup restartOverlay = GetRestartOverlay();
                 if (restartOverlay != null)
                 {
                     if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 1f, 0f, 0.2f));  // Use the stored reference
+                    fadeCoroutine = StartCoroutine(FadeCanvasGroup(restartOverlay, 1f, 0f, 0.2f));
                 }
                 else
                 {
@@ -152,6 +152,37 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator PulseGlowEffect(CanvasGroup canvasGroup)
+    {
+        Debug.Log("[PulseGlow] Starting pulse glow.");
+
+        // Fade to white over 1 second
+        yield return FadeCanvasGroup(canvasGroup, 0f, 1f, 1f);
+
+        // Fade back to transparent over 1 second
+        yield return FadeCanvasGroup(canvasGroup, 1f, 0f, 1f);
+
+        Debug.Log("[PulseGlow] Completed.");
+    }
+
+    private IEnumerator GlowEffect()
+    {
+        Debug.Log($"[GlowEffect] Triggered at {Time.time:F2} seconds");
+
+        CanvasGroup restartOverlay = GetRestartOverlay();
+        if (restartOverlay == null)
+        {
+            Debug.LogWarning("[GlowEffect] Restart overlay not found.");
+            yield break;
+        }
+
+        yield return FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 1f, FadeInDuration);
+        yield return new WaitForSeconds(RestartTime);
+        yield return FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 0f, 0.2f);
+
+        Debug.Log("[GlowEffect] Glow complete");
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float start, float end, float duration)
@@ -168,29 +199,6 @@ public class LevelManager : MonoBehaviour
         }
 
         cg.alpha = end;
-    }
-
-    private IEnumerator GlowEffect()
-    {
-        Debug.Log($"[GlowEffect] Triggered at {Time.time:F2} seconds");
-
-        CanvasGroup restartOverlay = GetRestartOverlay();
-        if (restartOverlay == null)
-        {
-            Debug.LogWarning("[GlowEffect] Restart overlay not found.");
-            yield break; // Exit if restartOverlay is not found
-        }
-
-        // Fade in (same as R key)
-        yield return FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 1f, FadeInDuration);
-
-        // Hold full glow
-        yield return new WaitForSeconds(RestartTime);
-
-        // Fade out
-        yield return FadeCanvasGroup(restartOverlay, restartOverlay.alpha, 0f, 0.2f);
-
-        Debug.Log("[GlowEffect] Glow complete");
     }
 
     private CanvasGroup GetRestartOverlay()
@@ -211,5 +219,4 @@ public class LevelManager : MonoBehaviour
 
         return restartOverlay;
     }
-
 }

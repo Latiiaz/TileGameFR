@@ -39,11 +39,6 @@ public class GameManager : MonoBehaviour
         cameraManager = FindObjectOfType<CameraManager>();
         _optionsMenuSystem =  FindObjectOfType<OptionsMenuSystem>();
     }
-    void OnLevelLoaded()
-    {
-        ResetState();
-        StartCoroutine(SetupGame());
-    }
 
     private IEnumerator SetupGame()
     {
@@ -68,6 +63,7 @@ public class GameManager : MonoBehaviour
 
         if (_player != null) _playerMovement = _player.GetComponentInChildren<PlayerMovement>();
         if (_tractor != null) _tractorMovement = _tractor.GetComponentInChildren<TractorMovement>();
+        yield return new WaitForSeconds(2f);
 
         //Debug.Log("[SetupGame] Input is now allowed again.");
         _isHandlingMovement = true;

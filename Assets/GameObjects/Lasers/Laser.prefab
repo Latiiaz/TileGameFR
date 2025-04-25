@@ -154,6 +154,7 @@ MonoBehaviour:
   minPitch: 0.9
   maxPitch: 1.1
   pitchLerpDuration: 2
+  laserEndEffect: {fileID: 5455746399439086818, guid: 5a5bd14a859a7f145b83d9df5255f037, type: 3}
 --- !u!120 &3748955734142690800
 LineRenderer:
   m_ObjectHideFlags: 0

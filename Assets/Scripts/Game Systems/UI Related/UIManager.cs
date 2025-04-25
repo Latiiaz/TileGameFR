@@ -19,6 +19,13 @@ public class UIManager : MonoBehaviour
     public int SceneLoadCount { get; private set; } = 0;
     private float _timeElapsed = 0f;
 
+    // Glow effect settings
+    private float nextGlowTime = 20f;
+    private Coroutine glowCoroutine;
+    [SerializeField] private float glowFadeInDuration = 0.3f;
+    [SerializeField] private float glowHoldDuration = 1f;
+    [SerializeField] private float glowFadeOutDuration = 0.2f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -52,6 +59,16 @@ public class UIManager : MonoBehaviour
             _timerText.text = $"{minutes:00}:{seconds:00}";
 
         UpdateRestartVisual();
+
+        // Trigger glow every 10 seconds after 20 seconds
+        if (_timeElapsed >= nextGlowTime)
+        {
+            if (glowCoroutine != null)
+                StopCoroutine(glowCoroutine);
+
+            glowCoroutine = StartCoroutine(GlowEffect());
+            nextGlowTime += 10f;
+        }
     }
 
     private void UpdateRestartVisual()
@@ -65,6 +82,39 @@ public class UIManager : MonoBehaviour
         float newAlpha = Mathf.Lerp(currentColor.a, targetAlpha, Time.deltaTime * 10f);
 
         restartVisualOverlay.color = new Color(currentColor.r, currentColor.g, currentColor.b, newAlpha);
+    }
+
+    private IEnumerator GlowEffect()
+    {
+        if (restartVisualOverlay == null) yield break;
+
+        Color color = restartVisualOverlay.color;
+
+        // Fade in
+        float t = 0f;
+        while (t < glowFadeInDuration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(restartOverlayOriginalAlpha, 1f, t / glowFadeInDuration);
+            restartVisualOverlay.color = new Color(color.r, color.g, color.b, alpha);
+            yield return null;
+        }
+
+        // Hold full glow
+        restartVisualOverlay.color = new Color(color.r, color.g, color.b, 1f);
+        yield return new WaitForSeconds(glowHoldDuration);
+
+        // Fade out
+        t = 0f;
+        while (t < glowFadeOutDuration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, restartOverlayOriginalAlpha, t / glowFadeOutDuration);
+            restartVisualOverlay.color = new Color(color.r, color.g, color.b, alpha);
+            yield return null;
+        }
+
+        restartVisualOverlay.color = new Color(color.r, color.g, color.b, restartOverlayOriginalAlpha);
     }
 
     public void ShowEInteract(bool activateE) => _EInteract?.SetActive(activateE);

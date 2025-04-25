@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c73a811106768a4ca6fd84c247ad152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserRange: 10
+  laserRange: 11
   laserOffset: 0.5
   laserDirection: {x: 0, y: 1}
   lineRenderer: {fileID: 4935366960956572817}
@@ -234,6 +234,7 @@ MonoBehaviour:
   minPitch: 0.9
   maxPitch: 1.1
   pitchLerpDuration: 2
+  laserEndEffect: {fileID: 4907144453685146683, guid: 547f241933b0a224c894626dd66e11cb, type: 3}
 --- !u!82 &-1429759494665787887
 AudioSource:
   m_ObjectHideFlags: 0
@@ -404,7 +405,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 7985684405241083126, guid: f3c7c35192b47184483ed0e9192cc94a, type: 3}
-  m_Color: {r: 0.6415094, g: 0.21864314, b: 0, a: 1}
+  m_Color: {r: 0.8867924, g: 0.30280718, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

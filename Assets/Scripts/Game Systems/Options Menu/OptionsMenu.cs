@@ -42,20 +42,24 @@ public class OptionsMenu : MonoBehaviour
     void Update()
     {
         CheckStatus();
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        // Only allow space to trigger selection when the menu is active
+        if (MenuRoot.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
             EnterSelected();
         }
-        }
+    }
 
-        void ToggleMenu()
+
+
+    void ToggleMenu()
     {
         if (_isActivated)
         {
             MenuRoot.SetActive(true);
             _isActivated = false;
 
-            // Default to resume selection on open
+            // Default to resume selection on opena
             SelectResume();
         }
         else
