@@ -71,4 +71,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Puzzle Scenes/Puzzle 5.unity
     guid: 510ea653213a531459ae6781a2ca5be6
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 6.unity
+    guid: 812aca0152daa2b46931af07081f7e06
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 7.unity
+    guid: 808a8c98bf367ce4ead0cf14a5c41f5b
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 8.unity
+    guid: e367de9f00024b142a4a0f5cff2f74b5
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 9.unity
+    guid: 8998455b5242fc345b59d67de5a43305
+  - enabled: 1
+    path: Assets/Scenes/Puzzle Scenes/Puzzle 10.unity
+    guid: fdf3dea94de94114197adfedced605c9
   m_configObjects: {}
